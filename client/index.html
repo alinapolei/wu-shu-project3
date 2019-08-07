@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>התאחדות או-שו</title>
+
+    <link rel="stylesheet" type="text/css" href="css/generalStyles.css">
+</head>
+
+<body ng-app="myApp" ng-controller="mainController">
+    <!-- load angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+    <script data-require="ui-bootstrap@*" data-semver="2.5.0" src="https://cdn.rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+
+    <!-- load app -->
+    <script src="app.js"></script>
+
+    <!-- load controllers -->
+    <script src="controllers/login.js"></script>
+
+
+    <!-- the website -->
+    <div id="menuRow">
+        <!-- menu -->
+        <ul id="menu">
+            <li>
+                <a href="#!home" ng-class="getClass('/home')" lass="menuItem">בית<i class="fa fa-home" aria-hidden="true"></i></a>
+            </li>
+            <li>
+                <a href="#!page1" ng-class="getClass('/page1')" class="menuItem">דף1</a>
+            </li>
+            <li>
+                <a href="#!about" ng-class="getClass('/about')" class="menuItem">אודות</a>
+            </li>
+        </ul>
+
+        <div>
+            <label style="margin-bottom: 0px; font-size: 13px;" ng-model="name">שלום {{name}}</label>
+            <div ng-show="name=='guest'" ng-model="name">
+                <a class="txt2" href="#!login">
+                    התחבר
+                </a>
+                <label style="font-size: 8px; margin-bottom: 0px">/</label>
+                <a class="txt2" href="#!register">
+                    הירשם
+                </a>
+            </div>
+            <div ng-show="name!='guest'" ng-model="name">
+                <a class="txt2" href="" ng-click="logout()">
+                    התנתק
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div ng-view></div>
+
+</body>
+
+</html>
