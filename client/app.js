@@ -2,6 +2,8 @@ let app = angular.module('myApp', ["ngRoute"]);
 app.controller("mainController", function ($scope, $location, $window, $rootScope) {
     if($window.sessionStorage.getItem('name') != null && $window.sessionStorage.getItem('name')!=='')
         $rootScope.name = $window.sessionStorage.getItem('name');
+    else
+        $rootScope.name = "guest";
 
     $scope.logout = function () {
         //need delete $rootScope
@@ -22,6 +24,10 @@ app.config(function($routeProvider) {
         .when('/login', {
             templateUrl: 'views/login.html',
             controller: 'loginController as loginCtrl'
+        })
+        .when('/register',{
+            templateUrl :'views/register.html',
+            controller: 'registerController as chRegCtrl'
         })
         .otherwise({redirectTo: '/login'});
 });
