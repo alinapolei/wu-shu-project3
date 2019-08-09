@@ -4,8 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>התאחדות או-שו</title>
+    <link rel="icon" href="resources/images/icon.png">
 
     <link rel="stylesheet" type="text/css" href="css/generalStyles.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/daterangepicker/daterangepicker.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
 <body ng-app="myApp" ng-controller="mainController">
@@ -21,6 +31,8 @@
     <!-- load app -->
     <script src="app.js"></script>
 
+    <!--load services-->
+
     <!-- load controllers -->
     <script src="controllers/login.js"></script>
 
@@ -28,21 +40,30 @@
     <!-- the website -->
     <div id="menuRow">
         <!-- menu -->
-        <ul id="menu">
+        <ul class="menu">
             <li>
-                <a href="#!home" ng-class="getClass('/home')" lass="menuItem">בית<i class="fa fa-home" aria-hidden="true"></i></a>
+                <a href="#!home" ng-class="getClass('/home')" class="menuItem">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    דף הבית
+                </a>
             </li>
             <li>
-                <a href="#!page1" ng-class="getClass('/page1')" class="menuItem">דף1</a>
+                <a href="#!calendar" ng-class="getClass('/calendar')" class="menuItem">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    לוח אירועים
+                </a>
             </li>
             <li>
-                <a href="#!about" ng-class="getClass('/about')" class="menuItem">אודות</a>
+                <a href="#!profile" ng-class="getClass('/profile')" class="menuItem">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    פרופיל אישי
+                </a>
             </li>
         </ul>
 
-        <div>
-            <label style="margin-bottom: 0px; font-size: 13px;" ng-model="name">שלום {{name}}</label>
-            <div ng-show="name=='guest'" ng-model="name">
+        <div id="greeting">
+            <label ng-model="name">שלום אורח {{name}}</label>
+            <!--<div ng-show="name=='guest'" ng-model="name">
                 <a class="txt2" href="#!login">
                     התחבר
                 </a>
@@ -50,13 +71,48 @@
                 <a class="txt2" href="#!register">
                     הירשם
                 </a>
-            </div>
-            <div ng-show="name!='guest'" ng-model="name">
-                <a class="txt2" href="" ng-click="logout()">
+            </div> ng-show="name!='guest'" -->
+            <div ng-model="name">
+                <a class="link" href="" ng-click="logout()">
                     התנתק
                 </a>
             </div>
         </div>
+    </div>
+    <div id="managerMenu">
+        <ul class="menu">
+            <li>
+            <li>
+                <a href="#!sportClubs" ng-class="getClass('/sportClubs')" class="menuItem">
+                    ניהול מועדונים
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#!sportsman" ng-class="getClass('/sportsman')" class="menuItem">
+                    ניהול משתמשים
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#!competitions" ng-class="getClass('/competitions')" class="menuItem">
+                    ניהול תחרויות
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#!events" ng-class="getClass('/events')" class="menuItem">
+                    ניהול אירועים
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#!exports" ng-class="getClass('/exports')" class="menuItem">
+                    ייצוא דוחות
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div ng-view></div>
