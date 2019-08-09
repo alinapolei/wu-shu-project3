@@ -51,9 +51,9 @@
 
 
 <!-- the website -->
-<div id="menuRow">
+<div id="menuRow" ng-show="isShowMenu()">
     <!-- menu -->
-    <ul class="menu">
+    <ul class="menu" >
         <li>
             <a href="#!home" ng-class="getClass('/home')" class="menuItem">
                 <i class="fa fa-home" aria-hidden="true"></i>
@@ -75,7 +75,7 @@
     </ul>
 
     <div id="greeting">
-        <label ng-model="name">שלום אורח {{name}}</label>
+        <label ng-model="name">שלום {{name}}</label>
         <!--<div ng-show="name=='guest'" ng-model="name">
             <a class="txt2" href="#!login">
                 התחבר
@@ -92,7 +92,7 @@
         </div>
     </div>
 </div>
-<div id="managerMenu">
+<div id="managerMenu" ng-show="isShowMenu()">
     <ul class="menu">
         <div class="dropdown">
             <div ng-class="getClass('/sportClubs')" class="menuItem">ניהול מועדונים

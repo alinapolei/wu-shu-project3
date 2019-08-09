@@ -6,6 +6,9 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
     $scope.getClass = function (path) {
         return ("/" + $location.path().split("/")[1] === path) ? 'active' : '';
     };
+    $scope.isShowMenu = function(){
+        return $location.path() !== '/login';
+    }
 
     $scope.logout = function () {
         //need to delete $rootScope
