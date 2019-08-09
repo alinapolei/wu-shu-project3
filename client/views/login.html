@@ -5,23 +5,26 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('resources/images/loginImage.jpg');">
         <div class="wrap-login100">
-            <form class="login100-form validate-form">
+            <form class="login100-form validate-form" name="loginForm" ng-submit="submit(loginForm.$valid)" novalidate>
                 <span class="login100-form-title p-b-34 p-t-27">
 						התחברות
-					</span>
+                </span>
+                <span ng-show="">
+                    שם המשתמש או הסיסמא אינם תקינים
+                </span>
 
-                <div class="wrap-input100 validate-input" data-validate = "Enter username">
-                    <input class="input100" type="text" name="username" placeholder="שם משתמש">
+                <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : loginForm.username.$invalid && (loginForm.username.$dirty || isClicked)}" data-validate = "הכנס שם משתמש">
+                    <input class="input100" type="text" name="username" ng-model="username" placeholder="שם משתמש" required>
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter password">
-                    <input class="input100" type="password" name="pass" placeholder="סיסמא">
+                <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : loginForm.password.$invalid && (loginForm.password.$dirty || isClicked)}" data-validate="הכנס סיסמא">
+                    <input class="input100" type="password" name="password" ng-model="password" placeholder="סיסמא" required>
                     <span class="focus-input100" data-placeholder="&#xf190;"></span>
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn">
+                    <button class="login100-form-btn" ng-click="isClicked=true">
                         כניסה
                     </button>
                 </div>
