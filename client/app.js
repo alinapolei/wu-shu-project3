@@ -30,8 +30,8 @@ app.config(function($routeProvider) {
             templateUrl: 'views/login.html',
             controller: 'loginController as loginCtrl'
         })
-        .when('/register',{
-            templateUrl :'views/registerUser.html',
+        .when('/users/register',{
+            templateUrl :'views/register.html',
             controller: 'registerController as chRegCtrl'
         })
         .when('/calendar', {
@@ -98,5 +98,5 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        .otherwise({redirectTo: '/register'});
+        .otherwise({redirectTo: '/login'});
 });
