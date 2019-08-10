@@ -4,8 +4,55 @@ app.controller("registerController", function ($scope, $http, $window, $location
     $scope.errorExcel;
 
 
+    $scope.submit=function(){
+        data={
+            id: $scope.id,
+            firstname: $scope.firstname,
+            lastname: $scope.lastname,
+            phone: $scope.phone,
+            address: $scope.address,
+            sportclub: $scope.sportclub,
+            birthdate: $scope.birthdate,
+            idCoach: $scope.idCoach
+        }
+
+
+
+        if(validateSportsmanData(data)) {
+            console.log("register user")
+            //registerUser(data);
+        }
+
+    }
+
+
+    function registerUser(data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/registerSportman',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+            },
+            data:{
+                Id: data.id ,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                phone: data.phone,
+                email: data.email,
+                address : data.address,
+                sportclub: data.sportclub,
+                coachId :data.coachId,
+                birthdate: data.birthdate
+            }
+        }
+        $http(req).then(function(){
+        }, function(error){console.log(error)});
+
+    }
+
+
     $scope.ExcelExport=  function (event) {
-    var input = event.target;
+        var input = event.target;
         var reader = new FileReader();
         reader.onload = function(){
             var fileData = reader.result;
@@ -16,10 +63,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
             })
             //work with RowOBJ
             Excelcheck(rowObj);
+            input="";
         };
         reader.readAsBinaryString(input.files[0]);
     };
-
 
     function Excelcheck(data) {
         var eroorLine =new String();

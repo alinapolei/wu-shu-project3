@@ -1,0 +1,47 @@
+
+<head>
+    <link rel="stylesheet" type="text/css" href="">
+
+</head>
+<body>
+<div>
+    <input type="radio" name="userType" ng-click="sportsmanRegister=false"> רישום ספורטאי</input>
+    <input type="radio" name="userType" ng-click="sportsmanRegister=true"> רישום מאמן </input>
+</div>
+<div id="login-box">
+
+    <div class="right" ng-show="!sportsmanRegister">
+        <h1>רישום ספורטאי</h1>
+        <input type="text" name="id" placeholder="ת.ז ספורטאי" />
+     <i class="fa fa-plus" aria-hidden="true"></i>
+        <input type="text" name="firstname" placeholder="שם פרטי" />
+        <input type="text" name="lastname" placeholder="שם משפחה" />
+        <input type="text" name="email" placeholder="אימייל" />
+        <input type="text" name="address" placeholder="כתובות" />
+        <input type="text" name="birthdate" placeholder="תאריך לידה" />
+        <input type="text" name="username" placeholder="מועדון ספורט" />
+        <input type="text" name="text" placeholder="ענף" />
+        <input type="text" name="idCoach" placeholder="ת.ז מאמן" />
+        <input type="submit" name="signup_submit" value="הירשם" />
+    </div>
+    <div class="right" ng-show="sportsmanRegister">
+        <h1>רישום מאמן</h1>
+        <input type="text" name="id" placeholder="ת.ז מאמן" />
+        <input type="text" name="firstname" placeholder="שם פרטי" />
+        <input type="text" name="lastname" placeholder="שם משפחה" />
+        <input type="text" name="email" placeholder="אימייל" />
+        <input type="text" name="address" placeholder="כתובות" />
+        <input type="text" name="birthdate" placeholder="תאריך לידה" />
+        <input type="text" name="username" placeholder="מועדון ספורט" />
+        <input type="text" name="text" placeholder="שם קבוצה" />
+        <input type="submit" name="signup_submit" value="הירשם" />
+    </div>
+    <div class="left">
+        <span class="loginwith">רשום באמצעות קובץ אקסל</span>
+
+        <button class="social-signin facebook">העלה קובץ אקסל</button>
+
+    </div>
+    <div class="or">או</div>
+</div>
+</body>
