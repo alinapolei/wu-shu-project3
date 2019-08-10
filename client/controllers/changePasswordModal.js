@@ -2,10 +2,8 @@ app.controller("changePasswordController", function($scope, $uibModalInstance, $
     $scope.changePass = function(){
         $scope.isClicked = true;
         if($scope.password1 === $scope.password2){
-            $uibModalInstance.close({
-                rating: $scope.selectedRank,
-                review: $scope.textReview}
-            );
+            //$http change pass and at the end of the promise do the next line
+            $uibModalInstance.close();
         }
     }
 });

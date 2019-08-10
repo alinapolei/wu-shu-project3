@@ -230,7 +230,7 @@ iframe {
 [ Input ]*/
 
 .wrap-input100 {
-  width: 100%;
+  /*width: 100%;*/
   position: relative;
   border-bottom: 1px solid #e5ffff;
   margin-bottom: 30px;

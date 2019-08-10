@@ -31,7 +31,7 @@ app.config(function($routeProvider) {
             controller: 'loginController as loginCtrl'
         })
         .when('/users/register',{
-            templateUrl :'views/register.html',
+            templateUrl :'views/registerUser.html',
             controller: 'registerController as chRegCtrl'
         })
         .when('/calendar', {

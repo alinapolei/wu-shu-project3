@@ -1,9 +1,6 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope,validateSportsmanData) {
     serverUrl = "http://localhost:3000"
     rowObj=new Object()
-    $scope.sportman = "ספורטאי";
-    $scope.coach = "מאמן";
-
 
     var dropzone=document.getElementById("dropzone")
     function fixdata(data) {
