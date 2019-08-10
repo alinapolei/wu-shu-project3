@@ -232,7 +232,7 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid rgba(255,255,255,0.24);
+  border-bottom: 1px solid #e5ffff;
   margin-bottom: 30px;
 }
 
@@ -257,6 +257,7 @@ iframe {
   top: 0;
   left: 0;
   pointer-events: none;
+
 }
 
 .focus-input100::before {
@@ -267,13 +268,12 @@ iframe {
   left: 0;
   width: 0;
   height: 2px;
-
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+  background: #599bb3;
 
-  background: #fff;
 }
 
 .focus-input100::after {
@@ -478,21 +478,21 @@ iframe {
   background-color: #fff;
   border: 1px solid #c80000;
   border-radius: 2px;
-  padding: 4px 25px 4px 10px;
+  padding: 4px 10px 4px 25px;
   top: 50%;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  right: 0px;
+  left: 0px;
   pointer-events: none;
 
   font-family: Poppins-Regular;
   color: #c80000;
   font-size: 13px;
   line-height: 1.4;
-  text-align: left;
+  text-align: right;
 
   visibility: hidden;
   opacity: 0;
@@ -517,7 +517,7 @@ iframe {
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  right: 5px;
+  left: 5px;
 }
 
 .alert-validate:hover:before {

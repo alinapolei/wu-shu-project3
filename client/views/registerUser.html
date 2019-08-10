@@ -1,45 +1,87 @@
-
 <head>
-    <link rel="stylesheet" type="text/css" href="">
-
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 </head>
 <body>
+<i class="fa fa-etsy" aria-hidden="true"></i>
 <div>
     <input type="radio" name="userType" ng-click="sportsmanRegister=false"> רישום ספורטאי</input>
     <input type="radio" name="userType" ng-click="sportsmanRegister=true"> רישום מאמן </input>
 </div>
 <div id="login-box">
 
-    <div class="right" ng-show="!sportsmanRegister">
-        <h1>רישום ספורטאי</h1>
-        <input type="text" name="id" placeholder="ת.ז ספורטאי" />
-     <i class="fa fa-plus" aria-hidden="true"></i>
-        <input type="text" name="firstname" placeholder="שם פרטי" />
-        <input type="text" name="lastname" placeholder="שם משפחה" />
-        <input type="text" name="email" placeholder="אימייל" />
-        <input type="text" name="address" placeholder="כתובות" />
-        <input type="text" name="birthdate" placeholder="תאריך לידה" />
-        <input type="text" name="username" placeholder="מועדון ספורט" />
-        <input type="text" name="text" placeholder="ענף" />
-        <input type="text" name="idCoach" placeholder="ת.ז מאמן" />
-        <input type="submit" name="signup_submit" value="הירשם" />
+    <div class="right" >
+        <h1 ng-show="!sportsmanRegister">רישום ספורטאי</h1>
+        <h1 ng-show="sportsmanRegister">רישום מאמן</h1>
+
+<form class="login100-form validate-form" name="regSportsman" >
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.id.$invalid && (regSportsman.id.$dirty || isClicked)}" data-validate = "הכנס תעודת זהות">
+            <input class="input100" type="text" name="id" ng-model="id" placeholder="ת.ז" required>
+            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+        </div>
+         <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.firstname.$invalid && (regSportsman.firstname.$dirty || isClicked)}" data-validate = "הכנס  שם הפרטי ">
+            <input class="input100" type="text" name="firstname" ng-model="firstname" placeholder="שם פרטי" required>
+            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+         </div>
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.lastname.$invalid && (regSportsman.lastname.$dirty || isClicked)}" data-validate = "הכנס  שם המשפחה ">
+            <input class="input100" type="text" name="lastname" ng-model="lastname" placeholder="שם משפחה" required>
+            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+        </div>
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.email.$invalid && (regSportsman.email.$dirty || isClicked)}" data-validate = "הכנס איימיל ">
+            <input class="input100" type="email" name="email" ng-model="email" placeholder="איימיל" required>
+            <span class="focus-input100" data-placeholder="&#xf159;"></span>
+        </div>
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.birthdate.$invalid && (regSportsman.birthdate.$dirty || isClicked)}" data-validate = "הכנס תאריך לידה ">
+            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך לידה" required >
+            <span class="focus-input100" data-placeholder="&#xf332;"></span>
+        </div>
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.phone.$invalid && (regSportsman.phone.$dirty || isClicked)}" data-validate = "הכנס פאלפון ">
+            <input class="input100" type="text" name="phone" ng-model="phone" placeholder="פאלפון" required >
+            <span class="focus-input100" data-placeholder="&#xf2b6;"></span>
+        </div>
+        <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.address.$invalid && (regSportsman.address.$dirty || isClicked)}" data-validate = "הכנס כתובת ">
+            <input class="input100" type="text" name="address" ng-model="address" placeholder="כתובת מגורים" required >
+            <span class="focus-input100" data-placeholder="&#xf175;"></span>
+        </div>
+    <div style="padding-bottom: 20px;" ng-show="!sportsmanRegister" id="sexUser" class= "validate-input" ng-class="{'alert-validate' : regSportsman.branch.$invalid && (regSportsman.branch.$dirty || isClicked)}" data-validate = "בחר מין ">
+        <label class="label" for="sexUser">בחר מין</label>
+        <input  type="radio" name="sex" ng-model="sex" value="זכר"  required > זכר </input>
+        <input  type="radio" name="sex" ng-model="sex" value="נקבה" required > נקבה </input>
     </div>
-    <div class="right" ng-show="sportsmanRegister">
-        <h1>רישום מאמן</h1>
-        <input type="text" name="id" placeholder="ת.ז מאמן" />
-        <input type="text" name="firstname" placeholder="שם פרטי" />
-        <input type="text" name="lastname" placeholder="שם משפחה" />
-        <input type="text" name="email" placeholder="אימייל" />
-        <input type="text" name="address" placeholder="כתובות" />
-        <input type="text" name="birthdate" placeholder="תאריך לידה" />
-        <input type="text" name="username" placeholder="מועדון ספורט" />
-        <input type="text" name="text" placeholder="שם קבוצה" />
-        <input type="submit" name="signup_submit" value="הירשם" />
+
+    <div style="padding-bottom: 20px;"  id="branchID" class=" validate-input" ng-class="{'alert-validate' : regSportsman.branch.$invalid && (regSportsman.branch.$dirty || isClicked)}" data-validate = "בחר ענף ">
+        <label class="label" for="branchID">בחר ענף</label>
+       <div> <input  id="branchT" type="radio" name="branch" ng-model="branch" value="טאולו" placeholder="ענף" required >  טאולו  </input>
+        <input  type="radio" name="branch" ng-model="branch" value="סנדא" placeholder="ענף" required >  סנדא  </input></div>
+        </div>
+
+
+    <div id="sportclubss" class="validate-input" ng-class="{'alert-validate' : regSportsman.sportclub.$invalid && (regSportsman.sportclub.$dirty || isClicked)}" data-validate = "בחר מועדון ספורט">
+        <select class="input100" name="sportclub" ng-model="sportclub" ng-option="x for x in sportclubs" required >
+            <option  value="" disabled="disabled">בחר מועדון ספורט</option>
+        </select>
+    </div>
+    <div ng-show="!sportsmanRegister" id="coachChoose" class=" validate-input" ng-class="{'alert-validate' : regSportsman.coach.$invalid && (regSportsman.coach.$dirty || isClicked)}" data-validate = "בחר מאמן">
+        <select class="input100" data-placeholder="בחר מאמן" name="coach" ng-model="coach" ng-option="x for x in coachs" required >
+            <option value=""selected="selected" disabled="disabled"> בחר מאמן</option>
+
+        </select>
+    </div>
+    <div ng-show="sportsmanRegister" class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.teamname.$invalid && (regSportsman.teamname.$dirty || isClicked)}" data-validate = "הכנס שם קבוצה ">
+        <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה" required >
+        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+    </div>
+
+
+
+    <input type="submit" name="signup_submit" value="הירשם" />
+</form>
     </div>
     <div class="left">
         <span class="loginwith">רשום באמצעות קובץ אקסל</span>
-
-        <button class="social-signin facebook">העלה קובץ אקסל</button>
+        <div class="dropzone" style="background-image: url('resources/images/upload1.jpg')"  id="dropzone" >גרור קובץ או לחץ על העלאת קובץ </div>
+        <div style="margin-top: 10px" ><input  type="file" id="fileSportsman" ng-model="csvFile" onchange="angular.element(this).scope().ExcelExport(event)" style="display:block;margin-top: 5%"/>
+        <label for="fileSportsman" /> העלאת קובץ</label>
+        </div>
 
     </div>
     <div class="or">או</div>

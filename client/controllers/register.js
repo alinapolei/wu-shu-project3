@@ -1,7 +1,67 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope,validateSportsmanData) {
     serverUrl = "http://localhost:3000"
     rowObj=new Object()
-    $scope.errorExcel;
+    $scope.sportman = "ספורטאי";
+    $scope.coach = "מאמן";
+
+
+    var dropzone=document.getElementById("dropzone")
+    function fixdata(data) {
+        var o = "", l = 0, w = 10240;
+        for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+        o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+        return o;
+    }
+    function workbook_to_json(workbook) {
+        var result = {};
+        workbook.SheetNames.forEach(function(sheetName) {
+            var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+            if(roa.length > 0){
+                result[sheetName] = roa;
+            }
+        });
+        return result;
+    }
+
+    dropzone.ondrop=function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            console.log("DROPPED");
+            var files = e.dataTransfer.files, i, f;
+            for (i = 0, f = files[i]; i != files.length; ++i) {
+                var reader = new FileReader(),
+                    name = f.name;
+                    reader.onload = function(e) {
+                    var results,
+                        data = e.target.result,
+                        fixedData = fixdata(data),
+                        workbook=XLSX.read(btoa(fixedData), {type: 'base64'}),
+                        firstSheetName = workbook.SheetNames[0],
+                        worksheet = workbook.Sheets[firstSheetName];
+                    results=XLSX.utils.sheet_to_json(worksheet);
+                    console.log(results);
+                };
+                reader.readAsArrayBuffer(f);
+            }
+        }
+    dropzone.ondragover=function(){
+        this.className='dropzone dragover'
+        return false;
+    }
+    dropzone.ondragleave =function(){
+        this.className='dropzone'
+        return false;
+    }
+    var uploadFiles= function(file){
+            var formData= new formData(),
+                xhr=new XMLHttpRequest(),
+                x;
+            for(x=0;x<file.length;x++){
+
+            }
+    }
+
+
 
 
     $scope.submit=function(){
@@ -63,7 +123,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
             })
             //work with RowOBJ
             Excelcheck(rowObj);
-            input="";
         };
         reader.readAsBinaryString(input.files[0]);
     };
@@ -81,6 +140,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             console.log(eroorLine);
         else {
            console.log("register")
+           document.getElementById("fileSportsman").value = "";
             //registerExcelUser(data);
         }
     }
