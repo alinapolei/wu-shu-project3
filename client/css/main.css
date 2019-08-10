@@ -232,7 +232,7 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid rgba(255,255,255,0.24);
+  border-bottom: 1px solid #e5ffff;
   margin-bottom: 30px;
 }
 
@@ -257,6 +257,7 @@ iframe {
   top: 0;
   left: 0;
   pointer-events: none;
+
 }
 
 .focus-input100::before {
@@ -267,13 +268,12 @@ iframe {
   left: 0;
   width: 0;
   height: 2px;
-
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+  background: #599bb3;
 
-  background: #fff;
 }
 
 .focus-input100::after {
