@@ -8,9 +8,12 @@ app.controller("loginController", function ($scope, $http, $window, $location, $
                 password : $scope.password};
             $http.post(serverUrl+ '/login', user)
                 .then(function (response) {
-                        $rootScope.name = $scope.username;
-                        $window.sessionStorage.setItem('name', $scope.username);
-                        $window.sessionStorage.setItem('token', response.data);
+                        $rootScope.name = response.data.name;
+                        $window.sessionStorage.setItem('name', response.data.firstname);
+
+                        $window.sessionStorage.setItem('access', response.data.access);
+                        $window.sessionStorage.setItem('isFirstLogin', response.data.isFirstTime);
+                        $window.sessionStorage.setItem('token', response.data.token);
                         $location.path('/home');
                     },
                     function (error) {
