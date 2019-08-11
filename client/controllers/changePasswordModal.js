@@ -1,4 +1,6 @@
 app.controller("changePasswordController", function($scope, $uibModalInstance, $window, $http) {
+    serverUrl = "http://localhost:3000";
+
     $scope.changePass = function(){
         $scope.isClicked = true;
         if($scope.password1 === $scope.password2){
