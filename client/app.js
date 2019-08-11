@@ -1,4 +1,4 @@
-let app = angular.module('myApp', ["ngRoute"]);
+let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap']);
 app.controller("mainController", function ($scope, $location, $window, $rootScope) {
     if($window.sessionStorage.getItem('name') != null && $window.sessionStorage.getItem('name')!=='')
         $rootScope.name = $window.sessionStorage.getItem('name');
@@ -8,7 +8,7 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
     };
     $scope.isShowMenu = function(){
         return $location.path() !== '/login';
-    }
+    };
 
     $scope.logout = function () {
         //need to delete $rootScope

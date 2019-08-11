@@ -2,6 +2,7 @@
     direction: rtl;
 }
 
+/*MENU*/
 .menu {
     width: 90%;
     left: 0;
@@ -59,7 +60,6 @@
     color: white;
     text-decoration: underline;
 }
-
 .dropdown{
     font-family: Poppins-Regular;
     line-height: 1.7;
@@ -87,5 +87,41 @@
 .dropdown:hover .menuItem {
     background-color: #5e92f3;/*#BABDD1;/*#D6BCD4;*/
     color: black;
+}
+
+/*MODAL*/
+.modal-body{
+    text-align: center;
+
+}
+.modalInput {
+    position: relative;
+    margin: auto;
+    width: 100%;
+}
+.modalLabel{
+    position: absolute;
+    top: 16px;
+    left: 0;
+    font-size: 16px;
+    color: #9098a9;
+    font-weight: 500;
+    transform-origin: 0 0;
+    transition: all 0.2s ease;
+}
+.modalBorder{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #07f;
+    transform: scaleX(0);
+    transform-origin: 0 0;
+    transition: all 0.15s ease;
+}
+.changePassInput{
+    width: 300px;
+    margin-right: 100px;
 }
 
