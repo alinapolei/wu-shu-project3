@@ -1,33 +1,13 @@
-app.controller("homeController", function ($scope, $uibModal) {
+app.controller("homeController", function ($scope, $uibModal, $window) {
     $scope.changePassword = function () {
-            var modalInstance = $uibModal.open({
+            $uibModal.open({
                 templateUrl: "views/changePasswordModal.html",
-                controller: "changePasswordController as changePassCtrl"
+                controller: "changePasswordController as changePassCtrl",
+                backdrop  : 'static',
+                keyboard  : false
             });
-
-            modalInstance.result.then(function (response) {
-                if (response) {
-                    alert("what to do? save the pass");
-                    /*var req = {
-                        method: 'POST',
-                        url: serverUrl + '/private/review',
-                        headers: {
-                            'x-auth-token': $window.sessionStorage.getItem('token')
-                        },
-                        data: {
-                            poi_id: $scope.point.poi_id,
-                            rating: response.rating,
-                            review: response.review
-                        }
-                    }
-                    $http(req).then(function () {
-                        getReviews(true);
-                    }, function (error) {
-                        alert(error.data);
-                    });*/
-                }
-            }, function(error){});
     };
 
-    $scope.changePassword();
+    if($window.sessionStorage.getItem('isFirstLogin') == 1)
+        $scope.changePassword();
 });

@@ -2,6 +2,10 @@
     direction: rtl;
 }
 
+.error{
+    color: red;
+}
+
 /*MENU*/
 .menu {
     width: 90%;
