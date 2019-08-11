@@ -2,6 +2,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
     serverUrl = "http://localhost:3000"
     rowObj=new Object()
 
+
+
+
+
     var dropzone=document.getElementById("dropzone")
     function fixdata(data) {
         var o = "", l = 0, w = 10240;
@@ -143,10 +147,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
     }
 
     function registerExcelUser(data) {
+        if($scope.reigisterCoach)
+            regUrl=serverUrl + '/private/registerCoach'
+        else
+            regUrl=serverUrl + '/private/registerSportman'
             for (let i=0;i<data.length;i++){
                 var req = {
                     method: 'POST',
-                    url: serverUrl + '/private/registerSportman',
+                    url: regUrl,
                     headers: {
                         'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
                     },
