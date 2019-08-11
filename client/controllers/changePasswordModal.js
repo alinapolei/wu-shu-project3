@@ -11,17 +11,21 @@ app.controller("changePasswordController", function($scope, $uibModalInstance, $
                     'x-auth-token': $window.sessionStorage.getItem('token')
                 },
                 data: {
-                    password: $scope.password
+                    password: $scope.password1
                 }
             };
             $http(req).then(function () {
                 $uibModalInstance.close();
             }, function (error) {
-                console.log(error.data);
-                alert("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.")
+                if(error.status == 401)
+                    $scope.error = "הסיסמא שהוזנה זהה לסיסמא הנוכחית";
+                else {
+                    console.log(error.data);
+                    alert("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.")
+                }
             });
         }
         else
-            $scope.isError = true;
+            $scope.error = "הסיסמאות שהוזנו אינן שוות";
     }
 });
