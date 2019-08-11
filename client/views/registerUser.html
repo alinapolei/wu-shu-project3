@@ -3,14 +3,14 @@
 </head>
 <body>
 <div>
-    <input type="radio" name="userType" ng-click="sportsmanRegister=false"> רישום ספורטאי</input>
-    <input type="radio" name="userType" ng-click="sportsmanRegister=true"> רישום מאמן </input>
+    <input type="radio" name="userType" ng-click="coachReggister=false;downloadClicked=false"> רישום ספורטאי</input>
+    <input type="radio" name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
 </div>
 <div id="login-box">
 
     <div class="right" >
-        <h1 ng-show="!sportsmanRegister">רישום ספורטאי</h1>
-        <h1 ng-show="sportsmanRegister">רישום מאמן</h1>
+        <h1 ng-show="!coachReggister">רישום ספורטאי</h1>
+        <h1 ng-show="coachReggister">רישום מאמן</h1>
 
 <form class="login100-form validate-form" name="regSportsman" novalidate>
         <div class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.id.$invalid && (regSportsman.id.$dirty || isClicked)}" data-validate = "הכנס תעודת זהות">
@@ -42,13 +42,13 @@
             <span class="focus-input100" data-placeholder="&#xf175;"></span>
         </div>
 
-    <span style="position: relative" class="focus-input100" data-placeholder="&#xf20c"></span>
-    <div class="radioDiv" ng-show="!sportsmanRegister" id="sexUser" class= "validate-input" ng-class="{'alert-validate' : regSportsman.branch.$invalid && (regSportsman.branch.$dirty || isClicked)}" data-validate = "בחר מין ">
+    <span style="position: relative" class="focus-input100" data-placeholder="&#xf211"></span>
+    <div class="radioDiv" ng-show="!coachReggister" id="sexUser" class= "validate-input" ng-class="{'alert-validate' : regSportsman.branch.$invalid && (regSportsman.branch.$dirty || isClicked)}" data-validate = "בחר מין ">
         <label class="label" for="sexUser">בחר מין</label>
         <input  type="radio" name="sex" ng-model="sex" value="זכר"  required > זכר </input>
         <input  type="radio" name="sex" ng-model="sex" value="נקבה" required > נקבה </input>
     </div>
-    <span style="position: relative" class="focus-input100" data-placeholder="&#xf20c"></span>
+    <span style="position: relative" class="focus-input100" data-placeholder="&#xf187"></span>
     <div class="radioDiv"  id="branchID" class=" validate-input" ng-class="{'alert-validate' : regSportsman.branch.$invalid && (regSportsman.branch.$dirty || isClicked)}" data-validate = "בחר ענף ">
         <label class="label" for="branchID">בחר ענף</label>
        <div> <input  id="branchT" type="radio" name="branch" ng-model="branch" value="טאולו" placeholder="ענף" required >  טאולו  </input>
@@ -66,10 +66,10 @@
         <select name="coach"  ng-model="coach" ng-option="x for x in coachs" required >
             <option value="" disabled="disabled">בחר מאמן</option>
         </select>
-        <span class="focus-input100" data-placeholder="&#xf20c"></span>
+        <span class="focus-input100" data-placeholder="&#xf205"></span>
     </div>
 
-    <div ng-show="sportsmanRegister" class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.teamname.$invalid && (regSportsman.teamname.$dirty || isClicked)}" data-validate = "הכנס שם קבוצה ">
+    <div ng-show="coachReggister" class="wrap-input100 validate-input" ng-class="{'alert-validate' : regSportsman.teamname.$invalid && (regSportsman.teamname.$dirty || isClicked)}" data-validate = "הכנס שם קבוצה ">
         <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה" required >
         <span class="focus-input100" data-placeholder="&#xf207;"></span>
     </div>
@@ -81,9 +81,21 @@
     </div>
     <div class="left">
         <span class="loginwith">רשום באמצעות קובץ אקסל</span>
-        <div class="dropzone" style="background-image: url('resources/images/upload1.jpg')"  id="dropzone" >גרור קובץ או לחץ על העלאת קובץ </div>
-        <div style="margin-top: 10px" ><input  type="file" id="fileSportsman" ng-model="csvFile" onchange="angular.element(this).scope().ExcelExport(event)" style="display:block;margin-top: 5%"/>
-        <label for="fileSportsman" /> העלאת קובץ</label>
+        <div ng-show="downloadClicked" class="dropzone" style="background-image: url('resources/images/upload1.jpg')"  id="dropzone" >גרור קובץ או לחץ על העלאת קובץ </div>
+        <div ng-show="downloadClicked" style="margin-top: 10px" ><input  type="file" id="fileSportsman" ng-model="csvFile" onchange="angular.element(this).scope().ExcelExport(event)" style="display:block;margin-top: 5%"/>
+        <label for="fileSportsman" /> העלאת קובץ</label><br>
+        </div>
+            <div class="validate-input" ng-show="!coachReggister &&!downloadClicked">
+                <a ng-click="downloadClicked=true" id="downExcelSportsman" style="line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;" class=""  href="http://localhost:3000/downloadExcelSportsman">הורד פורמט קובץ אקסל לרישום ספורטאי</a>
+                <span class="focus-input100" data-placeholder="&#xf220"></span>
+            </div>
+
+            <div class="validate-input" ng-show="coachReggister">
+                <a ng-click="downloadClicked=true" id="downExcelCoach" style="line-height: 2.5;line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;" class="input100"  href="http://localhost:3000/downloadExcelCoach"> הורד פורמט קובץ אקסל לרישום מאמן</a>
+                <span class="focus-input100" data-placeholder="&#xf220"></span>
+            </div>
+
+
         </div>
 
     </div>
