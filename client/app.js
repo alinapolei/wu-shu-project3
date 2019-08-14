@@ -15,7 +15,7 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         $window.sessionStorage.removeItem('name');
         $window.sessionStorage.removeItem('token');
         $rootScope.name = "guest";
-        $location.path('/home');
+        $location.path('/login');
     }
 });
 
