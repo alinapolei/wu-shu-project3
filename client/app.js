@@ -59,7 +59,7 @@ app.config(function($routeProvider) {
             controller: 'homeController as hCtrl'
         })
         .when('/users/sportsman', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/userTable.html',
             controller: 'homeController as hCtrl'
         })
         .when('/users/referees', {
@@ -98,5 +98,5 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        .otherwise({redirectTo: '/login'});
+        .otherwise({redirectTo: '/users/sportsman'});
 });

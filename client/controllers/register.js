@@ -1,10 +1,35 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope,validateSportsmanData) {
     serverUrl = "http://localhost:3000"
     rowObj=new Object()
+    $scope.coaches =new Array()
+    var changeExcel=document.getElementById("changeExcel")
 
+    changeExcel.onclick=function(e){
+        e.preventDefault()
+        dropzone.className="dropzone"
+        changeExcel.style.display="none"
+        document.getElementById("dropText").innerHTML="גרור קובץ או לחץ על העלאת קובץ";
+        document.getElementById("fileSportsman").value = "";
 
+    }
 
+    getCoaches()
+function getCoaches() {
+    var req = {
+        method: 'POST',
+        url: serverUrl + '/private/getCoaches',
+        headers: {
+            'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+        },
+    }
+    $http(req).then(function (result) {
+       for(let i=0;i<result.data.length;i++)
+           $scope.coaches.push(result.data[i].firstname+" " +result.data[i].lastname)
 
+    }, function (error) {
+        console.log(error)
+    });
+}
 
     var dropzone=document.getElementById("dropzone")
     function fixdata(data) {
@@ -24,6 +49,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
         return result;
     }
 
+    function changeDropzone(name) {
+        var droptext =document.getElementById("dropText");
+        droptext.innerHTML=name.toString();
+        var dropzone=document.getElementById("dropzone");
+        dropzone.className="dropzoneExcel"
+        changeExcel.style.display="block"
+    }
+
     dropzone.ondrop=function(e){
             e.stopPropagation();
             e.preventDefault();
@@ -32,6 +65,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             for (i = 0, f = files[i]; i != files.length; ++i) {
                 var reader = new FileReader(),
                     name = f.name;
+                    changeDropzone(f.name)
                     reader.onload = function(e) {
                     var results,
                         data = e.target.result,
@@ -53,14 +87,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
         this.className='dropzone'
         return false;
     }
-    var uploadFiles= function(file){
-            var formData= new formData(),
-                xhr=new XMLHttpRequest(),
-                x;
-            for(x=0;x<file.length;x++){
 
-            }
-    }
 
 
 
@@ -74,14 +101,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
             address: $scope.address,
             sportclub: $scope.sportclub,
             birthdate: $scope.birthdate,
-            idCoach: $scope.idCoach
+            email : $scope.email
         }
 
 
 
         if(validateSportsmanData(data)) {
             console.log("register user")
-            //registerUser(data);
+            //registerUser
         }
 
     }
@@ -95,15 +122,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
                 'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
             },
             data:{
-                Id: data.id ,
-                firstname: data.firstname,
-                lastname: data.lastname,
-                phone: data.phone,
-                email: data.email,
-                address : data.address,
-                sportclub: data.sportclub,
-                coachId :data.coachId,
-                birthdate: data.birthdate
             }
         }
         $http(req).then(function(){
@@ -122,6 +140,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                 rowObj = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
 
             })
+            changeDropzone(document.getElementById('fileSportsman').files[0].name)
             //work with RowOBJ
             Excelcheck(rowObj);
         };
@@ -159,15 +178,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
                         'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
                     },
                     data:{
-                        Id: data[0].id ,
-                        firstname: data[0].firstname,
-                        lastname: data[0].lastname,
-                        phone: data[0].phone,
-                        email: data[0].email,
-                        address : data[0].address,
-                        sportclub: data[0].sportclub,
-                        coachId :data[0].coachId,
-                        birthdate: data[0].birthdate
                     }
                 }
                 $http(req).then(function(){
