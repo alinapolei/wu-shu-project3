@@ -73,7 +73,7 @@ function getCoaches() {
                         workbook=XLSX.read(btoa(fixedData), {type: 'base64'}),
                         firstSheetName = workbook.SheetNames[0],
                         worksheet = workbook.Sheets[firstSheetName];
-                    results=XLSX.utils.sheet_to_json(worksheet);
+                        results=XLSX.utils.sheet_to_json(worksheet);
                     console.log(results);
                 };
                 reader.readAsArrayBuffer(f);

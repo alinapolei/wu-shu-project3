@@ -3,6 +3,29 @@
     outline: none;
 }
 
+
+
+.alink {
+    color: blue;
+    font-family: helvetica;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.alink:hover {
+    text-decoration: underline;
+}
+
+.alink:active {
+    color: black;
+}
+
+.alink:visited {
+    color: purple;
+}
+
+
+
 [type="file"] {
     border: 0;
     clip: rect(0, 0, 0, 0);
@@ -48,7 +71,12 @@
     font-size: larger;
     text-align: center;
     background-size: cover ;
+    background-image: url("../resources/images/upload1.jpg");
+
 }
+.dropzoneExcel{
+}
+
 .dropzone.dragover{
     border-color: black;
     color: #000000;
@@ -235,3 +263,4 @@ button.social-signin.google {
 .radioDiv{
     padding: 0px 35px 20px 0px;
 }
+
