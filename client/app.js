@@ -98,5 +98,5 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        .otherwise({redirectTo: '/users/sportsman'});
+        .otherwise({redirectTo: '/login'});
 });
