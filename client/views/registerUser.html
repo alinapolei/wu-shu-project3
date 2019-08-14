@@ -71,9 +71,10 @@
             </select>
             <span class="focus-input100" data-placeholder="&#xf20c"></span>
         </div>
-        <div id="coachChoose" class="validate-input" ng-class="{'alert-validate' : regSportsman.coach.$invalid && (regSportsman.coach.$dirty || isClicked)}" data-validate = "בחר מאמן">
-            <select name="coach"  ng-model="coach" ng-option="x for x in coachs" required >
-                <option value="" disabled="disabled">בחר מאמן</option>
+        <div ng-show="!coachReggister" id="coachChoose" class="validate-input" ng-class="{'alert-validate' : regSportsman.coach.$invalid && (regSportsman.coach.$dirty || isClicked)}" data-validate = "בחר מאמן">
+            <select name="coach"  ng-model="coach" required >
+                <option value="" disabled="disabled"> בחר מאמן</option>
+                <option ng-repeat="x in coaches track by $index" >{{x}}</option>
             </select>
             <span class="focus-input100" data-placeholder="&#xf205"></span>
         </div>
@@ -102,8 +103,9 @@
                 <a ng-click="downloadClicked=true" id="downExcelCoach" style="line-height: 2.5;line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;" class="link"  href="http://localhost:3000/downloadExcelCoach"> הורד פורמט קובץ אקסל לרישום מאמן</a>
                 <span class="focus-input100" data-placeholder="&#xf220"></span>
             </div>
-            <div class="dropzone" style="background-image: url('resources/images/upload1.jpg')"  id="dropzone" >גרור קובץ או לחץ על העלאת קובץ </div>
+            <div class="dropzone"  id="dropzone" > <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>   </div>
             <div style="margin-top: 10px; text-align: center" >
+                <label class="alink" id="changeExcel" style="display: none"> שנה </label>
                 <input  type="file" id="fileSportsman" ng-model="csvFile" onchange="angular.element(this).scope().ExcelExport(event)" style="display:block;margin-top: 5%"/>
                 <label for="fileSportsman" /> העלאת קובץ</label><br>
             </div>
