@@ -1,5 +1,6 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, validateSportsmanData) {
     serverUrl = "http://localhost:3000"
+    $scope.currentDate = new Date();
     rowObj = new Object()
     $scope.coaches = new Array()
     $scope.clubs = new Array();
@@ -110,16 +111,15 @@ app.controller("registerController", function ($scope, $http, $window, $location
     }
 
 
-    $scope.submit = function (e) {
-        e.preventDefault();
-        console.log("submit is clicked")
-
-
-        if (validateSportsmanData(data)) {
-            console.log("register user")
-            //registerUser
+    $scope.submit = function (isValid) {
+        if(isValid) {
+            console.log("submit is clicked")
+            /*if (validateSportsmanData(data)) {
+                console.log("register user")
+                //registerUser
+            }*/
         }
-    }
+    };
 
     function registerUser(data) {
         var req = {

@@ -264,3 +264,8 @@ button.social-signin.google {
     padding: 0px 35px 0px 0px;
 }
 
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
