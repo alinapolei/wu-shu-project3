@@ -2,6 +2,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
     serverUrl = "http://localhost:3000"
     rowObj=new Object()
     $scope.coaches =new Array()
+    $scope.clubs=new Array();
     var changeExcel=document.getElementById("changeExcel")
 
     changeExcel.onclick=function(e){
@@ -13,8 +14,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    getCoaches()
-function getCoaches() {
+    getCoachesAndClub()
+function getCoachesAndClub() {
     var req = {
         method: 'POST',
         url: serverUrl + '/private/getCoaches',
@@ -29,6 +30,23 @@ function getCoaches() {
     }, function (error) {
         console.log(error)
     });
+
+    var req = {
+        method: 'POST',
+        url: serverUrl + '/private/getClubs',
+        headers: {
+            'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+        },
+    }
+    $http(req).then(function (result) {
+        for(let i=0;i<result.data.length;i++)
+            $scope.clubs.push(result.data[i].name)
+
+    }, function (error) {
+        console.log(error)
+    });
+
+
 }
 
     var dropzone=document.getElementById("dropzone")
@@ -74,8 +92,9 @@ function getCoaches() {
                         firstSheetName = workbook.SheetNames[0],
                         worksheet = workbook.Sheets[firstSheetName];
                         results=XLSX.utils.sheet_to_json(worksheet);
-                    console.log(results);
-                };
+                        Excelcheck(results);
+                    };
+
                 reader.readAsArrayBuffer(f);
             }
         }
@@ -92,27 +111,16 @@ function getCoaches() {
 
 
 
-    $scope.submit=function(){
-        data={
-            id: $scope.id,
-            firstname: $scope.firstname,
-            lastname: $scope.lastname,
-            phone: $scope.phone,
-            address: $scope.address,
-            sportclub: $scope.sportclub,
-            birthdate: $scope.birthdate,
-            email : $scope.email
-        }
+    $scope.submit=function(e) {
+        e.preventDefault();
+        console.log("submit is clicked")
 
 
-
-        if(validateSportsmanData(data)) {
+        if (validateSportsmanData(data)) {
             console.log("register user")
             //registerUser
         }
-
     }
-
 
     function registerUser(data) {
         var req = {
@@ -121,8 +129,7 @@ function getCoaches() {
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
             },
-            data:{
-            }
+            data:data
         }
         $http(req).then(function(){
         }, function(error){console.log(error)});
@@ -150,36 +157,38 @@ function getCoaches() {
     function Excelcheck(data) {
         var eroorLine =new String();
         var ExcelOk=true;
-        for (let i=0; i<data.length;i++)
-            if(!validateSportsmanData.validData(data[i]))
+        //for (let i=0; i<data.length;i++)
+            /*if(!validateSportsmanData.validData(data[i]))
             {
+                console.log(data[i])
                 ExcelOk=false;
                 eroorLine =eroorLine+ (i+1)+" ";
             }
+
+             */
         if(!ExcelOk)
             console.log(eroorLine);
         else {
            console.log("register")
-           document.getElementById("fileSportsman").value = "";
-            //registerExcelUser(data);
+            registerExcelUser(data);
+
+            document.getElementById("fileSportsman").value = "";
+
         }
     }
 
     function registerExcelUser(data) {
-        if($scope.reigisterCoach)
-            regUrl=serverUrl + '/private/registerCoach'
-        else
-            regUrl=serverUrl + '/private/registerSportman'
-            for (let i=0;i<data.length;i++){
-                var req = {
-                    method: 'POST',
-                    url: regUrl,
-                    headers: {
-                        'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
-                    },
-                    data:{
-                    }
-                }
+        regUrl=serverUrl + '/private/registerSportman'
+        for (let i=0;i<data.length;i++){
+            var req = {
+            method: 'POST',
+            url: regUrl,
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+            },
+            data:data[i]
+        }
+        console.log(data)
                 $http(req).then(function(){
                 }, function(error){console.log(error)});
             }

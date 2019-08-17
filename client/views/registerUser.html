@@ -93,8 +93,9 @@
                 <div id="sportclubs" class="validate-input"
                      ng-class="{'alert-validate' : regSportsman.sportclub.$invalid && (regSportsman.sportclub.$dirty || isClicked)}"
                      data-validate="בחר מועדון ספורט">
-                    <select name="sportclub" ng-model="sportclub" ng-option="x for x in sportclubs" required>
+                    <select name="sportclub" ng-model="sportclub" required>
                         <option value="" disabled="disabled">בחר מועדון ספורט</option>
+                        <option ng-repeat="x in clubs track by $index">{{x}}</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf20c"></span>
                 </div>
