@@ -110,7 +110,7 @@ select:focus, select:active {
     position: relative;
     margin: 5% auto;
     margin-top: 0px;
-    width: 700px;
+    width: 900px; /*700px;*/
     height: 1000px;
     background: #FFF;
     border-radius: 2px;
@@ -208,9 +208,9 @@ input[type="submit"]:active {
     right: 0;
     box-sizing: border-box;
     padding: 40px;
-    width: 300px;
+    width: 350px;
     height: 400px;
-    background: url('https://goo.gl/YbktSj');
+    /*background: url('https://goo.gl/YbktSj');*/
     background-size: cover;
     background-position: center;
     border-radius: 0 2px 2px 0;
