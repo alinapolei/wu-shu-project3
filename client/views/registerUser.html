@@ -5,7 +5,7 @@
 
 <div style="margin-top: 5%">
     <div id="chooseTypeUser">
-        <input type="radio" name="userType" ng-click="coachReggister=false;downloadClicked=false"> רישום ספורטאי</input>
+        <input type="radio" name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
         <input type="radio" name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
     </div>
     <!--<div>
@@ -56,8 +56,8 @@
                 <div class="wrap-input100 validate-input control-group input-append"
                      ng-class="{'alert-validate' : registerForm.date.$invalid && (registerForm.date.$touched || isClicked)}"
                      data-validate="{{registerForm.date.$error.required ? 'הכנס תאריך לידה' : registerForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
-                            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך לידה" max="{{currentDate}}" required>
-                            <span class="focus-input100" data-placeholder="&#xf332;"></span>
+                    <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך לידה" max="{{currentDate}}" required>
+                    <span class="focus-input100" data-placeholder="&#xf332;"></span>
                 </div>
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : registerForm.phone.$invalid && (registerForm.phone.$touched || isClicked)}"
@@ -73,20 +73,18 @@
                            required>
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
-
                 <div class="wrap-input100 validate-input radioDiv" id="sexUser" ng-show="!coachReggister"
                      ng-class="{'alert-validate' : registerForm.sex.$invalid && (registerForm.sex.$touched || isClicked)}"
                      data-validate="בחר מין">
                     <label>בחר מין</label>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex" value="man"><label
+                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="man"><label
                         class="radio_label"> זכר </label></input>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex" value="woman"><label
+                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="woman"><label
                         class="radio_label"> נקבה </label></input>
                     <span class="focus-input100" data-placeholder="&#xf211;"></span>
                 </div>
-
                 <div class="wrap-input100 validate-input radioDiv" id="branchID"
-                     ng-class="{'alert-validate' : registerForm.branch.$invalid &&  isClicked}"
+                     ng-class="{'alert-validate' : registerForm.branch.$invalid && (registerForm.branch.$touched || isClicked)}"
                      data-validate="בחר ענף">
                     <label class="label">בחר ענף</label>
                     <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="taulu"><label
@@ -95,7 +93,6 @@
                         class="radio_label"> סנדא </label></input>
                     <span class="focus-input100" data-placeholder="&#xf187;"></span>
                 </div>
-
                 <div id="sportclubs" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.sportclub.$invalid && (registerForm.sportclub.$touched || isClicked)}"
                      data-validate="בחר מועדון ספורט">
@@ -108,21 +105,19 @@
                 <div ng-show="!coachReggister" id="coachChoose" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
                      data-validate="בחר מאמן">
-                    <select name="coach" ng-model="coach" required>
+                    <select name="coach" ng-model="coach" ng-required="!coachReggister">
                         <option value="" disabled="disabled"> בחר מאמן</option>
                         <option ng-repeat="x in coaches track by $index">{{x}}</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf205"></span>
                 </div>
-
                 <div ng-show="coachReggister" class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : regSportsman.teamname.$invalid && (regSportsman.teamname.$touched || isClicked)}"
                      data-validate="הכנס שם קבוצה ">
                     <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה"
-                           required>
+                           ng-required="coachReggister">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
-
 
                 <input type="submit" name="signup_submit" ng-click="isClicked=true" value="הירשם"/>
             </form>
