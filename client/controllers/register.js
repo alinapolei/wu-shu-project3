@@ -1,11 +1,12 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, validateSportsmanData) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
+    $scope.coachReggister=false;
     rowObj = new Object()
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     var changeExcel = document.getElementById("changeExcel")
-
+    coaches =new Array()
     changeExcel.onclick = function (e) {
         e.preventDefault()
         dropzone.className = "dropzone"
@@ -25,6 +26,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             },
         }
         $http(req).then(function (result) {
+            coaches=result.data;
             for (let i = 0; i < result.data.length; i++)
                 $scope.coaches.push(result.data[i].firstname + " " + result.data[i].lastname)
 
@@ -112,14 +114,68 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
 
     $scope.submit = function (isValid) {
-        if(isValid) {
-            console.log("submit is clicked")
-            /*if (validateSportsmanData(data)) {
-                console.log("register user")
-                //registerUser
-            }*/
+        if (isValid) {
+            if (!$scope.coachReggister) {
+                var coachid;
+                for (let i = 0; i < coaches.length; i++)
+                    if (String(coaches[i].firstname + " " + coaches[i].lastname) == String($scope.coach)) {
+                        coachid = (coaches[i].Id)
+                        return;
+                    }
+                data = {
+                    id: $scope.id,
+                    firstname: $scope.firstname,
+                    lastname: $scope.lastname,
+                    phone: $scope.phone,
+                    email: $scope.email,
+                    birthdate: $scope.birthdate,
+                    address: $scope.address,
+                    sportclub: $scope.sportclub,
+                    sex: $scope.sex,
+                    branch: $scope.branch,
+                    idCoach: coachid
+                }
+                console.log(data)
+                //registerUserUser(data)
+                alert("user register successfully")
+            } else {
+                data = {
+                    id: $scope.id,
+                    firstname: $scope.firstname,
+                    lastname: $scope.lastname,
+                    phone: $scope.phone,
+                    email: $scope.email,
+                    birthdate: $scope.birthdate,
+                    address: $scope.address,
+                    sportclub: $scope.sportclub,
+                    branch: $scope.branch,
+                    teamname: $scope.teamname
+                }
+                console.log(data)
+                //registerCoach(data);
+                alert("user register successfully")
+            }
         }
-    };
+    }
+
+
+    function registerCoach(data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/registerCoach',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+            },
+            data: data
+        }
+        $http(req).then(function () {
+        }, function (error) {
+            console.log(error)
+        });
+
+
+    }
+
 
     function registerUser(data) {
         var req = {

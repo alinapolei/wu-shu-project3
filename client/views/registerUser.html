@@ -5,8 +5,8 @@
 
 <div style="margin-top: 5%">
     <div id="chooseTypeUser">
-        <input type="radio" name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
-        <input type="radio" name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
+        <input type="radio"  name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
+        <input type="radio"  name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
     </div>
     <!--<div>
         <input type="checkbox" id="pure-toggle-3" hidden checked="checked" />
@@ -77,9 +77,9 @@
                      ng-class="{'alert-validate' : registerForm.sex.$invalid && (registerForm.sex.$touched || isClicked)}"
                      data-validate="בחר מין">
                     <label>בחר מין</label>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="man"><label
+                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="זכר"><label
                         class="radio_label"> זכר </label></input>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="woman"><label
+                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="נקבה"><label
                         class="radio_label"> נקבה </label></input>
                     <span class="focus-input100" data-placeholder="&#xf211;"></span>
                 </div>
@@ -87,9 +87,9 @@
                      ng-class="{'alert-validate' : registerForm.branch.$invalid && (registerForm.branch.$touched || isClicked)}"
                      data-validate="בחר ענף">
                     <label class="label">בחר ענף</label>
-                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="taulu"><label
+                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="טאולו"><label
                         class="radio_label"> טאולו </label></input>
-                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="sanda"><label
+                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="סנדא"><label
                         class="radio_label"> סנדא </label></input>
                     <span class="focus-input100" data-placeholder="&#xf187;"></span>
                 </div>
