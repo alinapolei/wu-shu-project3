@@ -130,18 +130,20 @@
             <div class="validate-input" ng-show="!coachReggister &&!downloadClicked">
                 <a ng-click="downloadClicked=true" id="downExcelSportsman"
                    style="line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;" class="link"
-                   href="http://localhost:3000/downloadExcelSportsman">הורד פורמט קובץ אקסל לרישום ספורטאי</a>
+                   href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
                 <span class="focus-input100" data-placeholder="&#xf220"></span>
             </div>
 
             <div class="validate-input" ng-show="coachReggister">
                 <a ng-click="downloadClicked=true" id="downExcelCoach"
                    style="line-height: 2.5;line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;"
-                   class="link" href="http://localhost:3000/downloadExcelCoach"> הורד פורמט קובץ אקסל לרישום מאמן</a>
+                   class="link" href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
                 <span class="focus-input100" data-placeholder="&#xf220"></span>
             </div>
             <div class="dropzone" id="dropzone"><label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label></div>
             <div style="margin-top: 10px; text-align: center">
+                <label id="errorExcel" style="display: none;color: red"> </label>
+
                 <label class="alink" id="changeExcel" style="display: none"> שנה </label>
                 <input type="file" id="fileSportsman" ng-model="csvFile"
                        onchange="angular.element(this).scope().ExcelExport(event)"

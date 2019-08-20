@@ -1,36 +1,88 @@
 app.service('validateSportsmanData', function() {
     this.validData = function (data) {
-            var reEmail = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-            var id=parseInt(data.id);
-            var phone =parseInt(data.phone);
-            var email=String(data.email);
-            var firstname=String(data.firstname);
-            var lastname= String(data.lastname);
-            var idCoach=parseInt(data.idCoach);
-            var address =String(data.address);
+        if(checkId(data.id))
+            if (checkString(data.firstname))
+                if (checkString(data.lastname))
+                    if(checkBranch(data.branch))
+                        if (checkId(data.idCoach))
+                            if(checkSex(data.sex))
+                                if(checkEmail(data.email))
+                                    if(cheackPhone(data.phone))
+                                        if (cheackSportclub(data.sportclub))
+                                            if(cheackAddress(data.address))
+        //if(!moment(data.birthdate, 'MM/DD/YYYY',true).isValid())
+            //console.log(data.birthdate)
+                                                return true;
 
-            if(address.length<1)
-                return false;
 
-            if(!(!isNaN(id)&& id.toString().length==9))
-                return false;
-
-            if(!(isNaN(parseInt(firstname))))
-                return false;
-
-            if(!isNaN(parseInt(lastname)))
-                return false;
-
-            if(!(!isNaN(idCoach)&& idCoach.toString().length==9))
-                return false;
-
-            if(!(!isNaN(phone) && phone.toString().length==10))
-                return false;
-
-            if (!email.match(reEmail))
-                return false;
-
-            return true;
-        }
+         return false;
+    }
 
 });
+
+app.service('validateCoachData',function () {
+    this.validData=function (data) {
+        if(checkId(data.id))
+            if (checkString(data.firstname))
+                if (checkString(data.lastname))
+                    if (checkString(data.teamname))
+                        if (checkString(data.firstname))
+                            if(checkBranch(data.branch))
+                                if(moment(data.birthdate, 'MM/DD/YYYY',true).isValid())
+                                    if(checkEmail(data.email))
+                                        if(cheackPhone(data.phone))
+                                            if (cheackSportclub(data.sportclub))
+                                                if (cheackAddress(data.address))
+                                                     return true;
+                                    return false;
+
+    }
+});
+
+function cheackAddress(add) {
+    if(add.toString().length<2)
+        return false;
+    return true;
+
+}
+function cheackSportclub(sportclub) {
+    if(isNaN(parseInt(sportclub)))
+        return false;
+    if (parseInt(sportclub)>10)
+        return false
+    return true
+
+}
+function cheackPhone(phone) {
+    if(isNaN(parseInt(phone)))
+        return false
+    return true;
+}
+function checkEmail(email) {
+    var regex= new RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
+        return regex.test(email);
+
+}
+function checkId(id) {
+    if (isNaN(parseInt(id))||id.toString().length!=10)
+        return false;
+    return true;
+}
+function checkString(string) {
+    var regex = new RegExp("^[\u0590-\u05fe]+$");
+     if(!regex.test(string))
+        return false;
+    if(string.toString()<1)
+        return false;
+    return true;
+}
+function checkBranch(branch) {
+    if(branch.toString()=="סנדא"||branch.toString()=="טאולו")
+            return true;
+    return false;
+}
+function checkSex(sex) {
+    if(sex.toString()=="זכר"||sex.toString()=="נקבה")
+        return true;
+    return false;
+}

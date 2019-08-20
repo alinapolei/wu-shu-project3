@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, validateSportsmanData) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, validateSportsmanData,validateCoachData) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
@@ -6,6 +6,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     var changeExcel = document.getElementById("changeExcel")
+    var errExcel =document.getElementById('errorExcel');
+
     coaches =new Array()
     changeExcel.onclick = function (e) {
         e.preventDefault()
@@ -13,6 +15,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
         changeExcel.style.display = "none"
         document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
+        errExcel.style.display="none"
+
 
     }
 
@@ -151,9 +155,11 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     branch: $scope.branch,
                     teamname: $scope.teamname
                 }
-                console.log(data)
-                //registerCoach(data);
-                alert("user register successfully")
+                if (validateCoachData(data)) {
+                    console.log(data)
+                    //registerCoach(data);
+                    alert("user register successfully")
+                }
             }
         }
     }
@@ -214,28 +220,44 @@ app.controller("registerController", function ($scope, $http, $window, $location
     function Excelcheck(data) {
         var eroorLine = new String();
         var ExcelOk = true;
-        //for (let i=0; i<data.length;i++)
-        /*if(!validateSportsmanData.validData(data[i]))
-        {
-            console.log(data[i])
-            ExcelOk=false;
-            eroorLine =eroorLine+ (i+1)+" ";
+        if (!$scope.coachReggister){
+            for (let i=0; i<data.length;i++)
+                if(!validateSportsmanData.validData(data[i]))
+                {
+                    ExcelOk=false;
+                    eroorLine =eroorLine+ (i+1)+" ";
+                }
         }
-
-         */
-        if (!ExcelOk)
-            console.log(eroorLine);
         else {
-            console.log("register")
-            registerExcelUser(data);
+            for (let i=0; i<data.length;i++)
+                if(!validateCoachData.validData(data[i]))
+                {
+                    ExcelOk=false;
+                    eroorLine =eroorLine+ (i+1)+" ";
+                }
+        }
+            if (!ExcelOk)
+            {
+                console.log(eroorLine);
+                errExcel.style.display = "block"
+                 errExcel.innerHTML = "ישנה בעיה בשורות מספר "+eroorLine+ "אנא תקן את הקובץ והעלה שוב";
+            }
 
+            else {
+            console.log("register")
+            //registerExcelUser(data);
+            }
             document.getElementById("fileSportsman").value = "";
 
-        }
+
     }
 
     function registerExcelUser(data) {
-        regUrl = serverUrl + '/private/registerSportman'
+        if(!$scope.coachReggister)
+            regUrl = serverUrl + '/private/registerSportman'
+        else
+            regUrl =serverUrl +'/private/registerCoach'
+
         for (let i = 0; i < data.length; i++) {
             var req = {
                 method: 'POST',
