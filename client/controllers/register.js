@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, validateSportsmanData,validateCoachData) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
@@ -8,7 +8,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
     var changeExcel = document.getElementById("changeExcel")
     var errExcel =document.getElementById('errorExcel');
 
-    coaches =new Array()
     changeExcel.onclick = function (e) {
         e.preventDefault()
         dropzone.className = "dropzone"
@@ -30,10 +29,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             },
         }
         $http(req).then(function (result) {
-            coaches=result.data;
-            for (let i = 0; i < result.data.length; i++)
-                $scope.coaches.push(result.data[i].firstname + " " + result.data[i].lastname)
-
+            $scope.coaches=result.data;
         }, function (error) {
             console.log(error)
         });
@@ -46,9 +42,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             },
         }
         $http(req).then(function (result) {
-            for (let i = 0; i < result.data.length; i++)
-                $scope.clubs.push(result.data[i].name)
-
+            $scope.clubs = result.data;
         }, function (error) {
             console.log(error)
         });
@@ -116,32 +110,24 @@ app.controller("registerController", function ($scope, $http, $window, $location
         return false;
     }
 
-
     $scope.submit = function (isValid) {
         if (isValid) {
             if (!$scope.coachReggister) {
-                var coachid;
-                for (let i = 0; i < coaches.length; i++)
-                    if (String(coaches[i].firstname + " " + coaches[i].lastname) == String($scope.coach)) {
-                        coachid = (coaches[i].Id)
-                        return;
-                    }
                 data = {
                     id: $scope.id,
                     firstname: $scope.firstname,
                     lastname: $scope.lastname,
                     phone: $scope.phone,
                     email: $scope.email,
-                    birthdate: $scope.birthdate,
+                    birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
                     address: $scope.address,
-                    sportclub: $scope.sportclub,
+                    sportclub: $scope.sportclub.id,
                     sex: $scope.sex,
                     branch: $scope.branch,
-                    idCoach: coachid
-                }
-                console.log(data)
-                //registerUserUser(data)
-                alert("user register successfully")
+                    idCoach: $scope.coach.Id
+                };
+                console.log(data);
+                registerUser(data);
             } else {
                 data = {
                     id: $scope.id,
@@ -151,7 +137,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     email: $scope.email,
                     birthdate: $scope.birthdate,
                     address: $scope.address,
-                    sportclub: $scope.sportclub,
+                    sportclub: $scope.sportclub.id,
                     branch: $scope.branch,
                     teamname: $scope.teamname
                 }
@@ -191,8 +177,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
                 'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
             },
             data: data
-        }
+        };
         $http(req).then(function () {
+            alert("user register successfully");
         }, function (error) {
             console.log(error)
         });
@@ -275,6 +262,44 @@ app.controller("registerController", function ($scope, $http, $window, $location
         }
 
     }
+
+
+
+    $scope.today = function() {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+    $scope.toggleMin = function() {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+
+
 })
 
 
