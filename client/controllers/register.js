@@ -83,10 +83,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
         e.preventDefault();
         console.log("DROPPED");
         var files = e.dataTransfer.files, i, f;
-        for (i = 0, f = files[i]; i != files.length; ++i) {
+        for (i = 0, f = files[i]; i !== files.length; ++i) {
             var reader = new FileReader(),
                 name = f.name;
-            changeDropzone(f.name)
+            changeDropzone(f.name);
             reader.onload = function (e) {
                 var results,
                     data = e.target.result,
@@ -100,15 +100,15 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
             reader.readAsArrayBuffer(f);
         }
-    }
+    };
     dropzone.ondragover = function () {
-        this.className = 'dropzone dragover'
+        this.className = 'dropzone dragover';
         return false;
-    }
+    };
     dropzone.ondragleave = function () {
-        this.className = 'dropzone'
+        this.className = 'dropzone';
         return false;
-    }
+    };
 
     $scope.submit = function (isValid) {
         if (isValid) {
@@ -135,20 +135,17 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     lastname: $scope.lastname,
                     phone: $scope.phone,
                     email: $scope.email,
-                    birthdate: $scope.birthdate,
+                    birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
                     address: $scope.address,
                     sportclub: $scope.sportclub.id,
                     branch: $scope.branch,
                     teamname: $scope.teamname
-                }
-                if (validateCoachData(data)) {
-                    console.log(data)
-                    //registerCoach(data);
-                    alert("user register successfully")
-                }
+                };
+                console.log(data);
+                registerCoach(data);
             }
         }
-    }
+    };
 
 
     function registerCoach(data) {
@@ -161,8 +158,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
             data: data
         }
         $http(req).then(function () {
+            alert("הרישום בוצע בהצלחה")
         }, function (error) {
-            console.log(error)
+            if(error.status === 403)
+                alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
+            else
+                alert("ארעה שגיאה");
+            console.log(error);
         });
 
 
@@ -179,8 +181,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
             data: data
         };
         $http(req).then(function () {
-            alert("user register successfully");
+            alert("הרישום בוצעה בהצלחה");
+            $location.path('/users/register');
         }, function (error) {
+            if(error.status === 403)
+                alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
+            else
+                alert("ארעה שגיאה");
+            $location.path('/users/register');
             console.log(error)
         });
 

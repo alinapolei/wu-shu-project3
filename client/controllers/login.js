@@ -8,8 +8,8 @@ app.controller("loginController", function ($scope, $http, $window, $location, $
                 password : $scope.password};
             $http.post(serverUrl+ '/login', user)
                 .then(function (response) {
-                        $rootScope.name = response.data.name;
                         $window.sessionStorage.setItem('name', response.data.firstname);
+                        $rootScope.name = $window.sessionStorage.getItem('name');
 
                         $window.sessionStorage.setItem('access', response.data.access);
                         $window.sessionStorage.setItem('isFirstLogin', response.data.isFirstTime);

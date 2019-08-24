@@ -98,7 +98,9 @@ select {
     border-bottom: 1px solid #e5ffff;
     letter-spacing: .15em;
     border-radius: 0;
-    min-width: 240px;
+    width: 100%;
+    font-size: 16px;
+    font-family: Poppins-Regular;
 }
 select:focus, select:active {
     outline: 0;
@@ -110,7 +112,7 @@ select:focus, select:active {
     position: relative;
     margin: 5% auto;
     margin-top: 0px;
-    width: 900px; /*700px;*/
+    width: 950px; /*700px;*/
     height: 1000px;
     background: #FFF;
     border-radius: 2px;

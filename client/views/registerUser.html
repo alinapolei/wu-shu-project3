@@ -111,12 +111,14 @@
                     <span class="focus-input100" data-placeholder="&#xf205"></span>
                 </div>
                 <div ng-show="coachReggister" class="wrap-input100 validate-input"
-                     ng-class="{'alert-validate' : regSportsman.teamname.$invalid && (regSportsman.teamname.$touched || isClicked)}"
+                     ng-class="{'alert-validate' : registerForm.teamname.$invalid && (registerForm.teamname.$touched || isClicked)}"
                      data-validate="הכנס שם קבוצה ">
                     <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה"
                            ng-required="coachReggister">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
+
+
 
 
                 <input type="submit" name="signup_submit" ng-click="isClicked=true" value="הירשם"/>

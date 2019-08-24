@@ -218,6 +218,8 @@ iframe {
 .login100-form {
   width: 100%;
   direction: rtl;
+  font-size: 16px;
+  font-family: Poppins-Medium;
 }
 
 .login100-form-title {
