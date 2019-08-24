@@ -133,7 +133,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     lastname: $scope.lastname,
                     phone: $scope.phone,
                     email: $scope.email,
-                    birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
+                    birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
                     address: $scope.address,
                     sportclub: $scope.sportclub.id,
                     sex: $scope.sex,
@@ -149,7 +149,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     lastname: $scope.lastname,
                     phone: $scope.phone,
                     email: $scope.email,
-                    birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
+                    birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
                     address: $scope.address,
                     sportclub: $scope.sportclub.id,
                     branch: $scope.branch,
@@ -171,7 +171,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             data: data
         }
         $http(req).then(function () {
-            alert("הרישום בוצע בהצלחה\nהסיסמא הראשונית היא מספר ת.ז.")
+            alert("הרישום בוצע בהצלחה")
         }, function (error) {
             if(error.status === 403)
                 alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
@@ -192,7 +192,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             data: data
         };
         $http(req).then(function () {
-            alert("הרישום בוצע בהצלחה\nהסיסמא הראשונית היא מספר ת.ז.");
+            alert("הרישום בוצע בהצלחה");
         }, function (error) {
             if(error.status === 403)
                 alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
@@ -222,32 +222,36 @@ app.controller("registerController", function ($scope, $http, $window, $location
     };
 
     function Excelcheck(data) {
-        var eroorLine = new String();
+        var errorLines = new String();
         var ExcelOk = true;
         if (!$scope.coachReggister){
             for (let i=0; i<data.length;i++) {
                 if (!validateSportsmanData.validData(data[i])) {
                     ExcelOk = false;
                     if(i < data.length-1)
-                        eroorLine = eroorLine + (i + 1) + ", ";
+                        errorLines = errorLines + (i + 1) + ", ";
                     else
-                        eroorLine = eroorLine + (i + 1) + " ";
+                        errorLines = errorLines + (i + 1) + " ";
                 }
             }
         }
         else {
             for (let i=0; i<data.length;i++)
-                if(!validateCoachData.validData(data[i]))
-                {
-                    ExcelOk=false;
-                    eroorLine =eroorLine+ (i+1)+" ";
+            {
+                if(!validateCoachData.validData(data[i])) {
+                    ExcelOk = false;
+                    if (i < data.length - 1)
+                        errorLines = errorLines + (i + 1) + ", ";
+                    else
+                        errorLines = errorLines + (i + 1) + " ";
                 }
+            }
         }
             if (!ExcelOk)
             {
-                console.log(eroorLine);
+                console.log(errorLines);
                 errExcel.style.display = "block"
-                 errExcel.innerHTML = "ישנה בעיה בשורות מספר "+eroorLine+ "אנא תקן את הקובץ והעלה שוב";
+                 errExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
             }
 
             else {
@@ -276,9 +280,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
             }
             console.log(data)
             $http(req).then(function () {
+                if(i==data.length-1)
+                    alert("הרישום בוצע בהצלחה")
             }, function (error) {
                 console.log(error)
             });
+
+
         }
 
     }
