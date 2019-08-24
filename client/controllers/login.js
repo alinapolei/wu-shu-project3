@@ -12,6 +12,7 @@ app.controller("loginController", function ($scope, $http, $window, $location, $
                         $rootScope.name = $window.sessionStorage.getItem('name');
 
                         $window.sessionStorage.setItem('access', response.data.access);
+                        $rootScope.access = $window.sessionStorage.getItem('access');
                         $window.sessionStorage.setItem('isFirstLogin', response.data.isFirstTime);
                         $window.sessionStorage.setItem('token', response.data.token);
                         $location.path('/home');

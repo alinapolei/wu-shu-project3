@@ -64,7 +64,7 @@ function checkEmail(email) {
 
 }
 function checkId(id) {
-    if (isNaN(parseInt(id))||id.toString().length!=10)
+    if (isNaN(parseInt(id))||id.toString().length!=9)
         return false;
     return true;
 }

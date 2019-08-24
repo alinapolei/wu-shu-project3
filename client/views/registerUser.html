@@ -4,8 +4,8 @@
 </head>
 <body>
 
-<div style="margin-top: 5%">
-    <div id="chooseTypeUser">
+<div>
+    <div id="chooseTypeUser" ng-show="access==userTypes.MANAGER">
         <input type="radio"  name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
         <input type="radio"  name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
     </div>
@@ -23,8 +23,7 @@
             <h1 ng-show="!coachReggister">רישום ספורטאי</h1>
             <h1 ng-show="coachReggister">רישום מאמן</h1>
 
-            <form class="login100-form validate-form" name="registerForm" ng-submit="submit(registerForm.$valid)"
-                  novalidate>
+            <form class="login100-form validate-form" name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
 
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : registerForm.id.$invalid && (registerForm.id.$touched || isClicked)}"
@@ -129,24 +128,27 @@
                 רישום ע"י
                 קובץ אקסל
             </h1>
-            <div class="validate-input" ng-show="!coachReggister &&!downloadClicked">
-                <a ng-click="downloadClicked=true" id="downExcelSportsman"
-                   style="line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;" class="link"
+            <div class="validate-input" ng-show="!coachReggister">
+                <a id="downExcelSportsman" class="linkdark downloadLink"
                    href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
-                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
             </div>
-
             <div class="validate-input" ng-show="coachReggister">
-                <a ng-click="downloadClicked=true" id="downExcelCoach"
-                   style="line-height: 2.5;line-height: 2.5;padding-right: 10%;font-size: initial;font-family: serif;"
-                   class="link" href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
-                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <a id="downExcelCoach" class="linkdark downloadLink"
+                   href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
+                <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
             </div>
-            <div class="dropzone" id="dropzone"><label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label></div>
-            <div style="margin-top: 10px; text-align: center">
-                <label id="errorExcel" style="display: none;color: red"> </label>
 
-                <label class="alink" id="changeExcel" style="display: none"> שנה </label>
+            <div class="dropzone" id="dropzone">
+                <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+            </div>
+
+            <div class="uploadResults">
+                <label id="errorExcel" style="display: none;color: red"> </label>
+                <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
+            </div>
+
+            <div class="uploadBtn">
                 <input type="file" id="fileSportsman" ng-model="csvFile"
                        onchange="angular.element(this).scope().ExcelExport(event)"
                        style="display:block;margin-top: 5%"/>

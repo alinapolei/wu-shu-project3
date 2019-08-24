@@ -2,6 +2,8 @@ let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap']);
 app.controller("mainController", function ($scope, $location, $window, $rootScope) {
     if($window.sessionStorage.getItem('name') != null && $window.sessionStorage.getItem('name')!=='')
         $rootScope.name = $window.sessionStorage.getItem('name');
+    if($window.sessionStorage.getItem('access') != null && $window.sessionStorage.getItem('access') != '')
+        $rootScope.access = $window.sessionStorage.getItem('access');
 
     $scope.getClass = function (path) {
         return ("/" + $location.path().split("/")[1] === path) ? 'active' : '';
@@ -10,11 +12,18 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         return $location.path() !== '/login';
     };
 
+    $rootScope.userTypes = {
+        MANAGER: 1,
+        COACH: 2,
+        SPORTMAN: 3
+    };
+
     $scope.logout = function () {
         //need to delete $rootScope
         $window.sessionStorage.removeItem('name');
         $window.sessionStorage.removeItem('token');
-        $rootScope.name = "guest";
+        $rootScope.name = '';
+        $rootScope.access = '';
         $location.path('/login');
     }
 });
