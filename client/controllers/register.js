@@ -6,7 +6,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     var changeExcel = document.getElementById("changeExcel")
-    var errExcel =document.getElementById('errorExcel');
+    var ansExcel =document.getElementById('ansExcel');
 
     changeExcel.onclick = function (e) {
         e.preventDefault()
@@ -14,7 +14,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
         changeExcel.style.display = "none"
         document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
-        errExcel.style.display="none"
+        ansExcel.style.display="none"
 
 
     }
@@ -250,8 +250,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
             if (!ExcelOk)
             {
                 console.log(errorLines);
-                errExcel.style.display = "block"
-                 errExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
+                ansExcel.style.color="red";
+                ansExcel.style.display = "block"
+                ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
             }
 
             else {
@@ -281,7 +282,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
             console.log(data)
             $http(req).then(function () {
                 if(i==data.length-1)
-                    alert("הרישום בוצע בהצלחה")
+                    ansExcel.style.color="green";
+                    ansExcel.style.display = "block"
+                    ansExcel.innerHTML = "רישום בוצע בהצלחה";
             }, function (error) {
                 console.log(error)
             });
