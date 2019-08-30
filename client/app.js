@@ -17,6 +17,14 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         COACH: 2,
         SPORTMAN: 3
     };
+    $scope.sex = [
+        {id : 1, name : 'זכר' },
+        {id : 2, name : 'נקבה' }
+    ];
+    $scope.branches = [
+        {id : 1, name : 'טאולו'},
+        {id : 2, name : 'סנדא'}
+    ];
 
     $scope.logout = function () {
         //need to delete $rootScope
@@ -67,9 +75,9 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        .when('/users/sportsman', {
+        .when('/users/sportsmen', {
             templateUrl: 'views/userTable.html',
-            controller: 'homeController as hCtrl'
+            controller: 'sportsmenController as sportsmenCtrl'
         })
         .when('/users/referees', {
             templateUrl: 'views/home.html',

@@ -5,6 +5,10 @@
 .error{
     color: red;
 }
+.center{
+    display: flex;
+    justify-content: center;
+}
 
 /*MENU*/
 .menu {
@@ -103,7 +107,7 @@
 .linkdark:hover{
     /*color: white;*/
     color: #408c99;
-    font-weight: bold;
+    /*font-weight: bold;*/
     text-decoration: underline;
 }
 .downloadLink{
