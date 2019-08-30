@@ -1,5 +1,6 @@
-app.controller("sportsmenController", function ($scope, $http, $window, clubService) {
+app.controller("sportsmenController", function ($scope, $http, $window, clubService, pagingService) {
     serverUrl = "http://localhost:3000";
+    var allUsers;
     var req = {
         method: 'POST',
         url: serverUrl + '/private/getSportsmen',
@@ -8,13 +9,15 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
         },
     };
     $http(req).then(function (result) {
-        $scope.users = result.data;
+        allUsers = result.data;
+        setPage(1);
     }, function (error) {
         console.log(error)
     });
 
 
     getDataForDisplay();
+
     // async function getDataForDisplay() {
     //     result =await clubService.getClubs();
     //     $scope.clubs = result.data;
@@ -29,5 +32,19 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
             });
     }
 
+    let pageSize = 10;
+    $scope.setPage = function(page){
+        setPage(page);
+    };
+
+    function setPage(page) {
+        if (page < 1 || page > $scope) {
+            return;
+        }
+
+        $scope.pager = pagingService.GetPager(allUsers.length, page, pageSize);
+
+        $scope.users = allUsers.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+    }
 
 });
