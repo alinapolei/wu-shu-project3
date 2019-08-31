@@ -6,25 +6,25 @@
 <div class="center">
     <div>
         <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText">
-        <button>
+        <button ng-click="setPage(1)">
             <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
         </button>
     </div>
     <div>
-        <select ng-show="access==userTypes.MANAGER" class="searchInput" name="club" ng-model="selectedClub"
-                ng-options="x.name for x in clubs">
+        <select ng-show="access==userTypes.MANAGER" class="searchInput" name="selectedClub" ng-model="selectedClub"
+                ng-options="x.name for x in clubs" ng-change="setPage(1)">
             <option value="">כל המועדונים</option>
         </select>
-        <select class="searchInput" name="branch" ng-model="selectedBranch" ng-options="x.name for x in branches">
+        <select class="searchInput" name="branch" ng-model="selectedBranch" ng-options="x.name for x in branches" ng-change="setPage(1)">
             <option value="">כל הענפים</option>
         </select>
-        <select class="searchInput" name="sex" ng-model="selectedSex" ng-options="x.name for x in sex">
+        <select class="searchInput" name="sex" ng-model="selectedSex" ng-options="x.name for x in sex" ng-change="setPage(1)">
             <option value="">זכר ונקבה</option>
         </select>
         <button>
             <i ng-model="isToDesc"
                ng-class="isToDesc ? 'fa fa-sort-alpha-desc clickableSearch' : 'fa fa-sort-alpha-asc clickableSearch'"
-               ng-click="isToDesc ? isToDesc=true : isToDesc=false" aria-hidden="true"></i>
+               ng-click="isToDesc = !isToDesc; setPage(1)" ng-change="setPage(1)" aria-hidden="true"></i>
         </button>
     </div>
 </div>
@@ -53,19 +53,19 @@
 <div class="center">
     <!-- pager -->
     <ul ng-if="pager.pages.length" class="pagination">
-        <li ng-class="{disabled:pager.currentPage === 1}">
+        <li ng-class="{'disabled':pager.currentPage === 1}">
             <a ng-click="setPage(1)">ראשון</a>
         </li>
-        <li ng-class="{disabled:pager.currentPage === 1}">
+        <li ng-class="{'disabled':pager.currentPage === 1}">
             <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
         </li>
-        <li ng-repeat="page in pager.pages" class="numberBtn" ng-class="{'active' : pager.currentPage === page}" ng-click="setPage(page)">
+        <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}" ng-click="setPage(page)">
             {{page}}
         </li>
-        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+        <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
             <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
         </li>
-        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+        <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
             <a ng-click="setPage(pager.totalPages)">אחרון</a>
         </li>
     </ul>

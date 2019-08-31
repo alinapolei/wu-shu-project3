@@ -67,6 +67,7 @@
     border: 1px solid #575756;
     width: 300px;
     display: inline;
+    cursor: pointer;
 
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
@@ -113,6 +114,7 @@ ul.pagination li{
     text-align: center;
     margin-bottom: 15px;
     height: 38px;
+    cursor: pointer;
 
     align-self: center;
     background: #DDD;
@@ -120,11 +122,15 @@ ul.pagination li{
     border: 1px solid #575756;
     outline: none;
 }
-ul.pagination li:hover{
+ul.pagination li:hover:not(.disabled){
     background-color: #edf7f8;
 }
-ul.pagination li:active{
+ul.pagination li.active{
     background-color: #327a81;
+}
+ul.pagination li.disabled{
+    color: gray;
+    cursor: not-allowed;
 }
 ul.pagination li.numberBtn{
     width: 40px;

@@ -68,6 +68,10 @@
     padding: 8px;
     text-decoration: none;
     font-weight: bold;
+    cursor: pointer;
+}
+div.menuItem{
+    cursor: default;
 }
 #menuRow .menu li:not(:last-child):after{
      content: "|";
