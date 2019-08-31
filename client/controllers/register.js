@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData, clubService) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
@@ -34,20 +34,12 @@ app.controller("registerController", function ($scope, $http, $window, $location
             console.log(error)
         });
 
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/getClubs',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
-            },
-        }
-        $http(req).then(function (result) {
-            $scope.clubs = result.data;
-        }, function (error) {
-            console.log(error)
-        });
-
-
+        clubService.getClubs()
+            .then(function (result) {
+                $scope.clubs = result.data;
+            }, function (error) {
+                console.log(error)
+            });
     }
 
     var dropzone = document.getElementById("dropzone")
@@ -111,20 +103,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
     };
 
     /*** manual registration ***/
-    $scope.user = {
-        id : ""
-    };
     $scope.submit = function (isValid) {
-        //$scope.user.id = "";
-        /*$scope.user = {};
-        $scope.firstname = "";
-        //$scope.registerForm.$touched = false;
-        //$scope.registerForm.$pristine = true;
-        $scope.registerForm.$setPristine();
-        $scope.registerForm.$setUntouched()();
-
-         */
-
         if (isValid) {
             if (!$scope.coachReggister) {
                 data = {
