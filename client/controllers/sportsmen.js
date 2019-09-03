@@ -6,11 +6,6 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
     setPage(1);
     getDataForDisplay();
 
-    // async function getDataForDisplay() {
-    //     result =await clubService.getClubs();
-    //     $scope.clubs = result.data;
-    //     console.log($scope.clubs);
-    // }
     function getDataForDisplay() {
         clubService.getClubs()
             .then(function (result) {
@@ -28,7 +23,6 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
     function setPage(page) {
         if (page < 1 || (page > $scope.pager.totalPages && $scope.totalPages > 0)) {
             return;
-            console.log("exit");
         }
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page, pageSize);
@@ -41,11 +35,10 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
             },
         };
         $http(req).then(function (result) {
-            console.log(serverUrl + '/private/getSportsmen' + buildConditions());
-            allUsers = result.data;
+            let totalCount = result.data.totalCount;
 
-            $scope.pager = pagingService.GetPager(allUsers.length, page, pageSize);
-            $scope.users = allUsers.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+            $scope.pager = pagingService.GetPager(totalCount, page, pageSize);
+            $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
         }, function (error) {
             console.log(error)
         });
