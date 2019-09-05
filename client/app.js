@@ -56,8 +56,8 @@ app.config(function($routeProvider) {
             controller: 'homeController as hCtrl'
         })
         .when('/profile', {
-            templateUrl: 'views/home.html',
-            controller: 'homeController as hCtrl'
+            templateUrl: 'views/profilePage.html',
+            controller: 'profileController as profileCtrl'
         })
         .when('/sportClubs/addSportClub', {
             templateUrl: 'views/home.html',
