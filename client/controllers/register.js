@@ -117,7 +117,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sportclub: $scope.sportclub.id,
                     sex: $scope.sex,
                     branch: $scope.branch,
-                    idCoach: $scope.coach.Id
+                    idCoach: $scope.coach.id
                 };
                 console.log(data);
                 registerUser(data);
@@ -284,7 +284,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             sportclub: $scope.sportclub.id,
             sex: $scope.sex,
             branch: $scope.branch,
-            idCoach: $scope.coach.Id
+            idCoach: $scope.coach.id
 
          */
     }
