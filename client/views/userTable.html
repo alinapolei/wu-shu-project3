@@ -30,7 +30,7 @@
 </div>
 
 <div class="table-users">
-    <div class="headerTable">ספורטאים</div>
+    <div class="headerTable">{{headerTable}}</div>
     <table class="tableUser" cellspacing="0">
         <tr>
             <th>תמונת פרופיל</th>
@@ -45,7 +45,7 @@
             <td>{{user.firstname}}</td>
             <td>{{user.lastname}}</td>
             <td>
-                <button class="linkdark"> צפה בפרופיל</button>
+                <button class="linkdark" ng-click="watchProfile(user.id)"> צפה בפרופיל</button>
             </td>
         </tr>
     </table>

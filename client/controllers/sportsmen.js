@@ -1,8 +1,9 @@
-app.controller("sportsmenController", function ($scope, $http, $window, clubService, pagingService) {
+app.controller("sportsmenController", function ($scope, $http, $window, $location, clubService, pagingService) {
     serverUrl = "http://localhost:3000";
     var allUsers;
     $scope.pager = {};
     $scope.isToDesc = true;
+    $scope.headerTable = "ספורטאיים";
     setPage(1);
     getDataForDisplay();
 
@@ -68,6 +69,10 @@ app.controller("sportsmenController", function ($scope, $http, $window, clubServ
     $scope.sortStyleChanged = function (){
         $scope.isToDesc = !$scope.isToDesc;
         setPage(1);
+    }
+    
+    $scope.watchProfile = function (selectedId) {
+        $location.path("/sportsmanProfile/" + selectedId);
     }
 
 });

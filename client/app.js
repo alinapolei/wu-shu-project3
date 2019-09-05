@@ -55,9 +55,13 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        .when('/profile', {
+        // .when('/profile', {
+        //     templateUrl: 'views/profilePage.html',
+        //     controller: 'profileController as profileCtrl'
+        // })
+        .when('/sportsmanProfile/:id', {
             templateUrl: 'views/profilePage.html',
-            controller: 'profileController as profileCtrl'
+            controller: 'sportsmanProfileController as sportsmanProfileCtrl'
         })
         .when('/sportClubs/addSportClub', {
             templateUrl: 'views/home.html',
