@@ -20,7 +20,7 @@
                          data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך האירוע</label>
-                            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך האירוע" ng-max="currentDate" required>
+                            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך האירוע" ng-min="currentDate" required>
                             <span class="focus-input100" data-placeholder="&#xf332;"></span>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                          data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : openCompetitionForm.time.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת האירוע</label>
-                            <input class="input100" type="time" name="time" ng-model="time" placeholder="שעת האירוע" ng-max="currentTime" required>
+                            <input class="input100" id= 'temp' type="time" name="time" ng-model="time" placeholder="שעת האירוע" ng-min="currentTime" required>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                          data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך סגירת הרישום</label>
-                            <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת הרישום" ng-max="currentDate" required>
+                            <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת הרישום" ng-min="currentDate" required>
                             <span class="focus-input100" data-placeholder="&#xf332;"></span>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                          data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת הרישום' : openCompetitionForm.regCloseTime.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת סגירת הרישום</label>
-                            <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" ng-max="currentTime" required>
+                            <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" ng-min="currentTime" required>
                         </div>
                     </div>
                 </div>

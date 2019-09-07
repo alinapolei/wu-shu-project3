@@ -1,12 +1,19 @@
-app.controller("openCompetitionController", function ($scope, $location, competitionService) {
+app.controller("openCompetitionController", function ($scope,$filter,$location, competitionService) {
     $scope.currentDate = new Date();
     $scope.currentTime = $scope.currentDate.getTime();
 
     $scope.submit = function (isValid) {
         if(isValid){
             let data = {
-                
+                location : $scope.location,
+                eventDate : $filter('date')($scope.date,"MM/dd/yyyy"),
+                startHour : $filter('date')($scope.time,"hh:mm"),
+                branch : $scope.branch,
+                description : $scope.description,
+                closeDate: $filter('date')($scope.regCloseDate,"MM/dd/yyyy"),
+                closeTime :$filter('date')($scope.regCloseTime,"hh:mm")
             };
+
             competitionService.insertCompetition(data)
                 .then(function (result) {
                     alert("התחרות נוצרה בהצלחה");
