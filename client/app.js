@@ -88,7 +88,7 @@ app.config(function($routeProvider) {
             controller: 'homeController as hCtrl'
         })
         .when('/competitions/addCompetition', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/openCompetition.html',
             controller: 'homeController as hCtrl'
         })
         .when('/competitions/registerToCompetition', {

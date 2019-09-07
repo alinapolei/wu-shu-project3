@@ -1,0 +1,76 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+
+</head>
+<body>
+
+    <div id="login-box">
+            <h1 style="text-align: center" >פתיחת תחרות חדשה</h1>
+            <form class="openComp-form validate-form" name="openCompetitionForm" ng-submit="submit(openCompetitionForm.$valid)" novalidate>
+                <div class="wrap-input100 validate-input"
+                     ng-class="{'alert-validate' : openCompetitionForm.description.$invalid && (openCompetitionForm.description.$touched || isClicked)}"
+                     data-validate="{{openCompetitionForm.description.$error.required ? 'הכנס תיאור.' : ''}}">
+                    <input class="input100" type="text" name="description" ng-model="description" placeholder="תיאור"
+                          ng-required="true" required>
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+                <div class="timedateDiv">
+                    <div class="wrap-input100 validate-input control-group input-append radioDiv"
+                         ng-class="{'alert-validate' : openCompetitionForm.date.$invalid && (openCompetitionForm.date.$touched || isClicked) || }"
+                         data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
+                        <div>
+                            <label class="label">תאריך האירוע</label>
+                            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך האירוע" ng-max="currentDate" required>
+                            <span class="focus-input100" data-placeholder="&#xf332;"></span>
+                        </div>
+                    </div>
+                    <div class="wrap-input100 validate-input control-group input-append"
+                         ng-class="{'alert-validate' : openCompetitionForm.time.$invalid && (openCompetitionForm.time.$touched || isClicked) || }"
+                         data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : openCompetitionForm.אןצק.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                        <div>
+                            <label class="label">שעת האירוע</label>
+                            <input class="input100" type="time" name="time" ng-model="time" placeholder="שעת האירוע" ng-max="currentTime" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="timedateDiv">
+                    <div class="wrap-input100 validate-input control-group input-append radioDiv"
+                         ng-class="{'alert-validate' : openCompetitionForm.regCloseDate.$invalid && (openCompetitionForm.regCloseDate.$touched || isClicked) || }"
+                         data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
+                        <div>
+                            <label class="label">תאריך סגירת הרישום</label>
+                            <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת האירוע" ng-max="currentDate" required>
+                            <span class="focus-input100" data-placeholder="&#xf332;"></span>
+                        </div>
+                    </div>
+                    <div class="wrap-input100 validate-input control-group input-append"
+                         ng-class="{'alert-validate' : openCompetitionForm.regCloseTime.$invalid && (openCompetitionForm.regCloseTime.$touched || isClicked) || }"
+                         data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת האירוע' : openCompetitionForm.regCloseTime.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                        <div>
+                            <label class="label">שעת סגירת הרישום</label>
+                            <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" ng-max="currentTime" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrap-input100 validate-input"
+                     ng-class="{'alert-validate' : openCompetitionForm.location.$invalid && (openCompetitionForm.location.$touched || isClicked)}"
+                     data-validate="הכנס מיקום התחרות">
+                    <input class="input100" type="text" name="location" ng-model="location" placeholder="מיקום התחרות" required>
+                    <span class="focus-input100" data-placeholder="&#xf175;"></span>
+                </div>
+                <div class="wrap-input100 validate-input radioDiv" id="branchID"
+                     ng-class="{'alert-validate' : openCompetitionForm.branch.$invalid && (openCompetitionForm.branch.$touched || isClicked)}"
+                     data-validate="בחר ענף">
+                    <label class="label">בחר ענף</label>
+                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="טאולו"><label
+                        class="radio_label"> טאולו </label></input>
+                    <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="סנדא"><label
+                        class="radio_label"> סנדא </label></input>
+                    <span class="focus-input100" data-placeholder="&#xf187;"></span>
+                </div>
+
+                <input type="submit" name="signup_submit" ng-click="isClicked=true" value="פתח תחרות"/>
+            </form>
+    </div>
+</div>
+</body>

@@ -221,6 +221,13 @@ iframe {
   font-size: 16px;
   font-family: Poppins-Medium;
 }
+.openComp-form {
+  width: 390px;
+  margin: auto;
+  direction: rtl;
+  font-size: 16px;
+  font-family: Poppins-Medium;
+}
 
 .login100-form-title {
   font-family: Poppins-Medium;
