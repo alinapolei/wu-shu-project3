@@ -108,7 +108,17 @@ select:focus, select:active {
     border-bottom-color: #599bb3;
 }
 
-
+#box{
+    position: relative;
+    margin: 5% auto;
+    margin-top: 0px;
+    width: 950px; /*700px;*/
+    height: 100%;
+    padding: 40px;
+    background: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
 #login-box {
     position: relative;
     margin: 5% auto;
@@ -264,7 +274,7 @@ button.social-signin.google {
 }
 
 .radioDiv{
-    padding: 0px 35px 0px 0px;
+    padding: 0px 35px 0px 20px;
 }
 .timedateDiv{
     /*padding: 0px 35px 0px 0px;*/

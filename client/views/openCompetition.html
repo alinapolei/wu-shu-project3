@@ -4,7 +4,7 @@
 </head>
 <body>
 
-    <div id="login-box">
+    <div id="box">
             <h1 style="text-align: center" >פתיחת תחרות חדשה</h1>
             <form class="openComp-form validate-form" name="openCompetitionForm" ng-submit="submit(openCompetitionForm.$valid)" novalidate>
                 <div class="wrap-input100 validate-input"
@@ -16,7 +16,7 @@
                 </div>
                 <div class="timedateDiv">
                     <div class="wrap-input100 validate-input control-group input-append radioDiv"
-                         ng-class="{'alert-validate' : openCompetitionForm.date.$invalid && (openCompetitionForm.date.$touched || isClicked) || }"
+                         ng-class="{'alert-validate' : openCompetitionForm.date.$invalid && (openCompetitionForm.date.$touched || isClicked)}"
                          data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך האירוע</label>
@@ -25,8 +25,8 @@
                         </div>
                     </div>
                     <div class="wrap-input100 validate-input control-group input-append"
-                         ng-class="{'alert-validate' : openCompetitionForm.time.$invalid && (openCompetitionForm.time.$touched || isClicked) || }"
-                         data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : openCompetitionForm.אןצק.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                         ng-class="{'alert-validate' : openCompetitionForm.time.$invalid && (openCompetitionForm.time.$touched || isClicked)}"
+                         data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : openCompetitionForm.time.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת האירוע</label>
                             <input class="input100" type="time" name="time" ng-model="time" placeholder="שעת האירוע" ng-max="currentTime" required>
@@ -35,17 +35,17 @@
                 </div>
                 <div class="timedateDiv">
                     <div class="wrap-input100 validate-input control-group input-append radioDiv"
-                         ng-class="{'alert-validate' : openCompetitionForm.regCloseDate.$invalid && (openCompetitionForm.regCloseDate.$touched || isClicked) || }"
+                         ng-class="{'alert-validate' : openCompetitionForm.regCloseDate.$invalid && (openCompetitionForm.regCloseDate.$touched || isClicked)}"
                          data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך סגירת הרישום</label>
-                            <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת האירוע" ng-max="currentDate" required>
+                            <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת הרישום" ng-max="currentDate" required>
                             <span class="focus-input100" data-placeholder="&#xf332;"></span>
                         </div>
                     </div>
                     <div class="wrap-input100 validate-input control-group input-append"
-                         ng-class="{'alert-validate' : openCompetitionForm.regCloseTime.$invalid && (openCompetitionForm.regCloseTime.$touched || isClicked) || }"
-                         data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת האירוע' : openCompetitionForm.regCloseTime.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                         ng-class="{'alert-validate' : openCompetitionForm.regCloseTime.$invalid && (openCompetitionForm.regCloseTime.$touched || isClicked)}"
+                         data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת הרישום' : openCompetitionForm.regCloseTime.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת סגירת הרישום</label>
                             <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" ng-max="currentTime" required>
