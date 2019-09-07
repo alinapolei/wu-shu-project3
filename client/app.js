@@ -56,8 +56,6 @@ app.config(function($routeProvider) {
             controller: 'homeController as hCtrl'
         })
         .when('/profile', {
-            // templateUrl: 'views/profilePage.html',
-            // controller: 'profileController as profileCtrl'
             resolve: {
                 "check": function ($rootScope, $location, $window) {
                     if ($rootScope.access == $rootScope.userTypes.MANAGER) {
@@ -100,7 +98,7 @@ app.config(function($routeProvider) {
         })
         .when('/competitions/addCompetition', {
             templateUrl: 'views/openCompetition.html',
-            controller: 'homeController as hCtrl'
+            controller: 'openCompetitionController as hCtrl'
         })
         .when('/competitions/registerToCompetition', {
             templateUrl: 'views/home.html',

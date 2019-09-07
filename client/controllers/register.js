@@ -15,8 +15,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
         document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
         ansExcel.style.display="none"
-
-
     }
 
     getCoachesAndClub();
