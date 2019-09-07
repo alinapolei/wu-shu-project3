@@ -1,6 +1,3 @@
-.bodyProfile{
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
-}
 .emp-profile{
     padding: 3%;
     margin-top: 3%;
@@ -8,15 +5,15 @@
     border-radius: 0.5rem;
     background: #fff;
 }
-.profile-img{
-    width: 250px;
+.profile-img img{
+    width: 200px;
     height: 167px;
 }
 .profile-img .file {
     position: relative;
     overflow: hidden;
-    margin-top: -20%;
-    width: 70%;
+    margin-top: -65px;
+    width: 200px;
     border: none;
     border-radius: 0;
     font-size: 15px;
@@ -28,22 +25,25 @@
     right: 0;
     top: 0;
 }
-.profile-head{
-    text-align: right;
-}
 .profile-head h5{
     color: #333;
 }
 .profile-head h6{
-    color: #0062cc;
+    color: #408c99;
 }
 .profile-edit-btn{
-    width: 250px;
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
 }
 .proile-rating{
     font-size: 12px;
     color: #818182;
-    margin-top: 5%;
+    margin: 5px 0px;
 }
 .proile-rating span{
     color: #495057;
@@ -52,6 +52,9 @@
 }
 .profile-head .nav-tabs{
     margin-bottom:5%;
+    position: absolute;
+    bottom: 0px;
+    width: 500px;
 }
 .profile-head .nav-tabs .nav-link{
     font-weight:600;
@@ -59,7 +62,10 @@
 }
 .profile-head .nav-tabs .nav-link.active{
     border: none;
-    border-bottom:2px solid #0062cc;
+    border-bottom:2px solid #408c99;
+}
+.profile-head .nav-tabs .nav-link:hover:not(.active){
+    color: #599bb3;
 }
 .profile-work{
     padding: 14%;
@@ -80,9 +86,8 @@
 .profile-work ul{
     list-style: none;
 }
-.profile-tab label{
+.col-md-3 label{
     font-weight: 600;
-    width: 100px;
 }
 .profile-tab p{
     font-weight: 600;

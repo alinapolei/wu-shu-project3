@@ -1,178 +1,270 @@
-<!DOCTYPE html>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<div class="container emp-profile">
+<div class="container emp-profile" id="login-box">
     <form method="post">
-        <div class="row">
-            <div class="col-md-4 center">
-                <img class="profile-img" ng-src="{{sportsman.photo}}" alt=""/>
-            </div>
-            <div class="col-md-6">
-                <div class="profile-head">
-                    <h5>
-                        <label ng-model="fullName">{{fullName}}</label>
-                    </h5>
-                    <h6>
-                        <label ng-model="role">{{role}}</label>
-                    </h6>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">פרטים אישיים</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">מידע תחרויות</a>
-                        </li>
-                    </ul>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-img">
+                <img ng-src="{{user.photo}}" alt=""/>
+                <div class="file btn btn-lg btn-primary" ng-show="isEditModeOn">
+                    שנה תמונה
+                    <input type="file" name="file"/>
                 </div>
             </div>
-
         </div>
-        <div class="row">
-            <div class="col-md-4" style="text-align: center; margin-top: 5px">
-                    <input type="submit" class="big_btn profile-edit-btn" value="ערוך פרופיל" ng-click="turnOnEditMode()"/>
+        <div class="col-md-6">
+            <div class="profile-head">
+                <h5>
+                    {{user.sfirstname}} {{user.slastname}}
+                </h5>
+                <h6>
+                    {{whoAmI}}
+                </h6>
+                <p class="proile-rating">דירוג : <span>{{}}</span></p>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='personalData'" ng-class="{'active' : activeTag==='personalData' || activeTag===undefined}">פרטים אישיים</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='attachments'" ng-class="{'active' : activeTag==='attachments'}">קבצים מצורפים</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='compData'" ng-class="{'active' : activeTag==='compData'}">מידע תחרויות</a>
+                    </li>
+                    <li class="nav-item" ng-show="false">
+                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='judgeStat'" ng-class="{'active' : activeTag==='judgeStat'}">סטטיסטיקות שיפוט</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-8" style="text-align: right">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div ng-show="!isEditModeOn" class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>תעודת זהות</label>
-                                <input type="text" ng-model="sportsman.id">
-                            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <i class="fa fa-pencil ilink" aria-hidden="true"></i>
+                <a class="linkdark link" href="" ng-click="turnOnEditMode()">ערוך פרופיל</a>
+            </div>
+            <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
+                <i class="fa fa-chain-broken ilink" aria-hidden="true"></i>
+                <a class="linkdark link" href="">החלפת מאמן</a>
+            </div>
+            <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
+                <i class="fa fa-trash-o ilink" aria-hidden="true"></i>
+                <a class="linkdark link" href="">מחק פרופיל</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade" ng-class="{'show' : activeTag==='personalData' || activeTag===undefined , 'active' : activeTag==='personalData' || activeTag===undefined}" id="personalData" role="tabpanel" aria-labelledby="compData">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>תעודת זהות</label>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>שם פרטי</label>
-                                <input type="text" ng-model="sportsman.firstname" ng-show="!isEditModeOn">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>שם משפחה</label>
-                                <input type="text" ng-model="sportsman.lastname" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>איימיל</label>
-                                <input type="text" ng-model="sportsman.email" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>פאלפון</label>
-                                <input type="text" ng-model="sportsman.phone" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>סוג תחרות</label>
-                                <input type="text" ng-model="sportsman.branch" >
-                            </div>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.id}}</label>
+                            <span class="wrap-input100 validate-input" ng-show="isEditModeOn">
+<!--                                 ng-class="{'alert-validate' : registerForm.id.$invalid && (registerForm.id.$touched || isClicked)}"-->
+                                                            <!--                                 data-validate="{{registerForm.id.$error.required ? 'הכנס ת.ז.' : (registerForm.id.$error.minlength || registerForm.id.$error.maxlength || registerForm.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">-->
+                                <br>
+                                <input class="input100" type="text" name="id" ng-model="user.id" ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
+                            </span>
                         </div>
                     </div>
-                    <form ng-show="isEditModeOn" class="login100-form validate-form" name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.id.$invalid && (registerForm.id.$touched || isClicked)}"
-                             data-validate="{{registerForm.id.$error.required ? 'הכנס ת.ז.' : (registerForm.id.$error.minlength || registerForm.id.$error.maxlength || registerForm.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
-                            <input class="input100" type="text" name="id" ng-model="id" placeholder="ת.ז"
-                                   ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
-                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>שם פרטי</label>
                         </div>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.firstname.$invalid && (registerForm.firstname.$touched || isClicked)}"
-                             data-validate="{{registerForm.firstname.$error.required ? 'הכנס שם פרטי' : registerForm.firstname.$error.pattern ? 'שם פרטי לא תקין' : ''}}">
-                            <input class="input100" type="text" name="firstname" ng-model="firstname" placeholder="שם פרטי"
-                                   required ng-pattern="/^[\u0590-\u05fe]+$/">
-                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.sfirstname}}</label>
                         </div>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.lastname.$invalid && (registerForm.lastname.$touched || isClicked)}"
-                             data-validate="{{registerForm.lastname.$error.required ? 'הכנס שם משפחה' : registerForm.lastname.$error.pattern ? 'שם משפחה לא תקין' : ''}}">
-                            <input class="input100" type="text" name="lastname" ng-model="lastname" placeholder="שם משפחה"
-                                   required ng-pattern="/^[\u0590-\u05fe]+$/">
-                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>שם משפחה</label>
                         </div>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.email.$invalid && (registerForm.email.$touched || isClicked)}"
-                             data-validate="{{registerForm.email.$error.required ? 'הכנס אימייל' : registerForm.email.$error.pattern ? 'אימייל לא תקין' : ''}}">
-                            <input class="input100" type="email" name="email" ng-model="email" placeholder="איימיל"
-                                   required ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)+$/">
-                            <span class="focus-input100" data-placeholder="&#xf159;"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.slastname}}</label>
                         </div>
-                        <div class="wrap-input100 validate-input control-group input-append"
-                             ng-class="{'alert-validate' : registerForm.date.$invalid && (registerForm.date.$touched || isClicked)}"
-                             data-validate="{{registerForm.date.$error.required ? 'הכנס תאריך לידה' : registerForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
-                            <input class="input100" type="date" name="date" ng-model="birthdate" placeholder="תאריך לידה" ng-max="currentDate" required>
-                            <span class="focus-input100" data-placeholder="&#xf332;"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>מין</label>
                         </div>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.phone.$invalid && (registerForm.phone.$touched || isClicked)}"
-                             data-validate="{{registerForm.phone.$error.required ? 'הכנס פלאפון' : (registerForm.phone.$error.minlength || registerForm.phone.$error.maxlength || registerForm.phone.$error.pattern ? 'פלאפון לא תקין' : '')}}">
-                            <input class="input100" type="text" name="phone" ng-model="phone" placeholder="פאלפון"
-                                   required ng-minlength="10" ng-maxlength="10" ng-pattern="/^(\d)+$/">
-                            <span class="focus-input100" data-placeholder="&#xf2b6;"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.sex}}</label>
                         </div>
-                        <div class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.address.$invalid && (registerForm.address.$touched || isClicked)}"
-                             data-validate="הכנס כתובת">
-                            <input class="input100" type="text" name="address" ng-model="address" placeholder="כתובת מגורים"
-                                   required>
-                            <span class="focus-input100" data-placeholder="&#xf175;"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>תאירך לידה</label>
                         </div>
-                        <div class="wrap-input100 validate-input radioDiv" id="sexUser" ng-show="!coachReggister"
-                             ng-class="{'alert-validate' : registerForm.sex.$invalid && (registerForm.sex.$touched || isClicked)}"
-                             data-validate="בחר מין">
-                            <label>בחר מין</label>
-                            <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="זכר"><label
-                                class="radio_label"> זכר </label></input>
-                            <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="נקבה"><label
-                                class="radio_label"> נקבה </label></input>
-                            <span class="focus-input100" data-placeholder="&#xf211;"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.birthdate | date : 'dd/MM/yyyy'}}</label>
                         </div>
-                        <div class="wrap-input100 validate-input radioDiv" id="branchID"
-                             ng-class="{'alert-validate' : registerForm.branch.$invalid && (registerForm.branch.$touched || isClicked)}"
-                             data-validate="בחר ענף">
-                            <label class="label">בחר ענף</label>
-                            <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="טאולו"><label
-                                class="radio_label"> טאולו </label></input>
-                            <input type="radio" name="branch" ng-model="branch" ng-required="!branch" value="סנדא"><label
-                                class="radio_label"> סנדא </label></input>
-                            <span class="focus-input100" data-placeholder="&#xf187;"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>כתובת</label>
                         </div>
-                        <div id="sportclubs" class="validate-input"
-                             ng-class="{'alert-validate' : registerForm.sportclub.$invalid && (registerForm.sportclub.$touched || isClicked)}"
-                             data-validate="בחר מועדון ספורט">
-                            <select name="sportclub" ng-model="sportclub" required ng-options="x.name for x in clubs">
-                                <option value="" disabled="disabled">בחר מועדון ספורט</option>
-                            </select>
-                            <span class="focus-input100" data-placeholder="&#xf20c"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.address}} {{user.city}}</label>
                         </div>
-                        <div ng-show="!coachReggister" id="coachChoose" class="validate-input"
-                             ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
-                             data-validate="בחר מאמן">
-                            <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname for x in coaches">
-                                <option value="" disabled="disabled"> בחר מאמן</option>
-                            </select>
-                            <span class="focus-input100" data-placeholder="&#xf205"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>טלפון</label>
                         </div>
-                        <div ng-show="coachReggister" class="wrap-input100 validate-input"
-                             ng-class="{'alert-validate' : registerForm.teamname.$invalid && (registerForm.teamname.$touched || isClicked)}"
-                             data-validate="הכנס שם קבוצה ">
-                            <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה"
-                                   ng-required="coachReggister">
-                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.phone}}</label>
                         </div>
-
-
-
-
-                        <input type="submit" name="signup_submit" ng-click="isClicked=true" value="הירשם"/>
-                    </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>אימייל</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.email}}</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>ענף</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.branch}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>מועדון ספורט</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.club}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>מאמן</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label ng-show="!isEditModeOn">{{user.cfirstname}} {{user.clastname}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ng-class="{'show' : activeTag==='attachments' , 'active' : activeTag==='attachments'}" id="attachments" role="tabpanel" aria-labelledby="attachments">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>ביטוח</label>
+                        </div>
+                        <div class="col-md-6">
+<!--                            mabey put a preview for the attachment and the expite date, coler red when expired-->
+<!--                            popup when entering the profile that the file expired-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>בדיקות רפואיות</label>
+                        </div>
+                        <div class="col-md-6">
+<!--                            //mabey put a preview for the attachment and the expite date, coler red when expired-->
+<!--                            //popup when entering the profile that the file expired-->
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ng-class="{'show' : activeTag==='compData' , 'active' : activeTag==='compData'}" id="compData" role="tabpanel" aria-labelledby="compData">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>גרף התקדמות</label>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>ניצחונות אחרונים</label>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 </div>
+
+
+<!--<div class="container emp-profile">-->
+<!--    <form method="post">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-4 center">-->
+<!--                <img class="profile-img" ng-src="{{sportsman.photo}}" alt=""/>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                <div class="profile-head">-->
+<!--                    <h5>-->
+<!--                        <label ng-model="fullName">{{fullName}}</label>-->
+<!--                    </h5>-->
+<!--                    <h6>-->
+<!--                        <label ng-model="role">{{role}}</label>-->
+<!--                    </h6>-->
+<!--                    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">פרטים אישיים</a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">מידע תחרויות</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-4" style="text-align: center; margin-top: 5px">-->
+<!--                    <input type="submit" class="profile-edit-btn" value="ערוך פרופיל" ng-click="turnOnEditMode()"/>-->
+<!--            </div>-->
+<!--            <div class="col-md-8" style="text-align: right">-->
+<!--                <div class="tab-content profile-tab" id="myTabContent">-->
+<!--                    <div ng-show="!isEditModeOn" class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>תעודת זהות</label>-->
+<!--                                <input type="text" ng-model="sportsman.id">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>שם פרטי</label>-->
+<!--                                <input type="text" ng-model="sportsman.firstname" ng-show="!isEditModeOn">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>שם משפחה</label>-->
+<!--                                <input type="text" ng-model="sportsman.lastname" >-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>איימיל</label>-->
+<!--                                <input type="text" ng-model="sportsman.email" >-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>פאלפון</label>-->
+<!--                                <input type="text" ng-model="sportsman.phone" >-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <label>סוג תחרות</label>-->
+<!--                                <input type="text" ng-model="sportsman.branch" >-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
