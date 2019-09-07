@@ -15,7 +15,7 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
     $rootScope.userTypes = {
         MANAGER: 1,
         COACH: 2,
-        SPORTMAN: 3
+        SPORTSMAN: 3
     };
     $scope.sex = [
         {id : 1, name : 'זכר' },
@@ -55,11 +55,22 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        // .when('/profile', {
-        //     templateUrl: 'views/profilePage.html',
-        //     controller: 'profileController as profileCtrl'
-        // })
-        .when('/sportsmanProfile/:id', {
+        .when('/profile', {
+            // templateUrl: 'views/profilePage.html',
+            // controller: 'profileController as profileCtrl'
+            resolve: {
+                "check": function ($rootScope, $location, $window) {
+                    if ($rootScope.access == $rootScope.userTypes.MANAGER) {
+                    }
+                    else if($rootScope.access == $rootScope.userTypes.COACH){
+                    }
+                    else if($rootScope.access == $rootScope.userTypes.SPORTSMAN){
+                        $location.path("/sportsmanProfile/");
+                    }
+                }
+            }
+        })
+        .when('/sportsmanProfile/:id?', {
             templateUrl: 'views/profilePage.html',
             controller: 'sportsmanProfileController as sportsmanProfileCtrl'
         })

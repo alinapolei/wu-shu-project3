@@ -105,7 +105,7 @@ div.menuItem{
     /*font-family: Poppins-Regular;
     font-size: 14px;*/
     line-height: 1.5;
-    color: #599bb3;/*#CFD8DC;*/
+    color: #276873;/*#CFD8DC;*/
     text-decoration: underline;
 }
 .linkdark:hover{
@@ -119,6 +119,15 @@ div.menuItem{
     padding-right: 10%;
     font-size: initial;
     font-family: serif;
+}
+.link{
+    line-height: 2.5;
+    padding-right: 10px;
+    font-size: initial;
+    font-family: serif;
+}
+.ilink{
+    color: #276873;
 }
 .uploadResults{
     text-align: center;
@@ -137,6 +146,7 @@ div.menuItem{
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
+    top: 47px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }

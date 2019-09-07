@@ -9,6 +9,7 @@
         <input type="radio"  name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
         <input type="radio"  name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
     </div>
+    </div>
     <!--<div>
         <input type="checkbox" id="pure-toggle-3" hidden checked="checked" />
         <label class="pure-toggle wide" for="pure-toggle-3">
@@ -128,15 +129,16 @@
                 רישום ע"י
                 קובץ אקסל
             </h1>
+            </h1>
             <div class="validate-input" ng-show="!coachReggister">
-                <a id="downExcelSportsman" class="linkdark downloadLink"
-                   href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
                 <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
+                <a id="downExcelSportsman" class="linkdark downloadLink"
+                href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
             </div>
             <div class="validate-input" ng-show="coachReggister">
-                <a id="downExcelCoach" class="linkdark downloadLink"
-                   href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
                 <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
+                <a id="downExcelCoach" class="linkdark downloadLink"
+                href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
             </div>
 
             <div class="dropzone" id="dropzone">
