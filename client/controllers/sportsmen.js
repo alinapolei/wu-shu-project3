@@ -50,8 +50,8 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
         if($scope.searchText !== null && $scope.searchText !== undefined) {
             conditions.push('value=' + $scope.searchText);
         }
-        if($scope.selectedBranch !== null && $scope.selectedBranch !== undefined){
-            conditions.push('branch=' + $scope.selectedBranch.name);
+        if($scope.selectedsportStyle !== null && $scope.selectedsportStyle !== undefined){
+            conditions.push('sportStyle=' + $scope.selectedsportStyle.name);
         }
         if($scope.selectedClub != null && $scope.selectedClub !== undefined){
             conditions.push('club=' + $scope.selectedClub.id);

@@ -3,7 +3,7 @@ app.service('validateSportsmanData', function() {
         if(checkId(data.id))
             if (checkString(data.firstname))
                 if (checkString(data.lastname))
-                    if(checkBranch(data.branch))
+                    if(checksportStyle(data.sportStyle))
                         if (checkId(data.idCoach))
                             if(checkSex(data.sex))
                                 if(checkEmail(data.email))
@@ -26,7 +26,7 @@ app.service('validateCoachData',function () {
             if (checkString(data.firstname))
                 if (checkString(data.lastname))
                     if (checkString(data.teamname))
-                        if(checkBranch(data.branch))
+                        if(checksportStyle(data.sportStyle))
                                     if(checkEmail(data.email))
                                         if(cheackPhone(data.phone))
                                             if (cheackSportclub(data.sportclub))
@@ -74,8 +74,8 @@ function checkString(string) {
         return false;
     return true;
 }
-function checkBranch(branch) {
-    if(branch.toString()=="סנדא"||branch.toString()=="טאולו")
+function checksportStyle(sportStyle) {
+    if(sportStyle.toString()=="סנדא"||sportStyle.toString()=="טאולו")
             return true;
     return false;
 }

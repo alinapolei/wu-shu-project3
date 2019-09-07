@@ -21,7 +21,7 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         {id : 1, name : 'זכר' },
         {id : 2, name : 'נקבה' }
     ];
-    $scope.branches = [
+    $scope.sportStyle = [
         {id : 1, name : 'טאולו'},
         {id : 2, name : 'סנדא'}
     ];
