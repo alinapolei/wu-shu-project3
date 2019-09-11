@@ -4,22 +4,6 @@
 <body class="bodyTable">
 
 <div class="center">
-    <div>
-        <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText">
-        <button ng-click="setPagAe(1)">
-            <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
-        </button>
-    </div>
-    <div>
-        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyle" ng-change="setPage(1)">
-            <option value="">כל הענפים</option>
-        </select>
-        <button>
-            <i ng-model="isToDesc"
-               ng-class="isToDesc ? 'fa fa-sort-alpha-desc clickableSearch' : 'fa fa-sort-alpha-asc clickableSearch'"
-               ng-click="isToDesc = !isToDesc; setPage(1)" ng-change="setPage(1)" aria-hidden="true"></i>
-        </button>
-    </div>
 </div>
 
 <div class="table-users" style="width: 1000px">
@@ -44,7 +28,8 @@
                 <button class="linkdark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
             <td>
-                <button class="linkdark" ng-click="watchProfile(user.id)">רישום ספורטאים</button>
+                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום ספורטאים</button>
+                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות התחרות</button>
             </td>
         </tr>
     </table>
