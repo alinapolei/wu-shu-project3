@@ -21,7 +21,7 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         {id : 1, name : 'זכר' },
         {id : 2, name : 'נקבה' }
     ];
-    $scope.branches = [
+    $scope.sportStyle = [
         {id : 1, name : 'טאולו'},
         {id : 2, name : 'סנדא'}
     ];
@@ -101,8 +101,8 @@ app.config(function($routeProvider) {
             controller: 'openCompetitionController as hCtrl'
         })
         .when('/competitions/registerToCompetition', {
-            templateUrl: 'views/home.html',
-            controller: 'homeController as hCtrl'
+            templateUrl: 'views/competitionTable.html',
+            controller: 'competitionTableController as cTCtrl'
         })
         .when('/competitions/addResults', {
             templateUrl: 'views/home.html',

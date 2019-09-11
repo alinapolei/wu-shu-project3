@@ -8,10 +8,11 @@ app.controller("openCompetitionController", function ($scope,$filter,$location, 
                 location : $scope.location,
                 eventDate : $filter('date')($scope.date,"MM/dd/yyyy"),
                 startHour : $filter('date')($scope.time,"hh:mm"),
-                branch : $scope.branch,
+                sportStyle : $scope.sportStyle,
                 description : $scope.description,
                 closeDate: $filter('date')($scope.regCloseDate,"MM/dd/yyyy"),
-                closeTime :$filter('date')($scope.regCloseTime,"hh:mm")
+                closeTime :$filter('date')($scope.regCloseTime,"hh:mm"),
+                city: $scope.city
             };
 
             competitionService.insertCompetition(data)

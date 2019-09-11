@@ -1,0 +1,57 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="./css/userTableCSS.css">
+</head>
+<body class="bodyTable">
+
+<div class="center">
+</div>
+
+<div class="table-users" style="width: 1000px">
+    <div class="headerTable">{{headerTable}}</div>
+    <table class="tableUser" cellspacing="0">
+        <tr>
+            <th>מספר תחרות</th>
+            <th>ענף ספורט</th>
+            <th>תאריך התחרות</th>
+            <th>תאריך סגירת הרישום</th>
+            <th>סטאטוס</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="competition in competitions">
+            <td>{{competition.idCompetition}}</td>
+            <td>{{competition.sportStyle}}</td>
+            <td>{{competition.date | date: "dd.MM.yyyy" }}</td>
+            <td>{{competition.closeRegDate |date : "dd.MM.yyyy"}}</td>
+            <td>{{competition.status}}</td>
+            <td>
+                <button class="linkdark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
+            </td>
+            <td>
+                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום ספורטאים</button>
+                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות התחרות</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="center">
+    <!-- pager -->
+    <ul ng-if="pager.pages.length" class="pagination">
+        <li ng-class="{'disabled':pager.currentPage === 1}">
+            <a ng-click="setPage(1)">ראשון</a>
+        </li>
+        <li ng-class="{'disabled':pager.currentPage === 1}">
+            <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
+        </li>
+        <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}" ng-click="setPage(page)">
+            {{page}}
+        </li>
+        <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
+        </li>
+        <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.totalPages)">אחרון</a>
+        </li>
+    </ul>
+</div>
+</body>

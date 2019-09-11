@@ -6,7 +6,7 @@
 <div class="center">
     <div>
         <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText">
-        <button ng-click="setPage(1)">
+        <button ng-click="setPagAe(1)">
             <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
         </button>
     </div>
@@ -15,7 +15,7 @@
                 ng-options="x.name for x in clubs" ng-change="setPage(1)">
             <option value="">כל המועדונים</option>
         </select>
-        <select class="searchInput" name="branch" ng-model="selectedBranch" ng-options="x.name for x in branches" ng-change="setPage(1)">
+        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyle" ng-change="setPage(1)">
             <option value="">כל הענפים</option>
         </select>
         <select class="searchInput" name="sex" ng-model="selectedSex" ng-options="x.name for x in sex" ng-change="setPage(1)">
