@@ -55,7 +55,13 @@
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : openCompetitionForm.location.$invalid && (openCompetitionForm.location.$touched || isClicked)}"
                      data-validate="הכנס מיקום התחרות">
-                    <input class="input100" type="text" name="location" ng-model="location" placeholder="מיקום התחרות" required>
+                    <input class="input100" type="text" name="location" ng-model="location" placeholder="כתובת" required>
+                    <span class="focus-input100" data-placeholder="&#xf175;"></span>
+                </div>
+                <div class="wrap-input100 validate-input"
+                     ng-class="{'alert-validate' : openCompetitionForm.city.$invalid && (openCompetitionForm.city.$touched || isClicked)}"
+                     data-validate="הכנס עיר">
+                    <input class="input100" type="text" name="city" ng-model="city" placeholder="עיר" required>
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
                 <div class="wrap-input100 validate-input radioDiv" id="sportStyleID"

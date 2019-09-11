@@ -101,8 +101,8 @@ app.config(function($routeProvider) {
             controller: 'openCompetitionController as hCtrl'
         })
         .when('/competitions/registerToCompetition', {
-            templateUrl: 'views/home.html',
-            controller: 'homeController as hCtrl'
+            templateUrl: 'views/competitionTable.html',
+            controller: 'competitionTableController as cTCtrl'
         })
         .when('/competitions/addResults', {
             templateUrl: 'views/home.html',
