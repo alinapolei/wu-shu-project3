@@ -1,6 +1,8 @@
 <link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
 <div class="modal-body" style="width: auto;height: 500px" >
-    
+    <label ng-repeat="user in users" style="display: block;text-align: right">
+        <input type="checkbox" checklist-model="" checklist-value="user.id"> {{user.firstname}} {{user.lastname}}
+    </label>
 </div>
 <button class="btn btn-primary" ng-click="close()">סגור חלון</button>

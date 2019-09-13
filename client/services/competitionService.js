@@ -34,5 +34,15 @@ app.service('competitionService', function($window, $http) {
         };
         return $http(req);
     }
+    this.getSportsman =function () {
+        var req = {
+        method: 'POST',
+        url: serverUrl + '/private/getCoachSportsman',
+        headers: {
+            'x-auth-token': $window.sessionStorage.getItem('token')
+        }
+    };
+        return $http(req);
 
+    }
 });
