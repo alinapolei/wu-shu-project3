@@ -15,7 +15,7 @@
             <th>תאריך התחרות</th>
             <th>תאריך סגירת הרישום</th>
             <th>סטאטוס</th>
-            <th></th>
+            <th><i class="fa fa-eye" aria-hidden="true"></i></th>
             <th></th>
         </tr>
         <tr ng-repeat="competition in competitions">
@@ -24,12 +24,12 @@
             <td>{{competition.date | date: "dd.MM.yyyy" }}</td>
             <td>{{competition.closeRegDate |date : "dd.MM.yyyy"}}</td>
             <td>{{competition.status}}</td>
-            <td>
+            <td class="tdLast">
                 <button class="linkdark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
-            <td>
-                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום ספורטאים</button>
-                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות התחרות</button>
+            <td class="tdLast">
+                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
+                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות</button>
             </td>
         </tr>
     </table>
