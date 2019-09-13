@@ -21,10 +21,14 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         {id : 1, name : 'זכר' },
         {id : 2, name : 'נקבה' }
     ];
-    // $scope.sportStyle = [
-    //     {id : 1, name : 'טאולו'},
-    //     {id : 2, name : 'סנדא'}
-    // ];
+    $scope.sportStyles = [
+        {id : 1, name : 'טאולו'},
+        {id : 2, name : 'סנדא'}
+    ];
+    $scope.compStatus = [
+        {id : 1, name : 'פתוח'},
+        {id : 2, name : 'סגור'}
+    ];
 
     $scope.logout = function () {
         //need to delete $rootScope

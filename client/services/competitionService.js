@@ -1,4 +1,5 @@
 app.service('competitionService', function ($window, $http, $uibModal) {
+    /*****http requests*****/
     serverUrl = "http://localhost:3000";
     this.insertCompetition = function (data) {
         var req = {
@@ -11,20 +12,20 @@ app.service('competitionService', function ($window, $http, $uibModal) {
         };
         return $http(req);
     };
-    this.getCompetitons = function () {
+    this.getCompetitons = function (conditions) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getCompetitions',
+            url: serverUrl + '/private/getCompetitions'+conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }
         };
         return $http(req);
     };
-    this.getOpenCompetitons = function () {
+    this.getOpenCompetitons = function (conditions) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getCompetitions?isOpen=true',
+            url: serverUrl + '/private/getCompetitions'+conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }
@@ -55,6 +56,7 @@ app.service('competitionService', function ($window, $http, $uibModal) {
         return $http(req);
     };
 
+    /*****common functions for gui*****/
     this.watchCompDetails = function (idCompetiton) {
         $uibModal.open({
             templateUrl: "views/competitonDetails.html",
@@ -81,4 +83,19 @@ app.service('competitionService', function ($window, $http, $uibModal) {
             }
         }).result.catch(function () { });
     };
+    this.buildConditions = function buildConditions(location, sportStyle, status){
+        var conditions = [];
+
+        if(location !== null && location !== undefined) {
+            conditions.push('location=' + location);
+        }
+        if(sportStyle !== null && sportStyle !== undefined){
+            conditions.push('sportStyle=' + sportStyle.name);
+        }
+        if(status != null && status !== undefined){
+            conditions.push('status=' + status.name);
+        }
+
+        return conditions.length ? '?' + conditions.join('&') : '';
+    }
 });

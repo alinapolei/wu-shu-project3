@@ -19,7 +19,7 @@ app.controller("competitionTableController", function($scope, $window, $http,com
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        competitionService.getCompetitons()
+        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.selectedStatus))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 

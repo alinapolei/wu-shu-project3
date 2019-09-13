@@ -19,7 +19,7 @@ app.controller("registerToCompetitionController", function($scope, $window, $htt
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        competitionService.getOpenCompetitons()
+        competitionService.getOpenCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.compStatus[0]))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
