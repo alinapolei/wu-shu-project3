@@ -1,10 +1,6 @@
-app.controller("competitionRegisterModal", function($scope, $uibModalInstance, $window, $http,getId,competitionService) {
-    $scope.userReg={
-        id :[
-        ]
-    };
+app.controller("competitionRegisterModal", function($scope, $uibModalInstance, $window, $http,competitionService) {
+
     $scope.close=function () {
-        console.log($userReg.id)
         $uibModalInstance.close()
     }
     competitionService.getSportsman()
