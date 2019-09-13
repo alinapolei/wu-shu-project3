@@ -16,7 +16,6 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
             });
     }
 
-    let pageSize = 10;
     $scope.setPage = function(page){
         setPage(page);
     };
@@ -26,7 +25,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
             return;
         }
 
-        //$scope.pager = pagingService.GetPager(allUsers.length, page, pageSize);
+        //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
         var req = {
             method: 'POST',
@@ -38,7 +37,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
         $http(req).then(function (result) {
             let totalCount = result.data.totalCount;
 
-            $scope.pager = pagingService.GetPager(totalCount, page, pageSize);
+            $scope.pager = pagingService.GetPager(totalCount, page);
             $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
         }, function (error) {
             console.log(error)

@@ -1,7 +1,7 @@
-app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,$uibModal) {
+app.controller("registerToCompetitionController", function($scope, $window, $http,competitionService,pagingService) {
     serverUrl = "http://localhost:3000";
-    $scope.headerTable = "תחרויות";
-    $scope.isShowStatus = true;
+    $scope.headerTable = "תחרויות פתוחות להרשמה";
+    $scope.isShowStatus = false;
     $scope.pager = {};
     setPage(1);
 
@@ -19,7 +19,7 @@ app.controller("competitionTableController", function($scope, $window, $http,com
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        competitionService.getCompetitons()
+        competitionService.getOpenCompetitons()
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 

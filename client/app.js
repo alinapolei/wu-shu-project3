@@ -102,7 +102,7 @@ app.config(function($routeProvider) {
         })
         .when('/competitions/registerToCompetition', {
             templateUrl: 'views/competitionTable.html',
-            controller: 'competitionTableController as cTCtrl'
+            controller: 'registerToCompetitionController as regCompCtrl'
         })
         .when('/competitions/addResults', {
             templateUrl: 'views/home.html',
@@ -111,6 +111,10 @@ app.config(function($routeProvider) {
         .when('/competitions/results', {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
+        })
+        .when('/competitions/getCompetitions', {
+            templateUrl: 'views/competitionTable.html',
+            controller: 'competitionTableController as cTCtrl'
         })
         .when('/events/addEvent', {
             templateUrl: 'views/home.html',
