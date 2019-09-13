@@ -1,8 +1,34 @@
 <link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
-<div class="modal-body" style="width: auto;height: 500px" >
-    <label ng-repeat="user in users" style="display: block;text-align: right">
+<div class="modal-body" style="height: 500px" >
+    <div>
+        <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText">
+        <button ng-click="setPage(1)">
+            <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div ng-repeat="user in users" style="display: block;text-align: right">
         <input type="checkbox" checklist-model="" checklist-value="user.id"> {{user.firstname}} {{user.lastname}}
-    </label>
+    </div>
+    <div class="center" ng-show="pager.totalPages>1">
+        <!-- pager -->
+        <ul ng-if="pager.pages.length" class="pagination">
+            <li ng-class="{'disabled':pager.currentPage === 1}">
+                <a ng-click="setPage(1)">ראשון</a>
+            </li>
+            <li ng-class="{'disabled':pager.currentPage === 1}">
+                <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
+            </li>
+            <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}" ng-click="setPage(page)">
+                {{page}}
+            </li>
+            <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
+            </li>
+            <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                <a ng-click="setPage(pager.totalPages)">אחרון</a>
+            </li>
+        </ul>
+    </div>
 </div>
 <button class="btn btn-primary" ng-click="close()">סגור חלון</button>

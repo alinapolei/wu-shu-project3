@@ -171,7 +171,8 @@ div.menuItem{
 /*MODAL*/
 .modal-body{
     text-align: center;
-
+    width: auto;
+    overflow-y: auto
 }
 .modalInput {
     position: relative;

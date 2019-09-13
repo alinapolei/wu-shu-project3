@@ -1,4 +1,4 @@
-app.service('competitionService', function ($window, $http, $uibModal) {
+app.service('competitionService', function ($window, $http, $uibModal, $location) {
     /*****http requests*****/
     serverUrl = "http://localhost:3000";
     this.insertCompetition = function (data) {
@@ -82,6 +82,7 @@ app.service('competitionService', function ($window, $http, $uibModal) {
                 }
             }
         }).result.catch(function () { });
+        //$location.path('/competitionRegistration');
     };
     this.buildConditions = function buildConditions(location, sportStyle, status){
         var conditions = [];

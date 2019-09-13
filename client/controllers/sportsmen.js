@@ -1,4 +1,4 @@
-app.controller("sportsmenController", function ($scope, $http, $window, $location, clubService, pagingService) {
+app.controller("sportsmenController", function ($scope, $http, $window, $location, clubService, pagingService, sportsmanService) {
     serverUrl = "http://localhost:3000";
     var allUsers;
     $scope.pager = {};
@@ -29,7 +29,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
 
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getSportsmen' + buildConditions(),
+            url: serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -42,27 +42,6 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
         }, function (error) {
             console.log(error)
         });
-    }
-    function buildConditions(){
-        var conditions = [];
-
-        if($scope.searchText !== null && $scope.searchText !== undefined) {
-            conditions.push('value=' + $scope.searchText);
-        }
-        if($scope.selectedsportStyle !== null && $scope.selectedsportStyle !== undefined){
-            conditions.push('sportStyle=' + $scope.selectedsportStyle.name);
-        }
-        if($scope.selectedClub != null && $scope.selectedClub !== undefined){
-            conditions.push('club=' + $scope.selectedClub.id);
-        }
-        if($scope.selectedSex !== null && $scope.selectedSex !== undefined){
-            conditions.push('sex=' + $scope.selectedSex.name);
-        }
-        if($scope.isToDesc === false){
-            conditions.push('sort=desc')
-        }
-
-        return conditions.length ? '?' + conditions.join('&') : '';
     }
 
     $scope.sortStyleChanged = function (){
