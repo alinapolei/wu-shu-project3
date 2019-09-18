@@ -1,6 +1,5 @@
 app.controller("openCompetitionController", function ($scope,$filter,$location, competitionService) {
     $scope.currentDate = new Date();
-    $scope.currentTime = $scope.currentDate.getTime();
 
     $scope.submit = function (isValid) {
         if(isValid){

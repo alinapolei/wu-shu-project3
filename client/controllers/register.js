@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData, clubService) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData, clubService, coachService) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
@@ -19,18 +19,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     getCoachesAndClub();
     function getCoachesAndClub() {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/getCoaches',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
-            },
-        }
-        $http(req).then(function (result) {
-            $scope.coaches=result.data;
-        }, function (error) {
-            console.log(error)
-        });
+        coachService.getCoaches()
+            .then(function (result) {
+                $scope.allcoaches=result.data;
+                $scope.coaches=result.data;
+            }, function (error) {
+                console.log(error)
+            });
 
         clubService.getClubs()
             .then(function (result) {
@@ -38,7 +33,19 @@ app.controller("registerController", function ($scope, $http, $window, $location
             }, function (error) {
                 console.log(error)
             });
+
     }
+
+    $scope.filterCoach = function(){
+        $scope.coaches = $filter('filter')($scope.allcoaches, function(obj){
+            return obj.sportclub == $scope.sportclub.id;
+        });
+    };
+    $scope.filterClub = function(){
+        $scope.sportclub = $filter('filter')($scope.clubs, function (obj) {
+            return obj.id === $scope.coach.sportclub;
+        })[0];
+    };
 
     var dropzone = document.getElementById("dropzone")
 

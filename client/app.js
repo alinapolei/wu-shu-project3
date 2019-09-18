@@ -21,9 +21,13 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         {id : 1, name : 'זכר' },
         {id : 2, name : 'נקבה' }
     ];
-    $scope.sportStyle = [
+    $scope.sportStyles = [
         {id : 1, name : 'טאולו'},
         {id : 2, name : 'סנדא'}
+    ];
+    $scope.compStatus = [
+        {id : 1, name : 'פתוח'},
+        {id : 2, name : 'סגור'}
     ];
 
     $scope.logout = function () {
@@ -102,7 +106,7 @@ app.config(function($routeProvider) {
         })
         .when('/competitions/registerToCompetition', {
             templateUrl: 'views/competitionTable.html',
-            controller: 'competitionTableController as cTCtrl'
+            controller: 'registerToCompetitionController as regCompCtrl'
         })
         .when('/competitions/addResults', {
             templateUrl: 'views/home.html',
@@ -111,6 +115,10 @@ app.config(function($routeProvider) {
         .when('/competitions/results', {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
+        })
+        .when('/competitions/getCompetitions', {
+            templateUrl: 'views/competitionTable.html',
+            controller: 'competitionTableController as cTCtrl'
         })
         .when('/events/addEvent', {
             templateUrl: 'views/home.html',
@@ -128,5 +136,9 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
+        // .when('/competitionRegistration', {
+        //     templateUrl: 'views/regSportsmanCompetition.html',
+        //     controller: 'competitionRegisterModal as cRegCtrl'
+        // })
         .otherwise({redirectTo: '/login'});
 });

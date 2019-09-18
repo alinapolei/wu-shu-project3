@@ -10,5 +10,38 @@ app.service('sportsmanService', function($window, $http) {
             data: data
         };
         return $http(req);
+    };
+    this.getSportsmen = function(conditions){
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/getSportsmen' + conditions,
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+        };
+        return $http(req);
+    };
+
+
+    this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc){
+        var conditions = [];
+
+        if(searchText !== null && searchText !== undefined) {
+            conditions.push('value=' + searchText);
+        }
+        if(sportStyle !== null && sportStyle !== undefined){
+            conditions.push('sportStyle=' + sportStyle.name);
+        }
+        if(club != null && club !== undefined){
+            conditions.push('club=' + club.id);
+        }
+        if(sex !== null && sex !== undefined){
+            conditions.push('sex=' + sex.name);
+        }
+        if(isToDesc === false){
+            conditions.push('sort=desc')
+        }
+
+        return conditions.length ? '?' + conditions.join('&') : '';
     }
 });

@@ -2,7 +2,7 @@ app.service('pagingService', function() {
     this.GetPager = GetPager;
 
     // service implementation
-    function GetPager(totalItems, currentPage, pageSize) {
+    function GetPager(totalItems, currentPage, pageSize = 10) {
         // default to first page
         currentPage = currentPage || 1;
 

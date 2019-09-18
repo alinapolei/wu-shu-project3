@@ -8,11 +8,9 @@
         <div id="mapid" style="height: 250px"></div>
         <div><h4>{{location}}</h4></div>
         <div>
-                <h4>{{compDate | date: "dd.MM.yyyy"}}</h4>
-                <h4>{{compHour | date :"hh.mm"}}</h4>
+                <h4>תאריך: {{compDate | date: "dd.MM.yyyy"}}</h4>
+                <h4>שעה: {{compHour | date :"hh.mm"}}</h4>
         </div>
-
-
 </div>
 <button class="btn btn-primary" ng-click="close()">סגור חלון</button>
 

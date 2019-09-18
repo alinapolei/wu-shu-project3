@@ -9,34 +9,34 @@
             <form class="openComp-form validate-form" name="openCompetitionForm" ng-submit="submit(openCompetitionForm.$valid)" novalidate>
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : openCompetitionForm.description.$invalid && (openCompetitionForm.description.$touched || isClicked)}"
-                     data-validate="{{openCompetitionForm.description.$error.required ? 'הכנס תיאור.' : ''}}">
+                     data-validate="{{openCompetitionForm.description.$error.required ? 'הכנס תיאור.' : openCompetitionForm.$error.pattern ? 'הכנס תיאור בשפה העברית' : ''}}">
                     <input class="input100" type="text" name="description" ng-model="description" placeholder="תיאור"
-                          ng-required="true" required>
+                          ng-required="true" ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
                 <div class="timedateDiv">
                     <div class="wrap-input100 validate-input control-group input-append radioDiv"
                          ng-class="{'alert-validate' : openCompetitionForm.date.$invalid && (openCompetitionForm.date.$touched || isClicked)}"
-                         data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
+                         data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.min ? 'הוסן תאריך עבר' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך האירוע</label>
-                            <input class="input100" type="date" name="date" ng-model="date" placeholder="תאריך האירוע" ng-min="currentDate" required>
+                            <input class="input100" type="date" name="date" ng-model="date" ng-change="regCloseDate=date; regCloseTime=date;" placeholder="תאריך האירוע" ng-min="currentDate" required>
                             <span class="focus-input100" data-placeholder="&#xf332;"></span>
                         </div>
                     </div>
                     <div class="wrap-input100 validate-input control-group input-append"
                          ng-class="{'alert-validate' : openCompetitionForm.time.$invalid && (openCompetitionForm.time.$touched || isClicked)}"
-                         data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : openCompetitionForm.time.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                         data-validate="{{openCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת האירוע</label>
-                            <input class="input100" id= 'temp' type="time" name="time" ng-model="time" placeholder="שעת האירוע" ng-min="currentTime" required>
+                            <input class="input100" id= 'temp' type="time" name="time" ng-model="time" placeholder="שעת האירוע" required>
                         </div>
                     </div>
                 </div>
                 <div class="timedateDiv">
                     <div class="wrap-input100 validate-input control-group input-append radioDiv"
                          ng-class="{'alert-validate' : openCompetitionForm.regCloseDate.$invalid && (openCompetitionForm.regCloseDate.$touched || isClicked)}"
-                         data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
+                         data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.min ? 'הוזן תאריך עבר' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">תאריך סגירת הרישום</label>
                             <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת הרישום" ng-min="currentDate" required>
@@ -45,33 +45,33 @@
                     </div>
                     <div class="wrap-input100 validate-input control-group input-append"
                          ng-class="{'alert-validate' : openCompetitionForm.regCloseTime.$invalid && (openCompetitionForm.regCloseTime.$touched || isClicked)}"
-                         data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת הרישום' : openCompetitionForm.regCloseTime.$error.max ? 'שעה לא תקינה' : ''}}" show-spinners="false">
+                         data-validate="{{openCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת הרישום' : ''}}" show-spinners="false">
                         <div>
                             <label class="label">שעת סגירת הרישום</label>
-                            <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" ng-min="currentTime" required>
+                            <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" required>
                         </div>
                     </div>
                 </div>
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : openCompetitionForm.location.$invalid && (openCompetitionForm.location.$touched || isClicked)}"
-                     data-validate="הכנס מיקום התחרות">
-                    <input class="input100" type="text" name="location" ng-model="location" placeholder="כתובת" required>
+                     data-validate="{{openCompetitionForm.location.$error.required ? 'הכנס כתובת.' : openCompetitionForm.$error.pattern ? 'הכנס כתובת בשפה העברית' : ''}}">
+                    <input class="input100" type="text" name="location" ng-model="location" placeholder="כתובת" required ng-pattern="/^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$/">
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
                 <div class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : openCompetitionForm.city.$invalid && (openCompetitionForm.city.$touched || isClicked)}"
-                     data-validate="הכנס עיר">
-                    <input class="input100" type="text" name="city" ng-model="city" placeholder="עיר" required>
+                     data-validate="{{openCompetitionForm.city.$error.required ? 'הכנס עיר' : openCompetitionForm.$error.pattern ? 'הכנס עיר בשפה העברית' : ''}}">
+                    <input class="input100" type="text" name="city" ng-model="city" placeholder="עיר" required ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
-                <div class="wrap-input100 validate-input radioDiv" id="sportStyleID"
+                <div class="wrap-input100 validate-input radioDiv" id="branchID"
                      ng-class="{'alert-validate' : openCompetitionForm.sportStyle.$invalid && (openCompetitionForm.sportStyle.$touched || isClicked)}"
                      data-validate="בחר ענף">
                     <label class="label">בחר ענף</label>
-                    <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="טאולו"><label
-                        class="radio_label"> טאולו </label></input>
-                    <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="סנדא"><label
-                        class="radio_label"> סנדא </label></input>
+                    <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="טאולו">
+                        <label class="radio_label"> טאולו </label>
+                    <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="סנדא">
+                        <label class="radio_label"> סנדא </label>
                     <span class="focus-input100" data-placeholder="&#xf187;"></span>
                 </div>
 

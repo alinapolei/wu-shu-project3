@@ -12,8 +12,8 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
             $scope.competitionNumber= "תחרות מספר "+result.data[0].idCompetition;
             $scope.competitionType="ענף: " +result.data[0].sportStyle;
             $scope.location="מיקום: " + result.data[0].location +","+result.data[0].city;
-            $scope.compDate="תאריך: " + result.data[0].date;
-            $scope.compHour="שעה: " + result.data[0].startHour;
+            $scope.compDate = result.data[0].date;
+            $scope.compHour = result.data[0].startHour;
 
             var mymap = L.map('mapid')
             mymap.setView(new L.LatLng(-85,50), 15 );

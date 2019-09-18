@@ -41,7 +41,7 @@
     text-align: center;
     vertical-align: middle;
 }
-.tableUser td:last-child {
+.tdLast, .tableUser td:last-child {
     font-size: 0.95em;
     line-height: 1.4;
     text-align: center;
@@ -134,6 +134,9 @@ ul.pagination li.disabled{
 }
 ul.pagination li.numberBtn{
     width: 40px;
+}
+ul.pagination > li > a{
+    display: contents;
 }
 
 

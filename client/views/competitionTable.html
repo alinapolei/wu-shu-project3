@@ -4,6 +4,20 @@
 <body class="bodyTable">
 
 <div class="center">
+    <div>
+        <input class="searchInput" type="text" placeholder="חפש לפי מיקום..." ng-model="searchText">
+        <button ng-click="setPage(1)">
+            <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div>
+        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyles" ng-change="setPage(1)">
+            <option value="">כל הענפים</option>
+        </select>
+        <select class="searchInput" ng-show="isShowStatus" name="status" ng-model="selectedStatus" ng-options="x.name for x in compStatus" ng-change="setPage(1)">
+            <option value="">כל הסטטוסים</option>
+        </select>
+    </div>
 </div>
 
 <div class="table-users" style="width: 1000px">
@@ -14,8 +28,8 @@
             <th>ענף ספורט</th>
             <th>תאריך התחרות</th>
             <th>תאריך סגירת הרישום</th>
-            <th>סטאטוס</th>
-            <th></th>
+            <th ng-show="isShowStatus">סטאטוס</th>
+            <th><i class="fa fa-eye" aria-hidden="true"></i></th>
             <th></th>
         </tr>
         <tr ng-repeat="competition in competitions">
@@ -23,18 +37,18 @@
             <td>{{competition.sportStyle}}</td>
             <td>{{competition.date | date: "dd.MM.yyyy" }}</td>
             <td>{{competition.closeRegDate |date : "dd.MM.yyyy"}}</td>
-            <td>{{competition.status}}</td>
-            <td>
+            <td ng-show="isShowStatus">{{competition.status}}</td>
+            <td class="tdLast">
                 <button class="linkdark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
-            <td>
-                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום ספורטאים</button>
-                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות התחרות</button>
+            <td class="tdLast">
+                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
+                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות</button>
             </td>
         </tr>
     </table>
 </div>
-<div class="center">
+<div class="center" ng-show="pager.totalPages>1">
     <!-- pager -->
     <ul ng-if="pager.pages.length" class="pagination">
         <li ng-class="{'disabled':pager.currentPage === 1}">

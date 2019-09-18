@@ -97,7 +97,7 @@
                 <div id="sportclubs" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.sportclub.$invalid && (registerForm.sportclub.$touched || isClicked)}"
                      data-validate="בחר מועדון ספורט">
-                    <select name="sportclub" ng-model="sportclub" required ng-options="x.name for x in clubs">
+                    <select name="sportclub" ng-model="sportclub" required ng-options="x.name for x in clubs" ng-change="filterCoach()">
                         <option value="" disabled="disabled">בחר מועדון ספורט</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf20c"></span>
@@ -105,7 +105,7 @@
                 <div ng-show="!coachReggister" id="coachChoose" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
                      data-validate="בחר מאמן">
-                    <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname for x in coaches">
+                    <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname + ' ' + x.sportclub + ' ' for x in coaches | filter : 1" ng-change="filterClub()">
                         <option value="" disabled="disabled"> בחר מאמן</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf205"></span>
@@ -117,9 +117,6 @@
                            ng-required="coachReggister">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
-
-
-
 
                 <input type="submit" name="signup_submit" ng-click="isClicked=true" value="הירשם"/>
             </form>
