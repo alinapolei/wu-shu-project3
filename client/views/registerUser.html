@@ -75,12 +75,12 @@
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
                 <div class="wrap-input100 validate-input radioDiv" id="sexUser" ng-show="!coachReggister"
-                     ng-class="{'alert-validate' : registerForm.sex.$invalid && (registerForm.sex.$touched || isClicked)}"
+                     ng-class="{'alert-validate' : registerForm.selectedSex.$invalid && (registerForm.selectedSex.$touched || isClicked)}"
                      data-validate="בחר מין">
                     <label>בחר מין</label>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="זכר"><label
+                    <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex && !coachReggister" value="זכר"><label
                         class="radio_label"> זכר </label></input>
-                    <input type="radio" name="sex" ng-model="sex" ng-required="!sex && !coachReggister" value="נקבה"><label
+                    <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex && !coachReggister" value="נקבה"><label
                         class="radio_label"> נקבה </label></input>
                     <span class="focus-input100" data-placeholder="&#xf211;"></span>
                 </div>
@@ -105,7 +105,7 @@
                 <div ng-show="!coachReggister" id="coachChoose" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
                      data-validate="בחר מאמן">
-                    <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname + ' ' + x.sportclub + ' ' for x in coaches | filter : 1" ng-change="filterClub()">
+                    <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname + ' ' for x in coaches" ng-change="filterClub()">
                         <option value="" disabled="disabled"> בחר מאמן</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf205"></span>

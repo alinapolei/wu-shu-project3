@@ -120,7 +120,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
                     address: $scope.address,
                     sportclub: $scope.sportclub.id,
-                    sex: $scope.sex,
+                    sex: $scope.selectedSex,
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
                 };
