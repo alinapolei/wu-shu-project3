@@ -1,7 +1,6 @@
 app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http, sportsmanService, pagingService,competitionService) {
     $scope.pager = {};
     setPage(1);
-
     $scope.close=function () {
         $uibModalInstance.close()
     };
