@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http, sportsmanService, pagingService,competitionService) {
+app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http, sportsmanService, pagingService,getId,competitionService) {
     $scope.selectedUsers = [];
     $scope.pager = {};
     setPage(1);
@@ -18,7 +18,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, getId))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
