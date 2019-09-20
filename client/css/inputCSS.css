@@ -1,6 +1,6 @@
-.uploadBtn{
-    margin-top: 10px;
-    text-align: center;
+.changePassInput{
+    width: 300px;
+    margin-right: 100px;
 }
 
 input[type="submit"]{
