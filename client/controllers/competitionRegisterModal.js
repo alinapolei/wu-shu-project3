@@ -26,4 +26,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
                 console.log(error)
             });
     }
+
+
+
 });

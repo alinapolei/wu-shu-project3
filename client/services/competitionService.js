@@ -74,7 +74,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         $uibModal.open({
             templateUrl: "views/regSportsmanCompetition.html",
             controller: "competitionRegisterModal as cRegCtrl",
-            backdrop  : 'static',
+            backdrop  : 'none',
             keyboard  : false,
             resolve: {
                 getId: function () {
