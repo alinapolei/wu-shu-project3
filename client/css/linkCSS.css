@@ -10,9 +10,6 @@
     font-weight: bold;
     text-decoration: underline;
 }
-.linkLight:visited {
-    color: purple;
-}
 
 .linkDark{
     line-height: 1.5;

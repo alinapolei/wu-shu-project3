@@ -33,7 +33,7 @@ select:focus, select:active {
     left: 0;
     box-sizing: border-box;
     padding: 40px;
-    width: 350px;
+    /*width: 350px;*/
     height: 400px;
 }
 
@@ -115,7 +115,7 @@ input[type="submit"]:active{
     right: 0;
     box-sizing: border-box;
     padding: 40px;
-    width: 350px;
+    /*width: 350px;*/
     height: 400px;
     /*background: url('https://goo.gl/YbktSj');*/
     background-size: cover;
