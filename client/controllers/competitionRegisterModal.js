@@ -20,7 +20,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
-                $scope.pager = pagingService.GetPager(totalCount, page, 20);
+                $scope.pager = pagingService.GetPager(totalCount, page);
                 $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
             }, function (error) {
                 console.log(error)
