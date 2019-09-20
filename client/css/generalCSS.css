@@ -40,8 +40,6 @@
     direction: ltr;
     /* overflow-y: scroll; */
     /* height: 400px; */
-    /* border: black; */
-    /* border-width: 2px; */
-    border-style: solid;
-    width: 200px;
+    /*border-style: solid;*/
+    /*width: 200px;*/
 }

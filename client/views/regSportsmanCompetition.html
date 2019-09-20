@@ -2,39 +2,43 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
 <div class="modal-body" style="height: 550px">
     <div class="right">
-        <div>
-            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" style="width: 200px;">
+        <div style="margin-top: 20px">
+            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" style="width: auto;">
             <button ng-click="setPage(1)">
                 <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
             </button>
         </div>
-        <div class="scrollablePanel">
-            <div ng-repeat="user in users" style="display: block;text-align: right">
-                <input type="checkbox" checklist-model="" checklist-value="user.id"> {{user.firstname}}
-                {{user.lastname}}
+        <form>
+            <div class="scrollablePanel">
+                <div ng-repeat="user in users" style="display: block;text-align: right">
+                    <input type="checkbox" ng-checked="{{selectedUsers.includes(user.id)}}" ng-click="select(user.id)">
+                    {{user.firstname}} {{user.lastname}}
+                </div>
             </div>
-        </div>
-        <div class="center" ng-show="pager.totalPages>1">
-            <!-- pager -->
-            <ul ng-if="pager.pages.length" class="pagination">
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(1)">ראשון</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
-                </li>
-                <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
-                    ng-click="setPage(page)">
-                    {{page}}
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.totalPages)">אחרון</a>
-                </li>
-            </ul>
-        </div>
+            <div class="center" ng-show="pager.totalPages>1">
+                <!-- pager -->
+                <ul ng-if="pager.pages.length" class="pagination">
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(1)">ראשון</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
+                    </li>
+                    <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
+                        ng-click="setPage(page)">
+                        {{page}}
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.totalPages)">אחרון</a>
+                    </li>
+                </ul>
+            </div>
+
+            <input type="submit" ng-show="selectedUsers.length>0" ng-click="isClicked=true" value="רשום {{selectedUsers.length}} ספורטאיים"/>
+        </form>
     </div>
 
     <div class="left">
@@ -45,7 +49,7 @@
         <div>
 <!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
             <i class="fa fa-arrow-down iColored" style="text-decoration: underline" aria-hidden="true"></i>
-            <a id="downExcelregCompetition" class="linkdark downloadLink"
+            <a id="downExcelregCompetition" class="linkdark iLink"
                href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
         </div>
 
@@ -62,7 +66,7 @@
             <input type="file" id="fileSportsman" ng-model="csvFile"
                    onchange="angular.element(this).scope().ExcelExport(event)"
                    style="display:block;margin-top: 5%"/>
-            <label for="fileSportsman"/> העלאת קובץ</label><br>
+            <label for="fileSportsman"> העלאת קובץ</label><br>
         </div>
 
 
