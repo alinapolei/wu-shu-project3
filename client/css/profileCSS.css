@@ -1,15 +1,9 @@
-.emp-profile{
-    padding: 3%;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff;
-}
+/***IMAGE***/
 .profile-img img{
     width: 200px;
     height: 167px;
 }
-.profile-img .file {
+.profile-img .changeImg {
     position: relative;
     overflow: hidden;
     margin-top: -65px;
@@ -19,37 +13,33 @@
     font-size: 15px;
     background: #212529b8;
 }
-.profile-img .file input {
+.profile-img .changeImg input {
     position: absolute;
     opacity: 0;
     right: 0;
     top: 0;
 }
+
+/***HEADERS***/
 .profile-head h5{
     color: #333;
 }
 .profile-head h6{
     color: #408c99;
 }
-.profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-}
+
+/***RATING***/
 .proile-rating{
-    font-size: 12px;
-    color: #818182;
+    /*color: #818182;*/
     margin: 5px 0px;
 }
 .proile-rating span{
-    color: #495057;
+    /*color: #495057;*/
     font-size: 15px;
     font-weight: 600;
 }
+
+/***TABS***/
 .profile-head .nav-tabs{
     margin-bottom:5%;
     position: absolute;
@@ -66,30 +56,4 @@
 }
 .profile-head .nav-tabs .nav-link:hover:not(.active){
     color: #599bb3;
-}
-.profile-work{
-    padding: 14%;
-    margin-top: -15%;
-}
-.profile-work p{
-    font-size: 12px;
-    color: #818182;
-    font-weight: 600;
-    margin-top: 10%;
-}
-.profile-work a{
-    text-decoration: none;
-    color: #495057;
-    font-weight: 600;
-    font-size: 14px;
-}
-.profile-work ul{
-    list-style: none;
-}
-.col-md-3 label{
-    font-weight: 600;
-}
-.profile-tab p{
-    font-weight: 600;
-    color: #0062cc;
 }

@@ -39,11 +39,11 @@
             <td>{{competition.closeRegDate |date : "dd.MM.yyyy"}}</td>
             <td ng-show="isShowStatus">{{competition.status}}</td>
             <td class="tdLast">
-                <button class="linkdark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
+                <button class="linkDark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
             <td class="tdLast">
-                <button ng-show="competition.status == 'פתוח' " class="linkdark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
-                <button ng-show="competition.status == 'סגור' " class="linkdark" ng-click="">תוצאות</button>
+                <button ng-show="competition.status == 'פתוח' " class="linkDark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
+                <button ng-show="competition.status == 'סגור' " class="linkDark" ng-click="">תוצאות</button>
             </td>
         </tr>
     </table>

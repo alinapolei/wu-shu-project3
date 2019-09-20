@@ -19,7 +19,7 @@
     </div>    -->
 
 
-    <div id="login-box">
+    <div id="box" style="height: 1000px">
         <div class="right">
             <h1 ng-show="!coachReggister">רישום ספורטאי</h1>
             <h1 ng-show="coachReggister">רישום מאמן</h1>
@@ -128,13 +128,13 @@
             </h1>
             </h1>
             <div class="validate-input" ng-show="!coachReggister">
-                <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
-                <a id="downExcelSportsman" class="linkdark downloadLink"
+                <span class="focus-input100 iColored" data-placeholder="&#xf220"></span>
+                <a id="downExcelSportsman" class="linkDark downloadLink"
                 href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
             </div>
             <div class="validate-input" ng-show="coachReggister">
                 <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
-                <a id="downExcelCoach" class="linkdark downloadLink"
+                <a id="downExcelCoach" class="linkDark downloadLink"
                 href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
             </div>
 
@@ -142,9 +142,9 @@
                 <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
             </div>
 
-            <div class="uploadResults">
+            <div class="uploadResultsPanel">
                 <label id="ansExcel" style="display: none;"> </label>
-                <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
+                <a class="linkDark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
             </div>
 
             <div class="uploadBtn">

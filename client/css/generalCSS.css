@@ -1,0 +1,37 @@
+*{
+    direction: rtl;
+}
+*:focus {
+    outline: none;
+}
+
+.error{
+    color: red;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.uploadResultsPanel{
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+/*MODAL*/
+.modal-body{
+    text-align: center;
+    width: auto;
+    overflow-y: auto
+}
+
+#box{
+    position: relative;
+    margin: 0px auto 5%;
+    width: 950px; /*700px;*/
+    height: 100%;
+    padding: 40px;
+    background: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
