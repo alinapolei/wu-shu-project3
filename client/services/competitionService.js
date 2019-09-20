@@ -80,7 +80,8 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
                 getId: function () {
                     return idCompetiton;
                 }
-            }
+            },
+            size: 'lg'
         }).result.catch(function () { });
         //$location.path('/competitionRegistration');
     };
