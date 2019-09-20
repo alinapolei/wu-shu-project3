@@ -4,7 +4,7 @@
         <div class="col-md-4">
             <div class="profile-img">
                 <img ng-src="{{user.photo}}" alt=""/>
-                <div class="file btn btn-lg btn-primary" ng-show="isEditModeOn">
+                <div class="changeImg btn btn-lg btn-primary" ng-show="isEditModeOn">
                     שנה תמונה
                     <input type="file" name="file"/>
                 </div>
@@ -18,7 +18,7 @@
                 <h6>
                     {{whoAmI}}
                 </h6>
-                <p class="proile-rating">דירוג : <span>{{}}</span></p>
+                <p class="proile-rating">דירוג : <span>{{6}}</span></p>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='personalData'" ng-class="{'active' : activeTag==='personalData' || activeTag===undefined}">פרטים אישיים</a>
@@ -39,16 +39,16 @@
     <div class="row">
         <div class="col-md-4">
             <div>
-                <i class="fa fa-pencil ilink" aria-hidden="true"></i>
-                <a class="linkdark link" href="" ng-click="turnOnEditMode()">ערוך פרופיל</a>
+                <i class="fa fa-pencil iColored" aria-hidden="true"></i>
+                <a class="linkDark iLink" href="" ng-click="turnOnEditMode()">ערוך פרופיל</a>
             </div>
             <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
-                <i class="fa fa-chain-broken ilink" aria-hidden="true"></i>
-                <a class="linkdark link" href="">החלפת מאמן</a>
+                <i class="fa fa-chain-broken iColored" aria-hidden="true"></i>
+                <a class="linkDark iLink" href="">החלפת מאמן</a>
             </div>
             <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
-                <i class="fa fa-trash-o ilink" aria-hidden="true"></i>
-                <a class="linkdark link" href="">מחק פרופיל</a>
+                <i class="fa fa-trash-o iColored" aria-hidden="true"></i>
+                <a class="linkDark iLink" href="">מחק פרופיל</a>
             </div>
         </div>
         <div class="col-md-8">
