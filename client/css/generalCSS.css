@@ -92,6 +92,9 @@ h1 {
     display: inline-flex;
 }
 
+input[type=date]{
+    -webkit-appearance: none;
+}
 input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
