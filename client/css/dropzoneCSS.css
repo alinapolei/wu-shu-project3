@@ -44,7 +44,7 @@
     text-align: center;
     background-size: cover ;
     background-image: url("../resources/images/upload1.jpg");
-
+    display: inline-block;
 }
 .dropzoneExcel{
     text-align: center;
