@@ -30,5 +30,34 @@
             </li>
         </ul>
     </div>
+    <div class="left">
+        <h1 class="loginwith">
+            רישום ע"י
+            קובץ אקסל
+        </h1>
+        <div>
+            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
+            <a id="downExcelregCompetition" class="linkdark downloadLink"
+               href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+            <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+        </div>
+
+        <div class="uploadResults">
+            <label id="ansExcel" style="display: none;"> </label>
+            <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
+        </div>
+
+        <div class="uploadBtn">
+            <input type="file" id="fileSportsman" ng-model="csvFile"
+                   onchange="angular.element(this).scope().ExcelExport(event)"
+                   style="display:block;margin-top: 5%"/>
+            <label for="fileSportsman"/> העלאת קובץ</label><br>
+        </div>
+
+
+    </div>
 </div>
 <button class="btn btn-primary" ng-click="close()">סגור חלון</button>
