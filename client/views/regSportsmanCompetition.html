@@ -1,71 +1,73 @@
 <link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
-<div class="modal-body" style="height: 600px;width:auto " >
-    <div class="right">
-        <div>
-            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" style="width: 200px;">
-            <button ng-click="setPage(1)">
-                <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="scrollablePanel">
-            <div ng-repeat="user in users" style="display: block;text-align: right">
-                <input type="checkbox" checklist-model="" checklist-value="user.id"> {{user.firstname}}
-                {{user.lastname}}
+<div class="modal-body " style="height: 600px" >
+    <div class="modal-content">
+        <div class="right">
+            <div>
+                <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" style="width: 200px;">
+                <button ng-click="setPage(1)">
+                    <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="scrollablePanel">
+                <div ng-repeat="user in users" style="display: block;text-align: right">
+                    <input type="checkbox" checklist-model="" checklist-value="user.id"> {{user.firstname}}
+                    {{user.lastname}}
+                </div>
+            </div>
+            <div class="center" ng-show="pager.totalPages>1">
+                <!-- pager -->
+                <ul ng-if="pager.pages.length" class="pagination">
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(1)">ראשון</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
+                    </li>
+                    <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
+                        ng-click="setPage(page)">
+                        {{page}}
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.totalPages)">אחרון</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="center" ng-show="pager.totalPages>1">
-            <!-- pager -->
-            <ul ng-if="pager.pages.length" class="pagination">
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(1)">ראשון</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
-                </li>
-                <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
-                    ng-click="setPage(page)">
-                    {{page}}
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.totalPages)">אחרון</a>
-                </li>
-            </ul>
+
+        <div class="left">
+            <h1 class="loginwith">
+                רישום ע"י
+                קובץ אקסל
+            </h1>
+            <div>
+                <!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
+                <i class="fa fa-arrow-down iColored" style="text-decoration: underline" aria-hidden="true"></i>
+                <a id="downExcelregCompetition" class="linkdark downloadLink"
+                   href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
+            </div>
+
+            <div class="dropzone" id="dropzone">
+                <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+            </div>
+
+            <div class="uploadResults">
+                <label id="ansExcel" style="display: none;"> </label>
+                <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
+            </div>
+
+            <div class="uploadBtn">
+                <input type="file" id="fileSportsman" ng-model="csvFile"
+                       onchange="angular.element(this).scope().ExcelExport(event)"
+                       style="display:block;margin-top: 5%"/>
+                <label for="fileSportsman"/> העלאת קובץ</label><br>
+            </div>
+
+
         </div>
-    </div>
-
-    <div class="left">
-        <h1 class="loginwith">
-            רישום ע"י
-            קובץ אקסל
-        </h1>
-        <div>
-<!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
-            <i class="fa fa-arrow-down iColored" style="text-decoration: underline" aria-hidden="true"></i>
-            <a id="downExcelregCompetition" class="linkdark downloadLink"
-               href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
-        </div>
-
-        <div class="dropzone" id="dropzone">
-            <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
-        </div>
-
-        <div class="uploadResults">
-            <label id="ansExcel" style="display: none;"> </label>
-            <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
-        </div>
-
-        <div class="uploadBtn">
-            <input type="file" id="fileSportsman" ng-model="csvFile"
-                   onchange="angular.element(this).scope().ExcelExport(event)"
-                   style="display:block;margin-top: 5%"/>
-            <label for="fileSportsman"/> העלאת קובץ</label><br>
-        </div>
-
-
     </div>
 </div>
 <button class="btn btn-primary" ng-click="close()">סגור חלון</button>
