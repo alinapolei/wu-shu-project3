@@ -31,7 +31,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
     $scope.select = function (id) {
         if($scope.selectedUsers.includes(id))
-            arrayRemove($scope.selectedUsers, id);
+            $scope.selectedUsers = arrayRemove($scope.selectedUsers, id);
         else
             $scope.selectedUsers.push(id);
     };

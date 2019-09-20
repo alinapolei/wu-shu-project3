@@ -1,0 +1,14 @@
+select {
+    margin-bottom: 1em;
+    padding: 10px 35px;
+    border: 0;
+    border-bottom: 1px solid #e5ffff;
+    letter-spacing: .15em;
+    border-radius: 0;
+    width: 100%;
+    font-size: 16px;
+}
+select:focus, select:active {
+    outline: 0;
+    border-bottom-color: #599bb3;
+}
