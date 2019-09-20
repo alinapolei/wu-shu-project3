@@ -41,4 +41,14 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             return ele != value;
         });
     }
+
+    $scope.register = function () {
+        competitionService.registerSportsmenToCompetition(getId, $scope.selectedUsers)
+            .then(function (result) {
+                $uibModalInstance.close();
+                alert("הרישום בוצע בהצלחה");
+            }, function (error) {
+                console.log(error)
+            });
+    }
 });
