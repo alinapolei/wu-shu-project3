@@ -1,12 +1,12 @@
 app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http,getId, sportsmanService, pagingService,competitionService) {
     $scope.selectedUsers = [];
     $scope.pager = {};
+
     setPage(1);
     var regObj={
         compId: getId,
         sportsmenIds :[]
     }
-
 
     $scope.close=function () {
         $uibModalInstance.close()
@@ -49,10 +49,42 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
     function makeJsonToReg(rowObj) {
         for (let  i =0 ;i<rowObj.length;i++)
-            regObj.sportsmenIds.push(parseInt(rowObj[i].sportmanID))
+            regObj.sportsmenIds.push(parseInt(rowObj[i]["ת.ז ספורטאי"]))
+    }
+
+
+    function setErrorLable(errorLines) {
+        var ansExcel =document.getElementById('ansExcel');
+        ansExcel.style.color="red";
+        ansExcel.style.display = "block"
+        ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
+    }
+
+    function Excelcheck(data) {
+        var errorLines = new String();
+        var ExcelOk = true;
+        for (let i = 0; i < data.length; i++) {
+            if (!competitionService.checkExcel(data[i])) {
+                ExcelOk = false;
+                if (i < data.length - 1)
+                    errorLines = errorLines + (i + 1) + ", ";
+                else
+                    errorLines = errorLines + (i + 1) + " ";
+            }
+        }
+        if (ExcelOk) {
+            console.log("ok")
+            return true;
+        } else {
+            setErrorLable(errorLines)
+            return false;
+        }
     }
 
     $scope.ExcelExport = function (event) {
+        var ansExcel =document.getElementById('ansExcel');
+        ansExcel.style.display='none';
+        regObj.sportsmenIds=[]
         var input = event.target;
         var reader = new FileReader();
         reader.onload = function () {
@@ -64,14 +96,20 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             })
             //work with RowOBJ
             makeJsonToReg(rowObj);
-            competitionService.regSportsmanCompetition(regObj)
-                .then(function (result) {
-                $uibModalInstance.close();
-                alert("הרישום בוצע בהצלחה");
-                }, function (error) {
-                    console.log(error)
-                });
+            if(Excelcheck(regObj.sportsmenIds)) {
+                competitionService.regSportsmanCompetition(regObj)
+                    .then(function (result) {
+                        $uibModalInstance.close();
+                        alert("הרישום בוצע בהצלחה");
+                    }, function (error) {
+                        console.log(error)
+                    });
+            }
+            else
+                alert("error")
         };
+
+
         reader.readAsBinaryString(input.files[0]);
     };
 

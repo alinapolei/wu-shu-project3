@@ -2,6 +2,12 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     /*****http requests*****/
     serverUrl = "http://localhost:3000";
 
+
+    this.checkExcel=function (data) {
+        if (isNaN(parseInt(data))||data.toString().length!=9)
+            return false;
+        return true;
+    }
     this.regSportsmanCompetition = function (data) {
         var req = {
             method: 'POST',
