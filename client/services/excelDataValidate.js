@@ -10,8 +10,6 @@ app.service('validateSportsmanData', function() {
                                     if(cheackPhone(data.phone))
                                         if (cheackSportclub(data.sportclub))
                                             if(cheackAddress(data.address))
-        //if(!moment(data.birthdate, 'MM/DD/YYYY',true).isValid())
-            //console.log(data.birthdate)
                                                 return true;
 
 

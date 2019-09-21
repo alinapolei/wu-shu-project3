@@ -1,7 +1,12 @@
-app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http, sportsmanService, pagingService,getId,competitionService) {
+app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http,getId, sportsmanService, pagingService,competitionService) {
     $scope.selectedUsers = [];
     $scope.pager = {};
     setPage(1);
+    var regObj={
+        compId: getId,
+        sportsmenIds :[]
+    }
+
 
     $scope.close=function () {
         $uibModalInstance.close()
@@ -41,6 +46,36 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             return ele != value;
         });
     }
+
+    function makeJsonToReg(rowObj) {
+        for (let  i =0 ;i<rowObj.length;i++)
+            regObj.sportsmenIds.push(parseInt(rowObj[i].sportmanID))
+    }
+
+    $scope.ExcelExport = function (event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var fileData = reader.result;
+            var wb = XLSX.read(fileData, {type: 'binary'});
+            wb.SheetNames.forEach(async function (sheetName) {
+                rowObj = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
+
+            })
+            //work with RowOBJ
+            makeJsonToReg(rowObj);
+            competitionService.regSportsmanCompetition(regObj)
+                .then(function (result) {
+                $uibModalInstance.close();
+                alert("הרישום בוצע בהצלחה");
+                }, function (error) {
+                    console.log(error)
+                });
+        };
+        reader.readAsBinaryString(input.files[0]);
+    };
+
+
 
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition(getId, $scope.selectedUsers)
