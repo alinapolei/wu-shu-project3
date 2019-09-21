@@ -12,7 +12,7 @@
             <div class="scrollablePanel">
                 <div ng-repeat="user in users" style="display: block;text-align: right">
                     <input type="checkbox" ng-checked="{{selectedUsers.includes(user.id)}}" ng-click="select(user.id)">
-                    {{user.firstname}} {{user.lastname}}
+                    {{user.id}} {{user.firstname}} {{user.lastname}}
                 </div>
             </div>
             <div class="center" ng-show="pager.totalPages>1">
