@@ -68,6 +68,20 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.registerSportsmenToCompetition = function (compId, sportsmenIds) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/competitionSportsmen',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                compId: compId,
+                sportsmenIds: sportsmenIds
+            }
+        };
+        return $http(req);
+    }
 
     /*****common functions for gui*****/
     this.watchCompDetails = function (idCompetiton) {

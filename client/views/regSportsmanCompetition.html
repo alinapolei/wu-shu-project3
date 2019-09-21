@@ -8,7 +8,7 @@
                 <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
             </button>
         </div>
-        <form>
+        <form ng-submit="register()">
             <div class="scrollablePanel">
                 <div ng-repeat="user in users" style="display: block;text-align: right">
                     <input type="checkbox" ng-checked="{{selectedUsers.includes(user.id)}}" ng-click="select(user.id)">
@@ -37,7 +37,7 @@
                 </ul>
             </div>
 
-            <input type="submit" ng-show="selectedUsers.length>0" ng-click="isClicked=true" value="רשום {{selectedUsers.length}} ספורטאיים"/>
+            <input type="submit" ng-show="selectedUsers.length>0" value="רשום {{selectedUsers.length}} ספורטאיים"/>
         </form>
     </div>
 

@@ -10,6 +10,23 @@ function getSportsmen(req, res){
         queryCount = `Select count(*) as count from user_Sportsman join sportsman_category
             on user_Sportsman.id = sportsman_category.id`;
     }
+    else if(req.query.competition !== undefined){
+        query = `Select user_Sportsman.id, firstname, lastname, photo
+                    from user_Sportsman
+                except
+                Select user_Sportsman.id, firstname, lastname, photo
+                    from user_Sportsman
+                    left join competition_sportsman
+                    on user_Sportsman.id = competition_sportsman.idSportsman`;
+        queryCount = `Select count(*) as count from
+                (Select user_Sportsman.id, firstname, lastname, photo
+                    from user_Sportsman
+                except
+                Select user_Sportsman.id, firstname, lastname, photo
+                    from user_Sportsman
+                    left join competition_sportsman
+                    on user_Sportsman.id = competition_sportsman.idSportsman`;
+    }
     else {
         query = 'Select id, firstname, lastname, photo from user_Sportsman';
         queryCount = 'Select count(*) as count from user_Sportsman';
@@ -17,6 +34,9 @@ function getSportsmen(req, res){
     query += conditions;
     queryCount +=conditions;
     query += common_sportsman_module._buildOrderBy_forGetSportsmen(req);
+    if(req.query.competition !== undefined){
+        queryCount += ") as t";
+    }
     console.log(query);
 
     Promise.all([DButilsAzure.execQuery(query), DButilsAzure.execQuery(queryCount)])

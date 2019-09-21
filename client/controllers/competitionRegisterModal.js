@@ -23,7 +23,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, getId))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
@@ -70,4 +70,14 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
     };
 
 
+
+    $scope.register = function () {
+        competitionService.registerSportsmenToCompetition(getId, $scope.selectedUsers)
+            .then(function (result) {
+                $uibModalInstance.close();
+                alert("הרישום בוצע בהצלחה");
+            }, function (error) {
+                console.log(error)
+            });
+    }
 });

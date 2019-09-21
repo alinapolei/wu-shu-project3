@@ -23,7 +23,7 @@ app.service('sportsmanService', function($window, $http) {
     };
 
 
-    this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc){
+    this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId){
         var conditions = [];
 
         if(searchText !== null && searchText !== undefined) {
@@ -40,6 +40,9 @@ app.service('sportsmanService', function($window, $http) {
         }
         if(isToDesc === false){
             conditions.push('sort=desc')
+        }
+        if(compId !== null && compId !== undefined){
+            conditions.push('competition=' + compId);
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';
