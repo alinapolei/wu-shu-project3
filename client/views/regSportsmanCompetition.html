@@ -2,10 +2,13 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
 <div class="modal-body" style="height: 550px">
     <div class="right">
-        <div style="margin-top: 20px">
-            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" style="width: auto;">
-            <button ng-click="setPage(1)">
+        <div ng-init="searchClicked=false" style="margin-top: 20px">
+            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" ng-change="searchClicked=false" style="width: auto;">
+            <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
                 <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+            </button>
+            <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
+                <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
             </button>
         </div>
         <form ng-submit="register()">
