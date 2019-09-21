@@ -18,7 +18,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, getId))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, getId, '!%3D'))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
