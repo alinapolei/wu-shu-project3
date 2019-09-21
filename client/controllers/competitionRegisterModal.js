@@ -64,7 +64,13 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             })
             //work with RowOBJ
             makeJsonToReg(rowObj);
-            competitionService.regSportsmanCompetition(regObj);
+            competitionService.regSportsmanCompetition(regObj)
+                .then(function (result) {
+                $uibModalInstance.close();
+                alert("הרישום בוצע בהצלחה");
+                }, function (error) {
+                    console.log(error)
+                });
         };
         reader.readAsBinaryString(input.files[0]);
     };
