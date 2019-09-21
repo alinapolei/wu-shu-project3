@@ -1,6 +1,19 @@
 app.service('competitionService', function ($window, $http, $uibModal, $location) {
     /*****http requests*****/
     serverUrl = "http://localhost:3000";
+
+    this.regSportsmanCompetition = function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/competitionSportsmen',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    };
+
     this.insertCompetition = function (data) {
         var req = {
             method: 'POST',
@@ -100,4 +113,6 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
 
         return conditions.length ? '?' + conditions.join('&') : '';
     }
+
+
 });
