@@ -1,0 +1,56 @@
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+.container-login100 {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.container-login100::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255,0.6);
+}
+.wrap-login100 {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    top: 90px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 55px 55px 37px 55px;
+
+    /*background: #9152f8;*/
+    background: -webkit-linear-gradient(top, #e8f5e9, #DBDBDB, #EAEAEA);
+    background: -o-linear-gradient(top, #e8f5e9, #DBDBDB,#EAEAEA);
+    background: -moz-linear-gradient(top, #e8f5e9, #DBDBDB, #EAEAEA);
+    background: linear-gradient(top, #e8f5e9, #DBDBDB, #EAEAEA);
+    opacity: 0.8;
+}
+@media (max-width: 576px) {
+    .wrap-login100 {
+        padding: 55px 15px 37px 15px;
+    }
+}
