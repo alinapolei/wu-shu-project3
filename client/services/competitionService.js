@@ -90,6 +90,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     }
 
     /*****common functions for gui*****/
+
     this.watchCompDetails = function (idCompetiton) {
         $uibModal.open({
             templateUrl: "views/competitonDetails.html",
