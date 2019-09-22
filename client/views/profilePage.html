@@ -48,7 +48,7 @@
             </div>
             <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
                 <i class="fa fa-trash-o iColored" aria-hidden="true"></i>
-                <a class="linkDark iLink" href="">מחק פרופיל</a>
+                <a class="linkDark iLink" href="" ng-click="delProfile(user.id)">מחק פרופיל</a>
             </div>
         </div>
         <div class="col-md-8">

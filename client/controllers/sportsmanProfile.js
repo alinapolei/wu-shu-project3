@@ -12,4 +12,8 @@ app.controller("sportsmanProfileController", function ($scope, $http, $window, $
         }, function (error) {
             console.log(error)
         });
+
+    $scope.delProfile = function(id){
+        console.log(id)
+    };
 });
