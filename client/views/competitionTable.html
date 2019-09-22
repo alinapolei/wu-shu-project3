@@ -1,13 +1,13 @@
-<head>
-    <link rel="stylesheet" type="text/css" href="./css/userTableCSS.css">
-</head>
 <body class="bodyTable">
 
 <div class="center">
-    <div>
-        <input class="searchInput" type="text" placeholder="חפש לפי מיקום..." ng-model="searchText">
-        <button ng-click="setPage(1)">
+    <div ng-init="searchClicked=false">
+        <input class="searchInput" type="text" placeholder="חפש לפי מיקום..." ng-model="searchText" ng-change="searchClicked=false">
+        <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
             <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+        </button>
+        <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
+            <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
         </button>
     </div>
     <div>

@@ -91,7 +91,7 @@ table tr:nth-child(2n+1) {
     /*border-color: #327a81;*/
 }
 select.searchInput{
-    width: 170px;
+    width: 180px;
     margin-left: 10px;
 }
 select.searchInput:focus{
@@ -105,6 +105,8 @@ select.searchInput:focus{
     padding: 10px;
     /* border-top-left-radius: 20px; */
     /* border-bottom-left-radius: 20px; */
+    width: 37px;
+    /*height: 38px;*/
     border-radius: 20px;
     position: relative;
     border: 1px solid #575756;

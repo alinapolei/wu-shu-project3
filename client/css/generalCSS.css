@@ -1,5 +1,9 @@
 *{
     direction: rtl;
+    font-family: Arial;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 *:focus {
     outline: none;
@@ -9,11 +13,37 @@ body {
     padding: 0;
     background: #DDD;
 }
+h1,h2,h3,h4,h5,h6 {
+    margin: 0px;
+}
 h1 {
     margin: 0 0 20px 0;
     font-weight: 300;
     font-size: 28px;
+    text-align: center;
 }
+p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+}
+label {
+    margin: 0;
+    display: block;
+    font-size: 16px
+}
+button {
+    outline: none !important;
+    border: none;
+    background: transparent;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+
 
 .error{
     color: red;
@@ -92,10 +122,37 @@ h1 {
     display: inline-flex;
 }
 
-input[type=date]{
-    -webkit-appearance: none;
+
+a {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
 }
-input[type=date]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    display: none;
+a:focus {
+    outline: none !important;
+    text-decoration: none;
 }
+a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+.radio_label{
+    display: initial;
+}
+
+/***FORM***/
+form {
+    width: 100%;
+    direction: rtl;
+    font-size: 16px;
+}
+.openComp-form {
+    width: 390px;
+    margin: auto;
+}
+
