@@ -1,9 +1,11 @@
-app.controller("registerToCompetitionController", function($scope, $window, $http,competitionService,pagingService) {
+app.controller("registerToCompetitionController", function($scope, $window, $http,competitionService, isRegState,pagingService) {
     serverUrl = "http://localhost:3000";
     $scope.headerTable = "תחרויות פתוחות להרשמה";
     $scope.isShowStatus = false;
     $scope.pager = {};
     setPage(1);
+    $scope.isRegState = isRegState;
+    console.log(isRegState);
 
     $scope.watchCompDetails = competitionService.watchCompDetails;
     $scope.regSportsman = competitionService.regSportsman;

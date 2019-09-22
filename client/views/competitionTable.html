@@ -41,9 +41,12 @@
             <td class="tdLast">
                 <button class="linkDark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
-            <td class="tdLast">
+            <td class="tdLast" ng-show="!isRegState">
                 <button ng-show="competition.status == 'פתוח' " class="linkDark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
                 <button ng-show="competition.status == 'סגור' " class="linkDark" ng-click="">תוצאות</button>
+            </td>
+            <td class="tdLast" ng-show="isRegState">
+                <button class="linkDark" ng-click="">מצב הרישום</button>
             </td>
         </tr>
     </table>
