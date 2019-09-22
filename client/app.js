@@ -106,21 +106,7 @@ app.config(function($routeProvider) {
         })
         .when('/competitions/registerToCompetition', {
             templateUrl: 'views/competitionTable.html',
-            controller: 'registerToCompetitionController as regCompCtrl',
-            resolve: {
-                isRegState: function () {
-                    return false;
-                }
-            }
-        })
-        .when('/competitions/competitionRegisterState', {
-            templateUrl: 'views/competitionTable.html',
-            controller: 'registerToCompetitionController as regCompCtrl',
-            resolve: {
-                isRegState: function () {
-                    return true;
-                }
-            }
+            controller: 'registerToCompetitionController as regCompCtrl'
         })
         .when('/competitions/addResults', {
             templateUrl: 'views/home.html',

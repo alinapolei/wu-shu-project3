@@ -31,6 +31,7 @@
             <th ng-show="isShowStatus">סטאטוס</th>
             <th><i class="fa fa-eye" aria-hidden="true"></i></th>
             <th></th>
+            <th></th>
         </tr>
         <tr ng-repeat="competition in competitions">
             <td>{{competition.idCompetition}}</td>
@@ -41,12 +42,12 @@
             <td class="tdLast">
                 <button class="linkDark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
-            <td class="tdLast" ng-show="!isRegState">
+            <td class="tdLast" >
                 <button ng-show="competition.status == 'פתוח' " class="linkDark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
                 <button ng-show="competition.status == 'סגור' " class="linkDark" ng-click="">תוצאות</button>
             </td>
-            <td class="tdLast" ng-show="isRegState">
-                <button class="linkDark" ng-click="">מצב הרישום</button>
+            <td class="tdLast" >
+                <button ng-show="competition.status == 'פתוח'" class="linkDark" ng-click="">מצב הרישום</button>
             </td>
         </tr>
     </table>
