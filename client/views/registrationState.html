@@ -3,13 +3,17 @@
 
     <form class="login100-form validate-form" name="registrationState" ng-submit="submit(registrationState.$valid)" novalidate>
         <div ng-repeat="user in users track by $index" class="row">
-            <label class="labelName">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
+            <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
             <div class="validate-input"
                  ng-class="{'alert-validate' : registrationState.category.$invalid && (registrationState.category.$touched || isClicked)}"
                  data-validate="בחר קטגוריה">
-                <select name="category" ng-model="category" required ng-options="x.name for x in categories"">
+                <select name="category" ng-model="category" required ng-options="x.name for x in categories">
                     <option value="" disabled="disabled">בחר קטגוריה</option>
                 </select>
+            </div>
+            <label class="labelForInput100">קטגוריות אחרונות:</label>
+            <div ng-repeat="category in categories">
+                <a class="linkDark">category.name</a>
             </div>
         </div>
 
