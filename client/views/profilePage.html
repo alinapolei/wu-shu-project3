@@ -54,18 +54,21 @@
         <div class="col-md-8">
             <div class="tab-content profile-tab" id="myTabContent">
                 <div class="tab-pane fade" ng-class="{'show' : activeTag==='personalData' || activeTag===undefined , 'active' : activeTag==='personalData' || activeTag===undefined}" id="personalData" role="tabpanel" aria-labelledby="compData">
+                <form name="updateProfile" class="login100-form validate-form" ng-submit="submit(updateProfile.$valid)" novalidate>
                     <div class="row">
                         <div class="col-md-3">
                             <label>תעודת זהות</label>
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.id}}</label>
-                            <span class="wrap-input100 validate-input" ng-show="isEditModeOn">
-<!--                                 ng-class="{'alert-validate' : registerForm.id.$invalid && (registerForm.id.$touched || isClicked)}"-->
-                                                            <!--                                 data-validate="{{registerForm.id.$error.required ? 'הכנס ת.ז.' : (registerForm.id.$error.minlength || registerForm.id.$error.maxlength || registerForm.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">-->
-                                <br>
-                                <input class="input100" type="text" name="id" ng-model="user.id" ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
-                            </span>
+
+                            <div ng-show="isEditModeOn"   class="wrap-input100 validate-input"
+                                 ng-class="{'alert-validate' : updateProfile.id.$invalid && (updateProfile.id.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.id.$error.required ? 'הכנס ת.ז.' : (updateProfile.id.$error.minlength || updateProfile.id.$error.maxlength || updateProfile.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
+                                <input class="input100" type="text" name="id" ng-model="user.id" placeholder="ת.ז"
+                                       ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -149,6 +152,10 @@
                             <label ng-show="!isEditModeOn">{{user.cfirstname}} {{user.clastname}}</label>
                         </div>
                     </div>
+                    <div>
+                        <input ng-show="isEditModeOn" type="submit" name="updateProfileBtn" ng-click="isClicked=true" value="עדכן פרופיל"/>
+                    </div>
+                </form>
                 </div>
                 <div class="tab-pane fade" ng-class="{'show' : activeTag==='attachments' , 'active' : activeTag==='attachments'}" id="attachments" role="tabpanel" aria-labelledby="attachments">
                     <div class="row">
