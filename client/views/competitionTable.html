@@ -47,7 +47,7 @@
                 <button ng-show="competition.status == 'סגור' " class="linkDark" ng-click="">תוצאות</button>
             </td>
             <td class="tdLast" >
-                <button ng-show="competition.status == 'פתוח'" class="linkDark" ng-click="">מצב הרישום</button>
+                <button ng-show="competition.status == 'פתוח'" class="linkDark" ng-click="registrationState(competition.idCompetition)">מצב הרישום</button>
             </td>
         </tr>
     </table>
