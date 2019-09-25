@@ -1,10 +1,33 @@
-app.controller("sportsmanProfileController", function ($scope, $http, $window, $location, $rootScope, $routeParams, sportsmanService,userService) {
+app.controller("sportsmanProfileController", function ($scope, $http, $filter,$window, $location, $rootScope, $routeParams, sportsmanService,userService) {
 
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
     $scope.turnOnEditMode = function () {
         $scope.isEditModeOn = true;
     };
+    $scope.turnOffEditMode = function () {
+        $scope.isEditModeOn = false;
+    };
+
+    $scope.submit = function(isValid) {
+        if(isValid) {
+            let data = {
+                id: $scope.user.id,
+                firstname: $scope.user.sfirstname,
+                lastname: $scope.user.slastname,
+                phone: $scope.user.phone,
+                email: $scope.user.email,
+                birthdate: $filter('date')($scope.user.birthdate, "dd/MM/yyyy"),
+                address: $scope.user.address,
+                sex: $scope.user.sex,
+            }
+            sportsmanService.updateProfile(data)
+                .then(function (result) {
+                    alert("משתמש עודכן בהצלחה")
+                    $location.path("/users/sportsmen");
+                },function (error) {console.log(error)})
+        }
+    }
 
     sportsmanService.getSportsmanProfile({id: $routeParams.id})
         .then(function (result) {

@@ -11,6 +11,19 @@ app.service('sportsmanService', function($window, $http) {
         };
         return $http(req);
     };
+
+    this.updateProfile =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/updateSportsmanProfile',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data : data
+        };
+        return $http(req);
+    }
+
     this.getSportsmen = function(conditions){
         var req = {
             method: 'POST',
