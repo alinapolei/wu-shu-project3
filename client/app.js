@@ -120,6 +120,10 @@ app.config(function($routeProvider) {
             templateUrl: 'views/competitionTable.html',
             controller: 'competitionTableController as cTCtrl'
         })
+        .when('/competitions/RegistrationState/:idComp', {
+            templateUrl: 'views/registrationState.html',
+            controller: 'registrationStateController as regStateCtrl'
+        })
         .when('/events/addEvent', {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'

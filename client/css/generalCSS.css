@@ -156,3 +156,9 @@ form {
     margin: auto;
 }
 
+/***LABEL***/
+.labelName{
+    padding: 10px 35px;
+    width: 250px;
+}
+
