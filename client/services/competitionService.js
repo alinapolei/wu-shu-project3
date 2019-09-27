@@ -87,7 +87,20 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             }
         };
         return $http(req);
-    }
+    };
+    this.getRegistrationState = function(compId){
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/getRegistrationState',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                compId : compId
+            }
+        };
+        return $http(req);
+    };
 
     /*****common functions for gui*****/
 
