@@ -1,5 +1,5 @@
 <div id="box">
-    <form method="post">
+    <form name="updateProfile" class="login100-form validate-form" ng-submit="submit(updateProfile.$valid)" novalidate>
     <div class="row">
         <div class="col-md-4">
             <div class="profile-img">
@@ -13,7 +13,7 @@
         <div class="col-md-6">
             <div class="profile-head">
                 <h5>
-                    {{user.sfirstname}} {{user.slastname}}
+                    {{::user.sfirstname}} {{::user.slastname}}
                 </h5>
                 <h6>
                     {{whoAmI}}
@@ -40,7 +40,8 @@
         <div class="col-md-4">
             <div>
                 <i class="fa fa-pencil iColored" aria-hidden="true"></i>
-                <a class="linkDark iLink" href="" ng-click="turnOnEditMode()">ערוך פרופיל</a>
+                <a class="linkDark iLink" href="" ng-show="!isEditModeOn" ng-click="turnOnEditMode()">ערוך פרופיל</a>
+                <a class="linkDark iLink" href="" ng-show="isEditModeOn" ng-click="turnOffEditMode()">ביטול עריכת פרופיל</a>
             </div>
             <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
                 <i class="fa fa-chain-broken iColored" aria-hidden="true"></i>
@@ -54,21 +55,18 @@
         <div class="col-md-8">
             <div class="tab-content profile-tab" id="myTabContent">
                 <div class="tab-pane fade" ng-class="{'show' : activeTag==='personalData' || activeTag===undefined , 'active' : activeTag==='personalData' || activeTag===undefined}" id="personalData" role="tabpanel" aria-labelledby="compData">
-                <form name="updateProfile" class="login100-form validate-form" ng-submit="submit(updateProfile.$valid)" novalidate>
                     <div class="row">
                         <div class="col-md-3">
                             <label>תעודת זהות</label>
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.id}}</label>
-
-                            <div ng-show="isEditModeOn"   class="wrap-input100 validate-input"
+                            <div ng-show="isEditModeOn"   class="update-input"
                                  ng-class="{'alert-validate' : updateProfile.id.$invalid && (updateProfile.id.$touched || isClicked)}"
                                  data-validate="{{updateProfile.id.$error.required ? 'הכנס ת.ז.' : (updateProfile.id.$error.minlength || updateProfile.id.$error.maxlength || updateProfile.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
-                                <input class="input100" type="text" name="id" ng-model="user.id" placeholder="ת.ז"
+                                <input class="update-input100" type="text" name="id" ng-model="user.id" placeholder="ת.ז"
                                        ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
                             </div>
-                            
                         </div>
                     </div>
                     <div class="row">
@@ -77,6 +75,12 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.sfirstname}}</label>
+                            <div ng-show="isEditModeOn" class="update-input"
+                                 ng-class="{'alert-validate' : updateProfile.firstname.$invalid && (updateProfile.firstname.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.firstname.$error.required ? 'הכנס שם פרטי' : updateProfile.firstname.$error.pattern ? 'שם פרטי לא תקין' : ''}}">
+                                <input class="update-input100" type="text" name="firstname" ng-model="user.sfirstname" placeholder="שם פרטי"
+                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -85,6 +89,12 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.slastname}}</label>
+                            <div ng-show="isEditModeOn" class="update-input"
+                                 ng-class="{'alert-validate' : updateProfile.lastname.$invalid && (updateProfile.lastname.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.lastname.$error.required ? 'הכנס שם משפחה' : updateProfile.lastname.$error.pattern ? 'שם משפחה לא תקין' : ''}}">
+                                <input class="update-input100" type="text" name="lastname" ng-model="user.slastname" placeholder="שם משפחה"
+                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -93,6 +103,15 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.sex}}</label>
+                            <div ng-show="isEditModeOn" class="update-input radioDiv" id="sexUser"
+                                 ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
+                                 data-validate="בחר מין">
+                                <label>בחר מין</label>
+                                <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" value="זכר" ng-checked="(user.sex == 'זכר')"><label
+                                    class="radio_label"> זכר </label></input>
+                                <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" value="נקבה" ng-checked="(user.sex == 'נקבה')"><label
+                                    class="radio_label"> נקבה </label></input>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -101,6 +120,11 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.birthdate | date : 'dd/MM/yyyy'}}</label>
+                            <div ng-show="isEditModeOn" class="update-input control-group input-append"
+                                 ng-class="{'alert-validate' : updateProfile.date.$invalid && (updateProfile.date.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.date.$error.required ? 'הכנס תאריך לידה' : updateProfile.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
+                                <input class="update-input100" value="2000-01-01" type="date" name="date" ng-model="birthdate" placeholder="תאריך לידה" ng-max="currentDate" required>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -109,6 +133,12 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.address}} {{user.city}}</label>
+                            <div ng-show="isEditModeOn" class="update-input"
+                                 ng-class="{'alert-validate' : updateProfile.address.$invalid && (updateProfile.address.$touched || isClicked)}"
+                                 data-validate="הכנס כתובת">
+                                <input class="update-input100" type="text" name="address" ng-model="user.address" placeholder="כתובת מגורים"
+                                       required>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -117,6 +147,12 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.phone}}</label>
+                            <div ng-show="isEditModeOn" class="update-input"
+                                 ng-class="{'alert-validate' : updateProfile.phone.$invalid && (updateProfile.phone.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.phone.$error.required ? 'הכנס פלאפון' : (updateProfile.phone.$error.minlength || updateProfile.phone.$error.maxlength || updateProfile.phone.$error.pattern ? 'פלאפון לא תקין' : '')}}">
+                                <input class="update-input100" type="text" name="phone" ng-model="user.phone" placeholder="פאלפון"
+                                       required ng-minlength="10" ng-maxlength="10" ng-pattern="/^(\d)+$/">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -125,6 +161,12 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.email}}</label>
+                            <div ng-show="isEditModeOn" class="update-input"
+                                 ng-class="{'alert-validate' : updateProfile.email.$invalid && (updateProfile.email.$touched || isClicked)}"
+                                 data-validate="{{updateProfile.email.$error.required ? 'הכנס אימייל' : updateProfile.email.$error.pattern ? 'אימייל לא תקין' : ''}}">
+                                <input class="update-input100" type="email" name="email" ng-model="user.email" placeholder="איימיל"
+                                       required ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)+$/">
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -152,10 +194,7 @@
                             <label ng-show="!isEditModeOn">{{user.cfirstname}} {{user.clastname}}</label>
                         </div>
                     </div>
-                    <div>
-                        <input ng-show="isEditModeOn" type="submit" name="updateProfileBtn" ng-click="isClicked=true" value="עדכן פרופיל"/>
-                    </div>
-                </form>
+
                 </div>
                 <div class="tab-pane fade" ng-class="{'show' : activeTag==='attachments' , 'active' : activeTag==='attachments'}" id="attachments" role="tabpanel" aria-labelledby="attachments">
                     <div class="row">
@@ -196,5 +235,7 @@
             </div>
         </div>
     </div>
-</form>
+        <input ng-show="isEditModeOn" type="submit" name="updateProfileBtn" ng-click="isClicked=true"  value="עדכן פרופיל"/>
+
+    </form>
 </div>
