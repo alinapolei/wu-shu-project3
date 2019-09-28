@@ -5,21 +5,21 @@
         <div class="col-md-9">
             <div ng-repeat="user in users track by $index" class="row">
                 <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
-                <div ng-class="{'alert-validate' : registrationState.category.$invalid && (registrationState.category.$touched || isClicked)}"
+                <div ng-show="access==userTypes.MANAGER"
                      data-validate="בחר קטגוריה">
                     <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">
                         <option value="" disabled="disabled">בחר קטגוריה</option>
                     </select>
                 </div>
             </div>
-            <input type="submit" ng-click="isClicked=true" value="שמור"/>
+            <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3" ng-show="access==userTypes.MANAGER">
             <div>
                 <label>סטטוס הרישום: {{status}}</label>
                 <i class="fa fa-times iColored" aria-hidden="true"></i>
-                <a class="linkDark" href="" ng-click="closeRegistration">סגור רישום</a>
+                <a class="linkDark" href="" ng-click="closeRegistration()">סגור רישום</a>
             </div>
             <div>
                 <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>

@@ -56,6 +56,17 @@ app.controller("registrationStateController", function($scope, $window, $http, $
         }
         user.selectedCategory.count++;
     }
+
+    $scope.closeRegistration = function() {
+        competitionService.closeRegistration($routeParams.idComp)
+            .then(function (result) {
+                alert("הרישום נסגר בהצלחה");
+                $location.path('/competitions/registerToCompetition');
+            }, function (error) {
+                console.log(error);
+            })
+    }
+
 });
 
 app.filter('categoryFilter', function() {

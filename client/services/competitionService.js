@@ -41,16 +41,6 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.getOpenCompetitons = function (conditions) {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/getCompetitions'+conditions,
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            }
-        };
-        return $http(req);
-    };
 
     this.editCompetitionDetails =function (id) {
         $uibModal.open({
@@ -129,6 +119,19 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.closeRegistration = function (idComp) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/closeRegistration',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                idComp : idComp
+            }
+        };
+        return $http(req);
+    };
 
     /*****common functions for gui*****/
 
@@ -163,7 +166,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.registrationState = function (idCompetition, statusCompetition) {
         $location.path('/competitions/RegistrationState/' + idCompetition+'/'+statusCompetition);
     };
-    this.buildConditions = function buildConditions(location, sportStyle, status){
+    this.buildConditions = function buildConditions(location, sportStyle, statusArr){
         var conditions = [];
 
         if(location !== null && location !== undefined) {
@@ -172,8 +175,10 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         if(sportStyle !== null && sportStyle !== undefined){
             conditions.push('sportStyle=' + sportStyle.name);
         }
-        if(status != null && status !== undefined){
-            conditions.push('status=' + status.name);
+        if(statusArr !== null && statusArr !== undefined){
+            let statusCond = [];
+            statusArr.forEach(status => {statusCond.push(status.name);});
+            conditions.push('status=' + statusCond.join(','));
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';
