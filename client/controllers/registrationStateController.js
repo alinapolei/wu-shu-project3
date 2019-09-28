@@ -1,19 +1,15 @@
-app.controller("registrationStateController", function($scope, $window, $http, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $window, $http, $location, sportsmanService, competitionService, $routeParams) {
+    $scope.categoryForSportsman = [];
     getDisplayData();
 
-    function getDisplayData(){
-        sportsmanService.getCategories()
-            .then(function (result) {
-                $scope.categories = result.data;
-                $scope.categories.map((obj) => {
-                    obj.count = 0;
-                    return obj;
-                })
-            }, function (error) {
-                console.log(error)
-            });
+    async function getDisplayData(){
+        let result = await sportsmanService.getCategories();
+        $scope.categories = result.data;
+        $scope.categories.map((obj) => {
+            obj.count = 0;
+            return obj;
+        });
 
-        //sportsmanService.getSportsmen(sportsmanService.buildConditionds("", null, null, null, null, $routeParams.idComp, '%3D%3D'))
         competitionService.getRegistrationState($routeParams.idComp)
             .then(function (result) {
                 $scope.users = result.data;
@@ -30,6 +26,34 @@ app.controller("registrationStateController", function($scope, $window, $http, s
             }, function (error) {
                 console.log(error)
             });
+    }
+
+    $scope.submit = function () {
+        competitionService.setCategoryRegistration($routeParams.idComp, $scope.categoryForSportsman)
+            .then(function(result){
+                alert("השינויים נשמרו בהצלחה");
+                $location.path('/competitions/registerToCompetition');
+            }, function (error) {
+                console.log(error);
+            })
+    };
+
+    $scope.addChange = function (user, oldCategoryId) {
+        let categorySportsman = $scope.categoryForSportsman.find(item => {return item.sportsmanId == user.id});
+        if(oldCategoryId != '')
+            $scope.categories.find(item => {return item.id == oldCategoryId}).count--;
+        if(categorySportsman){
+            categorySportsman.categoryId = user.selectedCategory.id;
+        }
+        else {
+            $scope.categoryForSportsman.push(
+                {
+                    sportsmanId: user.id,
+                    categoryId: user.selectedCategory.id
+                }
+            );
+        }
+        user.selectedCategory.count++;
     }
 });
 
