@@ -100,7 +100,11 @@ app.controller("registrationStateController", function($scope, $window, $http, $
             }
         });
 
-        alasql('SELECT category as [קטגוריה], id as [תעודת זהות], firstname as [שם פרטי], lastname as [שם משפחה] INTO XLSX("' + fileName + '",{headers:true}) FROM ?', [excelJson]);
+        var mystyle = {
+            headers:true,
+            column: {style:{Font:{Bold:"1"}}}
+        };
+        alasql('SELECT category as [קטגוריה], id as [תעודת זהות], firstname as [שם פרטי], lastname as [שם משפחה] INTO XLSX("' + fileName + '.xlsx",?) FROM ?', [mystyle, excelJson]);
     }
     function getExcelObj(category, id, firstname, lastname) {
         return {
