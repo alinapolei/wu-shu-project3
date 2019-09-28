@@ -160,9 +160,9 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         }).result.catch(function () { });
         //$location.path('/competitionRegistration');
     };
-    this.registrationState = function (idCompetition) {
-        $location.path('/competitions/RegistrationState/' + idCompetition);
-    } ;
+    this.registrationState = function (idCompetition, statusCompetition) {
+        $location.path('/competitions/RegistrationState/' + idCompetition+'/'+statusCompetition);
+    };
     this.buildConditions = function buildConditions(location, sportStyle, status){
         var conditions = [];
 

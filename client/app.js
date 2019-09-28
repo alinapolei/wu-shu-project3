@@ -120,7 +120,7 @@ app.config(function($routeProvider) {
             templateUrl: 'views/competitionTable.html',
             controller: 'competitionTableController as cTCtrl'
         })
-        .when('/competitions/RegistrationState/:idComp', {
+        .when('/competitions/RegistrationState/:idComp/:statusComp', {
             templateUrl: 'views/registrationState.html',
             controller: 'registrationStateController as regStateCtrl'
         })

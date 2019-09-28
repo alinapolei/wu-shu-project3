@@ -1,5 +1,6 @@
 app.controller("registrationStateController", function($scope, $window, $http, $location, sportsmanService, competitionService, $routeParams) {
     $scope.categoryForSportsman = [];
+    $scope.status = $routeParams.statusComp;
     getDisplayData();
 
     async function getDisplayData(){
