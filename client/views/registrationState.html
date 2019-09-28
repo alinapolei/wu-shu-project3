@@ -2,8 +2,13 @@
     <h1>מצב הרישום</h1>
 
     <form class="login100-form validate-form" name="registrationState" ng-submit="submit()" novalidate>
-        <div>
-            <a class="linkDark" href="" ng-click="addCategoeyModal" style="position: fixed;margin-right: 750px;">הוסף קטגוריה חדשה</a>
+        <div style="margin-right: 750px;">
+            <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>
+            <a class="linkDark" href="" ng-click="export">ייצא לאקסל</a>
+        </div>
+        <div style="position: fixed;margin-right: 750px;">
+            <i class="fa fa-plus-square-o iColored" aria-hidden="true"></i>
+            <a class="linkDark" href="" ng-click="addCategoeyModal">הוסף קטגוריה חדשה</a>
         </div>
         <br>
         <div ng-repeat="user in users track by $index" class="row">
