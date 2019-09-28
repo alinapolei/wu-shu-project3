@@ -51,6 +51,20 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+
+    this.editCompetitionDetails =function (id) {
+        $uibModal.open({
+            templateUrl: "views/editCompetitionDetails.html",
+            controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
+            backdrop  : true,
+            keyboard: false,
+            resolve: {
+                getId: function () {
+                    return id;
+                }
+            }
+        }).result.catch(function () { });
+    }
     this.getCompetitionDetails = function (id) {
         var req = {
             method: 'POST',

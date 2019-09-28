@@ -1,0 +1,111 @@
+<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
+
+<div class="modal-body">
+   <h3> עריכת פרטי תחרות</h3>
+   <div>
+      <form class="editCompetition validate-form" name="editCompetitionForm" ng-submit="submit(editCompetitionForm.$valid)" novalidate>
+        <table>
+           <tr>
+              <td>
+                 <div class="wrap-input100 validate-input"
+                      ng-class="{'alert-validate' : editCompetitionForm.description.$invalid && (editCompetitionForm.description.$touched || isClicked)}"
+                      data-validate="{{editCompetitionForm.description.$error.required ? 'הכנס תיאור.' : editCompetitionForm.$error.pattern ? 'הכנס תיאור בשפה העברית' : ''}}">
+                    <input disabled="true" class="input100" type="text" name="description" ng-model="description" placeholder="תיאור"
+                           ng-required="true" ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                 </div>
+              </td>
+              <td>
+                 <a href="">ערוך</a>
+              </td>
+           </tr>
+           <tr>
+              <td>
+                 <div class="wrap-input100 validate-input"
+                      ng-class="{'alert-validate' : editCompetitionForm.location.$invalid && (editCompetitionForm.location.$touched || isClicked)}"
+                      data-validate="{{editCompetitionForm.location.$error.required ? 'הכנס כתובת.' : editCompetitionForm.$error.pattern ? 'הכנס כתובת בשפה העברית' : ''}}">
+                    <input disabled="true" class="input100" type="text" name="location" ng-model="location" placeholder="כתובת" required ng-pattern="/^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$/">
+                 </div>
+              </td>
+              <td>
+                 <a href="">ערוך</a>
+              </td>
+           </tr>
+           <tr>
+              <td>
+                 <div class="wrap-input100 validate-input"
+                      ng-class="{'alert-validate' : editCompetitionForm.city.$invalid && (editCompetitionForm.city.$touched || isClicked)}"
+                      data-validate="{{editCompetitionForm.city.$error.required ? 'הכנס עיר' : editCompetitionForm.$error.pattern ? 'הכנס עיר בשפה העברית' : ''}}">
+                    <input disabled="true" class="input100" type="text" name="city" ng-model="city" placeholder="עיר" required ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                 </div>
+              </td>
+              <td>
+                 <a href="">ערוך</a>
+              </td>
+           </tr>
+            <tr>
+            <td >
+               <div class="wrap-input100 validate-input radioDiv" id="branchID"
+                    ng-class="{'alert-validate' : editCompetitionForm.sportStyle.$invalid && (editCompetitionForm.sportStyle.$touched || isClicked)}"
+                    data-validate="בחר ענף">
+                  <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="טאולו">
+                  <label class="radio_label"> טאולו </label>
+                  <input type="radio" name="sportStyle" ng-model="sportStyle" ng-required="!sportStyle" value="סנדא">
+                  <label class="radio_label"> סנדא </label>
+               </div>
+            </td>
+            <td>
+               <td>
+                  <a href="">ערוך</a>
+               </td>
+            </td>
+            </tr>
+
+
+        </table>
+
+
+      <!--
+         <div class="timedateDiv">
+            <div class="wrap-input100 validate-input control-group input-append radioDiv"
+                 ng-class="{'alert-validate' : editCompetitionForm.date.$invalid && (editCompetitionForm.date.$touched || isClicked)}"
+                 data-validate="{{editCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : editCompetitionForm.date.$error.min ? 'הוסן תאריך עבר' : ''}}" show-spinners="false">
+               <div>
+                  <label class="label">תאריך האירוע</label>
+                  <input class="input100" type="date" name="date" ng-model="date" ng-change="regCloseDate=date; regCloseTime=date;" placeholder="תאריך האירוע" ng-min="currentDate" required>
+               </div>
+            </div>
+            <div class="wrap-input100 validate-input control-group input-append"
+                 ng-class="{'alert-validate' : editCompetitionForm.time.$invalid && (editCompetitionForm.time.$touched || isClicked)}"
+                 data-validate="{{editCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : ''}}" show-spinners="false">
+               <div>
+                  <label class="label">שעת האירוע</label>
+                  <input class="input100" id= 'temp' type="time" name="time" ng-model="time" placeholder="שעת האירוע" required>
+               </div>
+            </div>
+         </div>
+         <div class="timedateDiv">
+            <div class="wrap-input100 validate-input control-group input-append radioDiv"
+                 ng-class="{'alert-validate' : editCompetitionForm.regCloseDate.$invalid && (editCompetitionForm.regCloseDate.$touched || isClicked)}"
+                 data-validate="{{editCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : editCompetitionForm.regCloseDate.$error.min ? 'הוזן תאריך עבר' : ''}}" show-spinners="false">
+               <div>
+                  <label class="label">תאריך סגירת הרישום</label>
+                  <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate" placeholder="תאריך סגירת הרישום" ng-min="currentDate" required>
+               </div>
+            </div>
+            <div class="wrap-input100 validate-input control-group input-append"
+                 ng-class="{'alert-validate' : editCompetitionForm.regCloseTime.$invalid && (editCompetitionForm.regCloseTime.$touched || isClicked)}"
+                 data-validate="{{editCompetitionForm.regCloseTime.$error.required ? 'הכנס שעת סגירת הרישום' : ''}}" show-spinners="false">
+               <div>
+                  <label class="label">שעת סגירת הרישום</label>
+                  <input class="input100" type="time" name="regCloseTime" ng-model="regCloseTime" placeholder="שעת סגירת הרישום" required>
+               </div>
+            </div>
+         </div>
+
+        -->
+         <input type="submit" name="updateDetails" ng-click="isClicked=true" value="עדכן"/>
+      </form>
+      <input type="button" class="btnSubmit" name="cancelUpdate" ng-click="closeModal()" value="ביטול"/>
+   </div>
+</div>

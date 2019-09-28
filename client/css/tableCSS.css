@@ -39,11 +39,11 @@ table {
 }
 
 
-table td, table th {
+.tableTd, .tableTh {
     color: #2b686e;
     padding: 10px;
 }
-table td {
+.tableTd {
     text-align: center;
     vertical-align: middle;
 }
@@ -52,15 +52,15 @@ table td {
     line-height: 1.4;
     text-align: center;
 }
-table th {
+.tableTh {
     background-color: #daeff1;
     font-weight: 300;
     text-align: center;
 }
-table tr:nth-child(2n) {
+.tableTr:nth-child(2n) {
     background-color: white;
 }
-table tr:nth-child(2n+1) {
+.tableTr:nth-child(2n+1) {
     background-color: #edf7f8;
 }
 
