@@ -2,6 +2,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter,$w
 
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
+    $scope.currentDate = new Date();
     $scope.turnOnEditMode = function () {
         $scope.isEditModeOn = true;
     };
@@ -32,6 +33,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter,$w
     sportsmanService.getSportsmanProfile({id: $routeParams.id})
         .then(function (result) {
             $scope.user = result.data;
+            $scope.user.birthdate = new Date($scope.user.birthdate);
         }, function (error) {
             console.log(error)
         });

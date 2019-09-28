@@ -8,6 +8,7 @@ app.controller("registerToCompetitionController", function($scope, $window, $htt
     $scope.watchCompDetails = competitionService.watchCompDetails;
     $scope.regSportsman = competitionService.regSportsman;
     $scope.registrationState = competitionService.registrationState;
+    $scope.editCompetitionDetails= competitionService.editCompetitionDetails;
 
     $scope.setPage = function(page){
         setPage(page);
