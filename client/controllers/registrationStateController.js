@@ -1,6 +1,6 @@
-app.controller("registrationStateController", function($scope, $window, $http, $location, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, sportsmanService, competitionService, $routeParams) {
     $scope.categoryForSportsman = [];
-    $scope.status = $routeParams.statusComp;
+    $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
 
     async function getDisplayData(){
@@ -11,7 +11,7 @@ app.controller("registrationStateController", function($scope, $window, $http, $
             return obj;
         });
 
-        competitionService.getRegistrationState($routeParams.idComp)
+        competitionService.getRegistrationState($scope.currentCompetition.idCompetition)
             .then(function (result) {
                 $scope.users = result.data;
                 $scope.users.map((obj) => {
@@ -30,9 +30,12 @@ app.controller("registrationStateController", function($scope, $window, $http, $
     }
 
     $scope.submit = function () {
-        competitionService.setCategoryRegistration($routeParams.idComp, $scope.categoryForSportsman)
+        competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
             .then(function(result){
-                alert("השינויים נשמרו בהצלחה");
+                var res = confirm("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?")
+                if (res == true) {
+                    exportExcel();
+                }
                 $location.path('/competitions/registerToCompetition');
             }, function (error) {
                 console.log(error);
@@ -58,13 +61,54 @@ app.controller("registrationStateController", function($scope, $window, $http, $
     }
 
     $scope.closeRegistration = function() {
-        competitionService.closeRegistration($routeParams.idComp)
-            .then(function (result) {
-                alert("הרישום נסגר בהצלחה");
-                $location.path('/competitions/registerToCompetition');
-            }, function (error) {
-                console.log(error);
-            })
+        var res= confirm("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?")
+        if(res==true) {
+            competitionService.closeRegistration($scope.currentCompetition.idCompetition)
+                .then(function (result) {
+                    alert("הרישום נסגר בהצלחה");
+                    $location.path('/competitions/registerToCompetition');
+                }, function (error) {
+                    console.log(error);
+                })
+        }
+    }
+    $scope.exportRegistrationState = function () {
+        if($scope.categoryForSportsman.length > 0) {
+            var res = confirm("שים לב השינויים לא נשמרו.\nהאם להמשיך את הייצוא?")
+            if (res == false)
+                return;
+        }
+        exportExcel();
+    };
+    function exportExcel() {
+        let fileName = "רישום לתחרות " + $filter('date')($scope.currentCompetition.date, "dd/MM/yyyy");
+        let excelJson = [];
+        let sortedUsers = $scope.users.slice();
+        sortedUsers.sort(
+            function(obj1, obj2){
+                let x = obj1.selectedCategory ? obj1.selectedCategory.id : Number.POSITIVE_INFINITY;
+                let y = obj2.selectedCategory ? obj2.selectedCategory.id : Number.POSITIVE_INFINITY;
+                return x-y;
+            });
+        let usedCategories = new Set(sortedUsers.map(user => user.selectedCategory ? user.selectedCategory.name : ''));
+        let i=0;
+        usedCategories.forEach(category => {
+            excelJson.push(getExcelObj(category != '' ? category : 'ללא קטגוריה', '', '', ''));
+            while(i<sortedUsers.length && category === (sortedUsers[i].selectedCategory ? sortedUsers[i].selectedCategory.name : '')){
+                excelJson.push(getExcelObj('', sortedUsers[i].id, sortedUsers[i].firstname, sortedUsers[i].lastname));
+                i++;
+            }
+        });
+
+        alasql('SELECT category as [קטגוריה], id as [תעודת זהות], firstname as [שם פרטי], lastname as [שם משפחה] INTO XLSX("' + fileName + '",{headers:true}) FROM ?', [excelJson]);
+    }
+    function getExcelObj(category, id, firstname, lastname) {
+        return {
+            category: category,
+            id: id,
+            firstname: firstname,
+            lastname: lastname
+        }
     }
 
 });
