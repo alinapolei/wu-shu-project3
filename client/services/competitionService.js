@@ -101,7 +101,34 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             }
         };
         return $http(req);
-    }
+    };
+    this.getRegistrationState = function(compId){
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/getRegistrationState',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                compId : compId
+            }
+        };
+        return $http(req);
+    };
+    this.setCategoryRegistration = function (compId, categoryForSportsman) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/setCategoryRegistration',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                compId : compId,
+                categoryForSportsman : categoryForSportsman
+            }
+        };
+        return $http(req);
+    };
 
     /*****common functions for gui*****/
 

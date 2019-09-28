@@ -34,6 +34,16 @@ app.service('sportsmanService', function($window, $http) {
         };
         return $http(req);
     };
+    this.getCategories = function(){
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/getCategories',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            }
+        };
+        return $http(req);
+    };
 
 
     this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId, compOperator){
