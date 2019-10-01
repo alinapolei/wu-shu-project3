@@ -68,6 +68,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
             backdrop  : true,
             keyboard: false,
+            size:'lg',
             resolve: {
                 getId: function () {
                     return id;
@@ -88,6 +89,17 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.updateCompetitionDetails =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/updateCompetitionDetails',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    }
     this.getSportsman = function () {
         var req = {
             method: 'POST',
