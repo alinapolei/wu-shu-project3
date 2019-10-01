@@ -2,7 +2,7 @@
 <!--      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>-->
 <div id="box" style="height: 650px; width: 1100px;">
     <div class="right">
-        <div ng-init="searchClicked=false" style="margin-top: 20px">
+        <div ng-init="searchClicked=false">
             <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
                    ng-change="searchClicked=false" style="width: auto;">
             <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
@@ -13,17 +13,22 @@
             </button>
         </div>
         <div class="flexCenteredDiv">
-            <div class="itemListPanel">
-                <table class="tableUser" cellspacing="0">
-                    <tr>
-                        <th class="thInItemList">ת.ז.</th>
-                        <th class="thInItemList">שם מלא</th>
-                    </tr >
-                    <tr class="itemInItemList" ng-repeat="user in notRegisteredUsers" ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}" ng-click="selectNotRegistered(user)">
-                        <td class="tdInItemList">{{user.id}}</td>
-                        <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
-                    </tr >
-                </table>
+            <div>
+                <label>בחירת ספורטאיים:</label>
+                <div class="itemListPanel">
+                    <table class="tableUser" cellspacing="0">
+                        <tr>
+                            <th class="thInItemList">ת.ז.</th>
+                            <th class="thInItemList">שם מלא</th>
+                        </tr>
+                        <tr class="itemInItemList" ng-repeat="user in notRegisteredUsers"
+                            ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}"
+                            ng-click="selectNotRegistered(user)">
+                            <td class="tdInItemList">{{user.id}}</td>
+                            <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="arrowDiv">
                 <button ng-click="unRegisterSelected()" style="display: block;">
@@ -35,17 +40,21 @@
                        aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="itemListPanel">
-                <table class="tableUser" cellspacing="0">
-                    <tr>
-                        <th class="thInItemList">ת.ז.</th>
-                        <th class="thInItemList">שם מלא</th>
-                    </tr >
-                    <tr class="itemInItemList" ng-class="{'active' : selectedRegisteredUsers.includes(user)}" ng-repeat="user in registeredUsers" ng-click="selectRegistered(user)">
-                        <td class="tdInItemList">{{user.id}}</td>
-                        <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
-                    </tr >
-                </table>
+            <div>
+                <label>ספורטאיים להרשמה:</label>
+                <div class="itemListPanel">
+                    <table class="tableUser" cellspacing="0">
+                        <tr>
+                            <th class="thInItemList">ת.ז.</th>
+                            <th class="thInItemList">שם מלא</th>
+                        </tr>
+                        <tr class="itemInItemList" ng-class="{'active' : selectedRegisteredUsers.includes(user)}"
+                            ng-repeat="user in registeredUsers" ng-click="selectRegistered(user)">
+                            <td class="tdInItemList">{{user.id}}</td>
+                            <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <div style="margin-top: 2px;"><!--ng-show="pager.totalPages>1"-->
@@ -70,7 +79,8 @@
             </ul>
         </div>
         <div class="center">
-            <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}" ng-click="register()"
+            <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
+                   ng-click="register()"
                    ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
                    value="שמור שינויים"/>
         </div>
