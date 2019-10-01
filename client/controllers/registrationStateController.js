@@ -80,6 +80,12 @@ app.controller("registrationStateController", function($scope, $window, $http, $
         }
         exportExcel();
     };
+
+
+    $scope.addCategoeyModal =function () {
+        competitionService.addNewCategory()
+    }
+
     function exportExcel() {
         let fileName = "רישום לתחרות " + $filter('date')($scope.currentCompetition.date, "dd/MM/yyyy");
         let excelJson = [];

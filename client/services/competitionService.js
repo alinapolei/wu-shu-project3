@@ -20,6 +20,18 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         return $http(req);
     };
 
+    this.addCategroyDB =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/addNewCategory',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    };
+
     this.insertCompetition = function (data) {
         var req = {
             method: 'POST',
@@ -42,12 +54,21 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         return $http(req);
     };
 
+    this.addNewCategory =function () {
+        $uibModal.open({
+            templateUrl: "views/addNewCategoryModal.html",
+            controller: "addCategoryModalController as aCMCCtrl",
+            backdrop  : true,
+            keyboard: false,
+        }).result.catch(function () { });
+    }
     this.editCompetitionDetails =function (id) {
         $uibModal.open({
             templateUrl: "views/editCompetitionDetails.html",
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
             backdrop  : true,
             keyboard: false,
+            size:'lg',
             resolve: {
                 getId: function () {
                     return id;
@@ -68,6 +89,17 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.updateCompetitionDetails =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/updateCompetitionDetails',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    }
     this.getSportsman = function () {
         var req = {
             method: 'POST',
