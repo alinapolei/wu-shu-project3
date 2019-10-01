@@ -1,22 +1,35 @@
 <div id="box">
     <h1>מצב הרישום</h1>
 
-    <form class="login100-form validate-form" name="registrationState" ng-submit="submit()" novalidate>
-        <div>
-            <a class="linkDark" href="" ng-click="addCategoeyModal" style="position: fixed;margin-right: 750px;">הוסף קטגוריה חדשה</a>
-        </div>
-        <br>
-        <div ng-repeat="user in users track by $index" class="row">
-            <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
-            <div ng-class="{'alert-validate' : registrationState.category.$invalid && (registrationState.category.$touched || isClicked)}"
-                 data-validate="בחר קטגוריה">
-                <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">
-                    <option value="" disabled="disabled">בחר קטגוריה</option>
-                </select>
+    <form class="login100-form row" name="registrationState" ng-submit="submit()" novalidate>
+        <div class="col-md-9">
+            <div ng-repeat="user in users track by $index" class="row">
+                <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
+                <div ng-show="access==userTypes.MANAGER"
+                     data-validate="בחר קטגוריה">
+                    <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">
+                        <option value="" disabled="disabled">בחר קטגוריה</option>
+                    </select>
+                </div>
             </div>
+            <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
         </div>
 
-        <input type="submit" ng-click="isClicked=true" value="שמור"/>
+        <div class="col-md-3" ng-show="access==userTypes.MANAGER">
+            <div>
+                <label>סטטוס הרישום: {{currentCompetition.status}}</label>
+                <i class="fa fa-times iColored" aria-hidden="true"></i>
+                <a class="linkDark" href="" ng-click="closeRegistration()">סגור רישום</a>
+            </div>
+            <div>
+                <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>
+                <a class="linkDark" href="" ng-click="exportRegistrationState()">ייצא לאקסל</a>
+            </div>
+            <div style="position: fixed;">
+                <i class="fa fa-plus-square-o iColored" aria-hidden="true"></i>
+                <a class="linkDark" href="" ng-click="addCategoeyModal">הוסף קטגוריה חדשה</a>
+            </div>
+        </div>
     </form>
 
 </div>

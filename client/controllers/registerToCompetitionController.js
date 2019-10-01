@@ -1,4 +1,4 @@
-app.controller("registerToCompetitionController", function($scope, $window, $http,competitionService,pagingService) {
+app.controller("registerToCompetitionController", function($scope, $rootScope, $window, $http,competitionService,pagingService) {
     serverUrl = "http://localhost:3000";
     $scope.headerTable = "תחרויות פתוחות להרשמה";
     $scope.isShowStatus = false;
@@ -8,6 +8,7 @@ app.controller("registerToCompetitionController", function($scope, $window, $htt
     $scope.watchCompDetails = competitionService.watchCompDetails;
     $scope.regSportsman = competitionService.regSportsman;
     $scope.registrationState = competitionService.registrationState;
+    $scope.editCompetitionDetails= competitionService.editCompetitionDetails;
 
     $scope.setPage = function(page){
         setPage(page);
@@ -20,7 +21,7 @@ app.controller("registerToCompetitionController", function($scope, $window, $htt
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        competitionService.getOpenCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.compStatus[0]))
+        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[$rootScope.statusType.OPEN-1], $scope.compStatus[$rootScope.statusType.REGCLOSE-1]]))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 

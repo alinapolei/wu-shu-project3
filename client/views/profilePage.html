@@ -106,7 +106,6 @@
                             <div ng-show="isEditModeOn" class="update-input radioDiv" id="sexUser"
                                  ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
                                  data-validate="בחר מין">
-                                <label>בחר מין</label>
                                 <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" value="זכר" ng-checked="(user.sex == 'זכר')"><label
                                     class="radio_label"> זכר </label></input>
                                 <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" value="נקבה" ng-checked="(user.sex == 'נקבה')"><label
@@ -123,7 +122,7 @@
                             <div ng-show="isEditModeOn" class="update-input control-group input-append"
                                  ng-class="{'alert-validate' : updateProfile.date.$invalid && (updateProfile.date.$touched || isClicked)}"
                                  data-validate="{{updateProfile.date.$error.required ? 'הכנס תאריך לידה' : updateProfile.date.$error.max ? 'תאריך לא תקין' : ''}}" show-spinners="false">
-                                <input class="update-input100" value="2000-01-01" type="date" name="date" ng-model="birthdate" placeholder="תאריך לידה" ng-max="currentDate" required>
+                                <input class="update-input100" type="date" name="date" ng-model="user.birthdate" placeholder="תאריך לידה" ng-max="currentDate" required>
                             </div>
                         </div>
                     </div>
