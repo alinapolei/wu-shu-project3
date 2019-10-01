@@ -70,9 +70,9 @@
             </ul>
         </div>
         <div class="center">
-            <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0}"
-                   ng-disabled="toRegisterUsers.length==0"
-                   value="רשום {{toRegisterUsers.length>0 ? toRegisterUsers.length : ''}} ספורטאיים"/>
+            <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}" ng-click="register()"
+                   ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
+                   value="שמור שינויים"/>
         </div>
     </div>
     <!--    <div class="or">או</div>-->

@@ -2,7 +2,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
-    let toUnRegisterUsers = [];
+    $scope.toUnRegisterUsers = [];
     $scope.pager = {};
 
     setPage(1);
@@ -63,6 +63,8 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
         $scope.toRegisterUsers = $scope.toRegisterUsers.concat($scope.selectedNotRegisteredUsers.map(selected => selected.id));
         $scope.registeredUsers = $scope.registeredUsers.concat($scope.selectedNotRegisteredUsers);
         $scope.selectedNotRegisteredUsers.forEach(selected => {
+            if($scope.toUnRegisterUsers.includes(selected.id))
+                $scope.toUnRegisterUsers = arrayRemove($scope.toUnRegisterUsers, selected.id);
             $scope.notRegisteredUsers = arrayRemove($scope.notRegisteredUsers, selected);
         });
         $scope.selectedNotRegisteredUsers = [];
@@ -73,7 +75,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
             if($scope.toRegisterUsers.includes(selected.id))
                 $scope.toRegisterUsers = arrayRemove($scope.toRegisterUsers, selected.id);
             else
-                toUnRegisterUsers.push(selected.id);
+                $scope.toUnRegisterUsers.push(selected.id);
             $scope.registeredUsers = arrayRemove($scope.registeredUsers, selected);
         });
         $scope.selectedRegisteredUsers = [];
@@ -155,7 +157,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
 
 
     $scope.register = function () {
-        competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.selectedNotRegisteredUsers)
+        competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
             .then(function (result) {
                 //$uibModalInstance.close();
                 alert("הרישום בוצע בהצלחה");
