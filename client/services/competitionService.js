@@ -149,19 +149,19 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         }).result.catch(function () { });
     };
     this.regSportsman = function (idCompetiton) {
-        $uibModal.open({
-            templateUrl: "views/regSportsmanCompetition.html",
-            controller: "competitionRegisterModal as cRegCtrl",
-            backdrop  : true,
-            keyboard  : false,
-            resolve: {
-                getId: function () {
-                    return idCompetiton;
-                }
-            },
-            size: 'lg'
-        }).result.catch(function () { });
-        //$location.path('/competitionRegistration');
+        // $uibModal.open({
+        //     templateUrl: "views/regSportsmanCompetition.html",
+        //     controller: "competitionRegisterModal as cRegCtrl",
+        //     backdrop  : true,
+        //     keyboard  : false,
+        //     resolve: {
+        //         getId: function () {
+        //             return idCompetiton;
+        //         }
+        //     },
+        //     size: 'lg'
+        // }).result.catch(function () { });
+        $location.path('/competitionRegistration/'+idCompetiton);
     };
     this.registrationState = function (competition) {
         $location.path('/competitions/RegistrationState/' + JSON.stringify(competition));

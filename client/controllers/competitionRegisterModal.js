@@ -1,16 +1,18 @@
-app.controller("competitionRegisterModal", function($scope, $window, $uibModalInstance, $http,getId, sportsmanService, pagingService,competitionService) {
-    $scope.selectedUsers = [];
+app.controller("competitionRegisterModal", function($scope, $window, $http,$routeParams, sportsmanService, pagingService,competitionService) {//$uibModalInstance, getId
+    $scope.selectedNotRegisteredUsers = [];
+    $scope.selectedRegisteredUsers = [];
     $scope.pager = {};
 
     setPage(1);
+    getData();
     var regObj={
-        compId: getId,
+        compId: $routeParams.idComp,
         sportsmenIds :[]
     }
 
-    $scope.close=function () {
-        $uibModalInstance.close()
-    };
+    // $scope.close=function () {
+    //     $uibModalInstance.close()
+    // };
 
     $scope.setPage = function(page){
         setPage(page);
@@ -23,23 +25,53 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, getId, '!%3D'))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, $routeParams.idComp, '!%3D'))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page, 14);
-                $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+                $scope.notRegisteredUsers = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+
+            }, function (error) {
+                console.log(error)
+            });
+    }
+    function getData(){
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds('', null, null, null, null, $routeParams.idComp, '%3D%3D'))
+            .then(function (result) {
+                $scope.registeredUsers = result.data.sportsmen;
             }, function (error) {
                 console.log(error)
             });
     }
 
-    $scope.select = function (id) {
-        if($scope.selectedUsers.includes(id))
-            $scope.selectedUsers = arrayRemove($scope.selectedUsers, id);
+    $scope.selectNotRegistered = function (user) {
+        if($scope.selectedNotRegisteredUsers.includes(user))
+            $scope.selectedNotRegisteredUsers = arrayRemove($scope.selectedNotRegisteredUsers, user);
         else
-            $scope.selectedUsers.push(id);
+            $scope.selectedNotRegisteredUsers.push(user);
     };
+    $scope.selectRegistered = function (user){
+        if($scope.selectedRegisteredUsers.includes(user))
+            $scope.selectedRegisteredUsers = arrayRemove($scope.selectedRegisteredUsers, user);
+        else
+            $scope.selectedRegisteredUsers.push(user);
+    };
+    $scope.registerSelected = function () {
+        $scope.registeredUsers = $scope.registeredUsers.concat($scope.selectedNotRegisteredUsers);
+        $scope.selectedNotRegisteredUsers.forEach(selected => {
+            $scope.notRegisteredUsers = arrayRemove($scope.notRegisteredUsers, selected);
+        });
+        $scope.selectedNotRegisteredUsers = [];
+    };
+    $scope.unRegisterSelected = function () {
+        $scope.notRegisteredUsers = $scope.notRegisteredUsers.concat($scope.selectedRegisteredUsers);
+        $scope.selectedRegisteredUsers.forEach(selected =>{
+            $scope.registeredUsers = arrayRemove($scope.registeredUsers, selected);
+        });
+        $scope.selectedRegisteredUsers = [];
+    }
+
 
     function arrayRemove(arr, value) {
         return arr.filter(function(ele){
@@ -99,7 +131,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
             if(Excelcheck(regObj.sportsmenIds)) {
                 competitionService.regSportsmanCompetition(regObj)
                     .then(function (result) {
-                        $uibModalInstance.close();
+                        //$uibModalInstance.close();
                         alert("הרישום בוצע בהצלחה");
                     }, function (error) {
                         console.log(error)
@@ -116,9 +148,9 @@ app.controller("competitionRegisterModal", function($scope, $window, $uibModalIn
 
 
     $scope.register = function () {
-        competitionService.registerSportsmenToCompetition(getId, $scope.selectedUsers)
+        competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.selectedNotRegisteredUsers)
             .then(function (result) {
-                $uibModalInstance.close();
+                //$uibModalInstance.close();
                 alert("הרישום בוצע בהצלחה");
             }, function (error) {
                 console.log(error)

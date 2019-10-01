@@ -100,7 +100,7 @@ button:hover {
     box-sizing: border-box;
     padding: 40px;
     /*width: 350px;*/
-    height: 400px;
+    /*height: 400px;*/
     /*background: url('https://goo.gl/YbktSj');*/
     background-size: cover;
     background-position: center;
@@ -154,5 +154,11 @@ form {
 .labelForInput100{
     padding: 10px 35px;
     width: 250px;
+}
+
+.flexCenteredDiv{
+    display: flex;
+    position: relative;
+    align-items: center;
 }
 

@@ -146,9 +146,9 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        // .when('/competitionRegistration', {
-        //     templateUrl: 'views/regSportsmanCompetition.html',
-        //     controller: 'competitionRegisterModal as cRegCtrl'
-        // })
+        .when('/competitionRegistration/:idComp', {
+            templateUrl: 'views/regSportsmanCompetition.html',
+            controller: 'competitionRegisterModal as cRegCtrl'
+        })
         .otherwise({redirectTo: '/login'});
 });

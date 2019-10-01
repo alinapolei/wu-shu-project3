@@ -1,56 +1,73 @@
-<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
-<div class="modal-body" style="height: 550px">
-    <div class="right">
-        <div ng-init="searchClicked=false" style="margin-top: 20px">
-            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" ng-change="searchClicked=false" style="width: auto;">
-            <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
-                <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+<!--<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"-->
+<!--      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>-->
+<div id="box" style="height: 550px; width: 1100px;">
+    <div class="right flexCenteredDiv" >
+        <div class="itemListPanel">
+            <label class="itemInItemList" ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}" ng-repeat="user in notRegisteredUsers" ng-click="selectNotRegistered(user)">{{user.id}} {{user.firstname}}
+                {{user.lastname}}</label>
+        </div>
+        <div class="arrowDiv">
+            <button ng-click="unRegisterSelected()" style="display: block;">
+                <i class="fa fa-arrow-right clickableSearch squreClickable" style="border-radius: 0px;" aria-hidden="true"></i>
             </button>
-            <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
-                <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
+            <button ng-click="registerSelected()">
+                <i class="fa fa-arrow-left clickableSearch squreClickable" style="border-radius: 0px;" aria-hidden="true"></i>
             </button>
         </div>
-        <form ng-submit="register()">
-            <div class="scrollablePanel">
-                <div ng-repeat="user in users" style="display: block;text-align: right">
-                    <input type="checkbox" ng-checked="{{selectedUsers.includes(user.id)}}" ng-click="select(user.id)">
-                    {{user.id}} {{user.firstname}} {{user.lastname}}
-                </div>
-            </div>
-            <div class="center" ng-show="pager.totalPages>1">
-                <!-- pager -->
-                <ul ng-if="pager.pages.length" class="pagination">
-                    <li ng-class="{'disabled':pager.currentPage === 1}">
-                        <a ng-click="setPage(1)">ראשון</a>
-                    </li>
-                    <li ng-class="{'disabled':pager.currentPage === 1}">
-                        <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
-                    </li>
-                    <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
-                        ng-click="setPage(page)">
-                        {{page}}
-                    </li>
-                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                        <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
-                    </li>
-                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                        <a ng-click="setPage(pager.totalPages)">אחרון</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="itemListPanel">
+            <label class="itemInItemList" ng-class="{'active' : selectedRegisteredUsers.includes(user)}" ng-repeat="user in registeredUsers" ng-click="selectRegistered(user)">{{user.id}} {{user.firstname}}
+                {{user.lastname}}</label>
+        </div>
 
-            <input type="submit" ng-show="selectedUsers.length>0" value="רשום {{selectedUsers.length}} ספורטאיים"/>
-        </form>
+        <!--        <div ng-init="searchClicked=false" style="margin-top: 20px">-->
+        <!--            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText" ng-change="searchClicked=false" style="width: auto;">-->
+        <!--            <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">-->
+        <!--                <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>-->
+        <!--            </button>-->
+        <!--            <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">-->
+        <!--                <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>-->
+        <!--            </button>-->
+        <!--        </div>-->
+        <!--        <form ng-submit="register()">-->
+        <!--            <div class="scrollablePanel">-->
+        <!--                <div ng-repeat="user in users" style="display: block;text-align: right">-->
+        <!--                    <input type="checkbox" ng-checked="{{selectedUsers.includes(user.id)}}" ng-click="select(user.id)">-->
+        <!--                    {{user.id}} {{user.firstname}} {{user.lastname}}-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="center" ng-show="pager.totalPages>1">-->
+        <!--                &lt;!&ndash; pager &ndash;&gt;-->
+        <!--                <ul ng-if="pager.pages.length" class="pagination">-->
+        <!--                    <li ng-class="{'disabled':pager.currentPage === 1}">-->
+        <!--                        <a ng-click="setPage(1)">ראשון</a>-->
+        <!--                    </li>-->
+        <!--                    <li ng-class="{'disabled':pager.currentPage === 1}">-->
+        <!--                        <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>-->
+        <!--                    </li>-->
+        <!--                    <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"-->
+        <!--                        ng-click="setPage(page)">-->
+        <!--                        {{page}}-->
+        <!--                    </li>-->
+        <!--                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">-->
+        <!--                        <a ng-click="setPage(pager.currentPage + 1)">הבא</a>-->
+        <!--                    </li>-->
+        <!--                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">-->
+        <!--                        <a ng-click="setPage(pager.totalPages)">אחרון</a>-->
+        <!--                    </li>-->
+        <!--                </ul>-->
+        <!--            </div>-->
+
+        <!--            <input type="submit" ng-show="selectedUsers.length>0" value="רשום {{selectedUsers.length}} ספורטאיים"/>-->
+        <!--        </form>-->
     </div>
-
+<!--    <div class="or">או</div>-->
     <div class="left">
         <h1 class="loginwith">
             רישום ע"י
             קובץ אקסל
         </h1>
         <div>
-<!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
+            <!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
             <i class="fa fa-arrow-down iColored" style="text-decoration: underline" aria-hidden="true"></i>
             <a id="downExcelregCompetition" class="linkdark iLink"
                href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
@@ -75,4 +92,4 @@
 
     </div>
 </div>
-<button class="btn btn-primary" ng-click="close()">סגור חלון</button>
+<!--<button class="btn btn-primary" ng-click="close()">סגור חלון</button>-->
