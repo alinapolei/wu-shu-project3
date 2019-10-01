@@ -93,7 +93,7 @@ div.menuItem{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.dropdown-content a, .itemInItemList{
+.dropdown-content a{
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -125,6 +125,9 @@ div.menuItem{
     height: fit-content;
     line-height: 80px;
 }
+.itemInItemList{
+    font-size: 15px;
+}
 .itemInItemList:hover{
     background-color: #BDD8E2;/*#ddd;*/
     color: #327a81;
@@ -133,4 +136,10 @@ div.menuItem{
 .itemInItemList.active{
     background-color: #8bcce5;/*#ddd;*/
     color: #327a81;
+}
+.tdInItemList, .thInItemList{
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
 }

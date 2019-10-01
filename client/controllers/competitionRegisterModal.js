@@ -1,6 +1,8 @@
 app.controller("competitionRegisterModal", function($scope, $window, $http,$routeParams, sportsmanService, pagingService,competitionService) {//$uibModalInstance, getId
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
+    $scope.toRegisterUsers = [];
+    let toUnRegisterUsers = [];
     $scope.pager = {};
 
     setPage(1);
@@ -58,6 +60,7 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
             $scope.selectedRegisteredUsers.push(user);
     };
     $scope.registerSelected = function () {
+        $scope.toRegisterUsers = $scope.toRegisterUsers.concat($scope.selectedNotRegisteredUsers.map(selected => selected.id));
         $scope.registeredUsers = $scope.registeredUsers.concat($scope.selectedNotRegisteredUsers);
         $scope.selectedNotRegisteredUsers.forEach(selected => {
             $scope.notRegisteredUsers = arrayRemove($scope.notRegisteredUsers, selected);
@@ -67,10 +70,14 @@ app.controller("competitionRegisterModal", function($scope, $window, $http,$rout
     $scope.unRegisterSelected = function () {
         $scope.notRegisteredUsers = $scope.notRegisteredUsers.concat($scope.selectedRegisteredUsers);
         $scope.selectedRegisteredUsers.forEach(selected =>{
+            if($scope.toRegisterUsers.includes(selected.id))
+                $scope.toRegisterUsers = arrayRemove($scope.toRegisterUsers, selected.id);
+            else
+                toUnRegisterUsers.push(selected.id);
             $scope.registeredUsers = arrayRemove($scope.registeredUsers, selected);
         });
         $scope.selectedRegisteredUsers = [];
-    }
+    };
 
 
     function arrayRemove(arr, value) {
