@@ -1,0 +1,42 @@
+<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>
+
+<div class="modal-body">
+    <h1>הוספת קטגוריה חדשה</h1>
+    <form class="openComp-form validate-form" name="addCategoryForm" ng-submit="submit(addCategoryForm.$valid)" novalidate>
+        <div class="wrap-input100 validate-input"
+             ng-class="{'alert-validate' : addCategoryForm.categoryName.$invalid && (addCategoryForm.categoryName.$touched || isClicked)}"
+             data-validate="{{addCategoryForm.categoryName.$error.required ? 'הכנס שם.' : addCategoryForm.$error.pattern ? 'הכנס שם בשפה העברית' : ''}}">
+            <input class="input100" type="text" name="categoryName" ng-model="categoryName" placeholder="שם הקטגוריה"
+                   ng-required="true">
+        </div>
+
+        <div class="wrap-input100 validate-input"
+             ng-class="{'alert-validate' : addCategoryForm.minAge.$invalid && (addCategoryForm.minAge.$touched || isClicked)}"
+             data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : addCategoryForm.$error.pattern ? 'הכנס גיל מינימאלי' : ''}}">
+            <input class="input100" type="number" name="minAge" ng-model="minAge" placeholder="גיל מינימאלי"
+                   ng-required="true">
+        </div>
+
+        <div class="wrap-input100 validate-input"
+             ng-class="{'alert-validate' : addCategoryForm.maxAge.$invalid && (addCategoryForm.maxAge.$touched || isClicked)}"
+             data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : addCategoryForm.$error.pattern ? 'הכנס גיל מקסימאלי' : ''}}">
+            <input class="input100" type="number" name="maxAge" ng-model="maxAge" placeholder="גיל מקסימאלי"
+                   ng-required="true">
+        </div>
+
+        <div class="wrap-input100 validate-input radioDiv" id="sexUser"
+             ng-class="{'alert-validate' : addCategoryForm.selectedSex.$invalid && (addCategoryForm.selectedSex.$touched || isClicked)}"
+             data-validate="בחר מין">
+            <label>בחר מין</label>
+            <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex" value="זכר"><label
+                class="radio_label"> זכר </label></input>
+            <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex" value="נקבה"><label
+                class="radio_label"> נקבה </label></input>
+        </div>
+
+        <input type="submit" name="addCategory_submit" ng-click="isClicked=true" value="הוסף קטגוריה"/>
+        <input class="btnSubmit" type="button" name="addCategory_cancel" ng-click="closeModal()" value="ביטול"/>
+
+    </form>
+</div>

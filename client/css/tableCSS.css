@@ -116,6 +116,11 @@ select.searchInput:focus{
 .clickableSearch:hover{
     color: #327a81;
 }
+.squreClickable{
+    border-radius: 0px;
+    margin: 1px;
+}
+
 
 /***PAGINATION***/
 ul.pagination li{

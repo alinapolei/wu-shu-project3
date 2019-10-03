@@ -20,6 +20,18 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         return $http(req);
     };
 
+    this.addCategroyDB =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/addNewCategory',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    };
+
     this.insertCompetition = function (data) {
         var req = {
             method: 'POST',
@@ -41,23 +53,22 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.getOpenCompetitons = function (conditions) {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/getCompetitions'+conditions,
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            }
-        };
-        return $http(req);
-    };
 
+    this.addNewCategory =function () {
+        $uibModal.open({
+            templateUrl: "views/addNewCategoryModal.html",
+            controller: "addCategoryModalController as aCMCCtrl",
+            backdrop  : true,
+            keyboard: false,
+        }).result.catch(function () { });
+    }
     this.editCompetitionDetails =function (id) {
         $uibModal.open({
             templateUrl: "views/editCompetitionDetails.html",
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
             backdrop  : true,
             keyboard: false,
+            size:'lg',
             resolve: {
                 getId: function () {
                     return id;
@@ -78,6 +89,17 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.updateCompetitionDetails =function (data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/updateCompetitionDetails',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    }
     this.getSportsman = function () {
         var req = {
             method: 'POST',
@@ -88,7 +110,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.registerSportsmenToCompetition = function (compId, sportsmenIds) {
+    this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds) {
         var req = {
             method: 'POST',
             url: serverUrl + '/private/competitionSportsmen',
@@ -97,7 +119,8 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             },
             data:{
                 compId: compId,
-                sportsmenIds: sportsmenIds
+                insertSportsman: insertSportsmenIds,
+                deleteSportsman: deleteSportsmenIds
             }
         };
         return $http(req);
@@ -129,6 +152,19 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
+    this.closeRegistration = function (idComp) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/closeRegistration',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data:{
+                idComp : idComp
+            }
+        };
+        return $http(req);
+    };
 
     /*****common functions for gui*****/
 
@@ -146,24 +182,24 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         }).result.catch(function () { });
     };
     this.regSportsman = function (idCompetiton) {
-        $uibModal.open({
-            templateUrl: "views/regSportsmanCompetition.html",
-            controller: "competitionRegisterModal as cRegCtrl",
-            backdrop  : true,
-            keyboard  : false,
-            resolve: {
-                getId: function () {
-                    return idCompetiton;
-                }
-            },
-            size: 'lg'
-        }).result.catch(function () { });
-        //$location.path('/competitionRegistration');
+        // $uibModal.open({
+        //     templateUrl: "views/regSportsmanCompetition.html",
+        //     controller: "competitionRegisterModal as cRegCtrl",
+        //     backdrop  : true,
+        //     keyboard  : false,
+        //     resolve: {
+        //         getId: function () {
+        //             return idCompetiton;
+        //         }
+        //     },
+        //     size: 'lg'
+        // }).result.catch(function () { });
+        $location.path('/competitionRegistration/'+idCompetiton);
     };
-    this.registrationState = function (idCompetition, statusCompetition) {
-        $location.path('/competitions/RegistrationState/' + idCompetition+'/'+statusCompetition);
+    this.registrationState = function (competition) {
+        $location.path('/competitions/RegistrationState/' + JSON.stringify(competition));
     };
-    this.buildConditions = function buildConditions(location, sportStyle, status){
+    this.buildConditions = function buildConditions(location, sportStyle, statusArr){
         var conditions = [];
 
         if(location !== null && location !== undefined) {
@@ -172,8 +208,10 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         if(sportStyle !== null && sportStyle !== undefined){
             conditions.push('sportStyle=' + sportStyle.name);
         }
-        if(status != null && status !== undefined){
-            conditions.push('status=' + status.name);
+        if(statusArr !== null && statusArr !== undefined){
+            let statusCond = [];
+            statusArr.forEach(status => {statusCond.push(status.name);});
+            conditions.push('status=' + statusCond.join(','));
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';

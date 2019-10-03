@@ -25,10 +25,16 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         {id : 1, name : 'טאולו'},
         {id : 2, name : 'סנדא'}
     ];
-    $scope.compStatus = [
+    $rootScope.compStatus = [
         {id : 1, name : 'פתוח'},
-        {id : 2, name : 'סגור'}
+        {id : 2, name : 'סגור'},
+        {id : 3, name : 'רישום סגור'}
     ];
+    $rootScope.statusType={
+        OPEN: 1,
+        CLOSE: 2,
+        REGCLOSE: 3
+    };
 
     $scope.logout = function () {
         //need to delete $rootScope
@@ -120,7 +126,7 @@ app.config(function($routeProvider) {
             templateUrl: 'views/competitionTable.html',
             controller: 'competitionTableController as cTCtrl'
         })
-        .when('/competitions/RegistrationState/:idComp/:statusComp', {
+        .when('/competitions/RegistrationState/:competition', {
             templateUrl: 'views/registrationState.html',
             controller: 'registrationStateController as regStateCtrl'
         })
@@ -140,9 +146,9 @@ app.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController as hCtrl'
         })
-        // .when('/competitionRegistration', {
-        //     templateUrl: 'views/regSportsmanCompetition.html',
-        //     controller: 'competitionRegisterModal as cRegCtrl'
-        // })
+        .when('/competitionRegistration/:idComp', {
+            templateUrl: 'views/regSportsmanCompetition.html',
+            controller: 'competitionRegisterModal as cRegCtrl'
+        })
         .otherwise({redirectTo: '/login'});
 });
