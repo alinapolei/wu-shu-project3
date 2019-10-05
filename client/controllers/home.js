@@ -1,4 +1,4 @@
-app.controller("homeController", function ($scope, $uibModal, $window) {
+app.controller("homeController", function ($scope, $uibModal, $window, constants) {
     $scope.changePassword = function () {
             $uibModal.open({
                 templateUrl: "views/changePasswordModal.html",

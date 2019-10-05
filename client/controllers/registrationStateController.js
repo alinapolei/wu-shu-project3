@@ -135,11 +135,11 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
 
 });
 
-app.filter('categoryFilter', function() {
+app.filter('categoryFilter', function(constants) {
     return function( items, user) {
         var filtered = [];
         angular.forEach(items, function(item) {
-            if( user.age >= item.minAge && (item.maxAge == null ||  user.age <= item.maxAge) && user.sex == item.sex) {
+            if( user.age >= item.minAge && (item.maxAge == null ||  user.age <= item.maxAge) && (! constants.sexEnum.map(s => s.name).includes(item.sex) || user.sex == item.sex)) {
                 filtered.push(item);
             }
         });
