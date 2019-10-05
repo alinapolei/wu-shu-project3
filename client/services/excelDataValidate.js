@@ -1,4 +1,4 @@
-app.service('validateSportsmanData', function() {
+app.service('validateSportsmanData', function(constants) {
     this.validData = function (data) {
         if(checkId(data.id))
             if (checkString(data.firstname))
@@ -14,6 +14,12 @@ app.service('validateSportsmanData', function() {
 
 
          return false;
+    }
+
+    function checkSex(sex) {
+        if(constants.sexEnum.map(s => s.name).includes(sex))//if(sex.toString()=="זכר"||sex.toString()=="נקבה")
+            return true;
+        return false;
     }
 
 });
@@ -75,10 +81,5 @@ function checkString(string) {
 function checksportStyle(sportStyle) {
     if(sportStyle.toString()=="סנדא"||sportStyle.toString()=="טאולו")
             return true;
-    return false;
-}
-function checkSex(sex) {
-    if(sex.toString()=="זכר"||sex.toString()=="נקבה")
-        return true;
     return false;
 }

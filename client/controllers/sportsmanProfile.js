@@ -1,8 +1,9 @@
-app.controller("sportsmanProfileController", function ($scope, $http, $filter,$window, $location, $rootScope, $routeParams, sportsmanService,userService) {
+app.controller("sportsmanProfileController", function ($scope, $http, $filter,$window, $location, $rootScope, $routeParams, constants, sportsmanService,userService) {
 
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
     $scope.currentDate = new Date();
+    $scope.sexEnum = constants.sexEnum;
     $scope.turnOnEditMode = function () {
         $scope.isEditModeOn = true;
     };

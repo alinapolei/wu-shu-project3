@@ -77,10 +77,10 @@
                      ng-class="{'alert-validate' : registerForm.selectedSex.$invalid && (registerForm.selectedSex.$touched || isClicked)}"
                      data-validate="בחר מין">
                     <label>בחר מין</label>
-                    <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex && !coachReggister" value="זכר"><label
-                        class="radio_label"> זכר </label></input>
-                    <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex && !coachReggister" value="נקבה"><label
-                        class="radio_label"> נקבה </label></input>
+                    <span ng-repeat="sex in sexEnum">
+                        <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-required="!selectedSex && !coachReggister" ng-value="sex.name"><label
+                            class="radio_label"> {{sex.name}} </label></input>
+                    </span>
                     <span class="focus-input100" data-placeholder="&#xf211;"></span>
                 </div>
                 <div class="wrap-input100 validate-input radioDiv" id="sportStyle"

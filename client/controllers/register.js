@@ -1,5 +1,6 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData, clubService, coachService) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, constants, validateSportsmanData,validateCoachData, clubService, coachService) {
     serverUrl = "http://localhost:3000"
+    $scope.sexEnum = constants.sexEnum;
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
     rowObj = new Object()
