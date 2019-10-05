@@ -1,4 +1,5 @@
 select {
+    min-width: 280px;
     margin-bottom: 1em;
     padding: 10px 35px;
     border: 0;
