@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, validateSportsmanData,validateCoachData, clubService, coachService) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService,registerService) {
     serverUrl = "http://localhost:3000"
     $scope.currentDate = new Date();
     $scope.coachReggister=false;
@@ -49,12 +49,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     var dropzone = document.getElementById("dropzone")
 
-    function fixdata(data) {
+   /* function fixdata(data) {
         var o = "", l = 0, w = 10240;
         for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
         o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
         return o;
     }
+
+    */
 
     function workbook_to_json(workbook) {
         var result = {};
@@ -67,7 +69,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
         return result;
     }
 
-    function changeDropzone(name) {
+   /* function changeDropzone(name) {
         var droptext = document.getElementById("dropText");
         droptext.innerHTML = name.toString();
         var dropzone = document.getElementById("dropzone");
@@ -75,8 +77,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
         changeExcel.style.display = "block"
     }
 
+    */
+
     dropzone.ondrop = function (e) {
-        e.stopPropagation();
+      /*  e.stopPropagation();
         e.preventDefault();
         console.log("DROPPED");
         var files = e.dataTransfer.files, i, f;
@@ -97,6 +101,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
             reader.readAsArrayBuffer(f);
         }
+
+       */
+      registerService.dropZoneDropFile(e,$scope.coachReggister)
     };
     dropzone.ondragover = function () {
         this.className = 'dropzone dragover';
@@ -205,6 +212,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
         reader.readAsBinaryString(input.files[0]);
     };
 
+    /*
     function Excelcheck(data) {
         var errorLines = new String();
         var ExcelOk = true;
@@ -247,6 +255,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
 
     }
+
+     */
 
     function registerExcelUser(data) {
         if(!$scope.coachReggister)
