@@ -52,3 +52,11 @@
     border-color: black;
     color: #000000;
 }
+.excelOK{
+    border-color: greenyellow;
+    border-style: dashed;
+}
+.excelBad{
+    border-color: red;
+    border-style: dashed;
+}
