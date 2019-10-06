@@ -1,4 +1,4 @@
-app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $rootScope, $window, $http, $location, $filter, sportsmanService, competitionService, $routeParams) {
     $scope.categoryForSportsman = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
@@ -13,21 +13,29 @@ app.controller("registrationStateController", function($scope, $window, $http, $
 
         competitionService.getRegistrationState($scope.currentCompetition.idCompetition)
             .then(function (result) {
-                $scope.users = result.data;
-                $scope.users.map((obj) => {
-                    obj.selectedCategory = $scope.categories.find(function (item) {
-                        return item.id == obj.category;
-                    });
-                    if(obj.selectedCategory)
-                        $scope.categories.find(function (item) {
-                            return item.id == obj.category;
-                        }).count++;
-                    return obj;
-                })
+                $scope.usersCategories = result.data;
+                $scope.usersCategories.forEach((usersCategory) =>{
+                   usersCategory.users.map((user) => {
+                       user.selectedCategory = $scope.categories.find(function (category) {
+                           return category.id == user.category;
+                       });
+                       if(user.selectedCategory)
+                           $scope.categories.find(function (category) {
+                               return category.id == user.category;
+                           }).count++;
+                       return user;
+                   });
+                });
             }, function (error) {
                 console.log(error)
             });
     }
+    $scope.getAgeRange = function(category){
+      if(category.maxAge == null)
+          return category.minAge + "+";
+      else
+          return category.minAge + "-" + category.maxAge;
+    };
 
     $scope.submit = function () {
         competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
@@ -44,8 +52,13 @@ app.controller("registrationStateController", function($scope, $window, $http, $
 
     $scope.addChange = function (user, oldCategoryId) {
         let categorySportsman = $scope.categoryForSportsman.find(item => {return item.sportsmanId == user.id});
-        if(oldCategoryId != '')
-            $scope.categories.find(item => {return item.id == oldCategoryId}).count--;
+        if(oldCategoryId != ''){
+            $scope.categories.find(category => {return category.id == oldCategoryId}).count--;
+            let oldUsersCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == oldCategoryId);
+            oldUsersCategory.users = $rootScope.arrayRemove(oldUsersCategory.users, user);
+            if(oldUsersCategory.users.length === 0)
+                $scope.usersCategories = $rootScope.arrayRemove($scope.usersCategories, oldUsersCategory);
+        }
         if(categorySportsman){
             categorySportsman.categoryId = user.selectedCategory.id;
         }
@@ -57,8 +70,19 @@ app.controller("registrationStateController", function($scope, $window, $http, $
                 }
             );
         }
+        let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == user.selectedCategory.id);
+        if(newUserCategory)
+            newUserCategory.users.push(user);
+        else
+            $scope.usersCategories.push(
+                {
+                    category: user.selectedCategory,
+                    users: new Array(user)
+                }
+            );
         user.selectedCategory.count++;
-    }
+        alert("הספורטאי הועבר קטגוריה");
+    };
 
     $scope.closeRegistration = function() {
         var res= confirm("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?")
@@ -80,37 +104,25 @@ app.controller("registrationStateController", function($scope, $window, $http, $
         }
         exportExcel();
     };
-
-
     $scope.addCategoeyModal =function () {
         competitionService.addNewCategory()
     }
 
     function exportExcel() {
         let fileName = "רישום לתחרות " + $filter('date')($scope.currentCompetition.date, "dd/MM/yyyy");
-        let excelJson = [];
-        let sortedUsers = $scope.users.slice();
-        sortedUsers.sort(
-            function(obj1, obj2){
-                let x = obj1.selectedCategory ? obj1.selectedCategory.id : Number.POSITIVE_INFINITY;
-                let y = obj2.selectedCategory ? obj2.selectedCategory.id : Number.POSITIVE_INFINITY;
-                return x-y;
+        let resultJson = [];
+        $scope.usersCategories.forEach((catUsers) =>{
+            resultJson.push(getExcelObj(catUsers.category.name , '', '', ''));
+            catUsers.users.forEach(user => {
+                resultJson.push(getExcelObj('', user.id, user.firstname, user.lastname));
             });
-        let usedCategories = new Set(sortedUsers.map(user => user.selectedCategory ? user.selectedCategory.name : ''));
-        let i=0;
-        usedCategories.forEach(category => {
-            excelJson.push(getExcelObj(category != '' ? category : 'ללא קטגוריה', '', '', ''));
-            while(i<sortedUsers.length && category === (sortedUsers[i].selectedCategory ? sortedUsers[i].selectedCategory.name : '')){
-                excelJson.push(getExcelObj('', sortedUsers[i].id, sortedUsers[i].firstname, sortedUsers[i].lastname));
-                i++;
-            }
         });
 
         var mystyle = {
             headers:true,
             column: {style:{Font:{Bold:"1"}}}
         };
-        alasql('SELECT category as [קטגוריה], id as [תעודת זהות], firstname as [שם פרטי], lastname as [שם משפחה] INTO XLSX("' + fileName + '.xlsx",?) FROM ?', [mystyle, excelJson]);
+        alasql('SELECT category as [קטגוריה], id as [תעודת זהות], firstname as [שם פרטי], lastname as [שם משפחה] INTO XLSX("' + fileName + '.xlsx",?) FROM ?', [mystyle, resultJson]);
     }
     function getExcelObj(category, id, firstname, lastname) {
         return {
@@ -123,11 +135,11 @@ app.controller("registrationStateController", function($scope, $window, $http, $
 
 });
 
-app.filter('categoryFilter', function() {
+app.filter('categoryFilter', function(constants) {
     return function( items, user) {
         var filtered = [];
         angular.forEach(items, function(item) {
-            if( user.age >= item.minAge && (item.maxAge == null ||  user.age <= item.maxAge) && user.sex == item.sex) {
+            if( user.age >= item.minAge && (item.maxAge == null ||  user.age <= item.maxAge) && (! constants.sexEnum.map(s => s.name).includes(item.sex) || user.sex == item.sex)) {
                 filtered.push(item);
             }
         });

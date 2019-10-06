@@ -1,6 +1,8 @@
-app.controller("addCategoryModalController", function($scope, $window, $uibModalInstance, $http,competitionService) {
-    
+app.controller("addCategoryModalController", function($scope, $window, $uibModalInstance, $http,competitionService, constants) {
+    $scope.sexEnum = constants.sexEnum;
+    console.log($scope.sexEnum[0].name);
     $scope.submit =function (isValid) {
+        console.log($scope.selectedSex);
         if(isValid){
             let data ={
                 categoryName: $scope.categoryName,

@@ -17,10 +17,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         COACH: 2,
         SPORTSMAN: 3
     };
-    $scope.sex = [
-        {id : 1, name : 'זכר' },
-        {id : 2, name : 'נקבה' }
-    ];
     $scope.sportStyles = [
         {id : 1, name : 'טאולו'},
         {id : 2, name : 'סנדא'}
@@ -43,6 +39,19 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         $rootScope.name = '';
         $rootScope.access = '';
         $location.path('/login');
+    }
+
+    $rootScope.arrayRemove = function arrayRemove(arr, value) {
+        return arr.filter(function(ele){
+            return ele != value;
+        });
+    }
+    $rootScope.enumToArray = function (enumObject) {
+        var all = [];
+        for(var key in enumObject){
+            all.push(enumObject[key]);
+        }
+        return all;
     }
 });
 

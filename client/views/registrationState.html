@@ -1,17 +1,52 @@
-<div id="box">
+<div id="box" style="width: 1100px">
     <h1>מצב הרישום</h1>
 
     <form class="login100-form row" name="registrationState" ng-submit="submit()" novalidate>
         <div class="col-md-9">
-            <div ng-repeat="user in users track by $index" class="row">
-                <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}}</label>
-                <div ng-show="access==userTypes.MANAGER"
-                     data-validate="בחר קטגוריה">
-                    <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">
-                        <option value="" disabled="disabled">בחר קטגוריה</option>
-                    </select>
-                </div>
-            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th class="thInItemList">ת.ז.</th>
+                    <th class="thInItemList">שם מלא</th>
+                    <th class="thInItemList">מין</th>
+                    <th class="thInItemList">גיל</th>
+                    <th class="thInItemList">קטגוריה</th>
+                </tr>
+                <tbody ng-repeat="userCategory in usersCategories">
+                    <tr colspan="6">
+                        <td>{{userCategory.category.name}}</td>
+                    </tr>
+                    <tr ng-repeat="user in userCategory.users track by $index">
+                        <td></td>
+                        <td class="tdInItemList">{{$index+1}}.</td>
+                        <td class="tdInItemList">{{user.id}}</td>
+                        <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
+                        <td class="tdInItemList">{{user.sex}}</td>
+                        <td class="tdInItemList">{{user.age}}</td>
+                        <td>
+                            <div ng-disable="access==userTypes.MANAGER" class="tdInItemList">
+                                <select name="selectedCategory" ng-model="user.selectedCategory"
+                                        ng-selected="{{categories[user.category]}}"
+                                        ng-change="addChange(user, '{{user.selectedCategory.id}}')"
+                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex for x in categories | categoryFilter : user">
+                                    <option value="" disabled="disabled">בחר קטגוריה</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <!--            <div ng-repeat="user in users track by $index" class="row">-->
+            <!--                <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}} גיל:{{user.age}}</label>-->
+            <!--                <div ng-diable="access==userTypes.MANAGER"-->
+            <!--                     data-validate="בחר קטגוריה">-->
+            <!--                    <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">-->
+            <!--                        <option value="" disabled="disabled">בחר קטגוריה</option>-->
+            <!--                    </select>-->
+            <!--                </div>-->
+            <!--            </div>-->
             <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
         </div>
 

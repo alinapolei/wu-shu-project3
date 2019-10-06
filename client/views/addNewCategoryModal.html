@@ -13,14 +13,16 @@
 
         <div class="wrap-input100 validate-input"
              ng-class="{'alert-validate' : addCategoryForm.minAge.$invalid && (addCategoryForm.minAge.$touched || isClicked)}"
-             data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : addCategoryForm.$error.pattern ? 'הכנס גיל מינימאלי' : ''}}">
+             data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : addCategoryForm.$error.pattern ? 'הכנס גיל מינימאלי' : ''}}"
+             style="width: 200px;">
             <input class="input100" type="number" name="minAge" ng-model="minAge" placeholder="גיל מינימאלי"
                    ng-required="true">
         </div>
 
         <div class="wrap-input100 validate-input"
              ng-class="{'alert-validate' : addCategoryForm.maxAge.$invalid && (addCategoryForm.maxAge.$touched || isClicked)}"
-             data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : addCategoryForm.$error.pattern ? 'הכנס גיל מקסימאלי' : ''}}">
+             data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : addCategoryForm.$error.pattern ? 'הכנס גיל מקסימאלי' : ''}}"
+             style="width: 200px;">
             <input class="input100" type="number" name="maxAge" ng-model="maxAge" placeholder="גיל מקסימאלי"
                    ng-required="true">
         </div>
@@ -29,10 +31,12 @@
              ng-class="{'alert-validate' : addCategoryForm.selectedSex.$invalid && (addCategoryForm.selectedSex.$touched || isClicked)}"
              data-validate="בחר מין">
             <label>בחר מין</label>
-            <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex" value="זכר"><label
-                class="radio_label"> זכר </label></input>
-            <input type="radio" name="selectedSex" ng-model="selectedSex" ng-required="!selectedSex" value="נקבה"><label
-                class="radio_label"> נקבה </label></input>
+            <span ng-repeat="sex in sexEnum">
+                <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-required="!selectedSex" ng-value="sex.name"><label
+                    class="radio_label"> {{sex.name}} </label></input>
+            </span>
+            <input type="radio" ng-model="selectedSex" ng-required="!selectedSex" value="מעורב"><label
+                class="radio_label"> מעורב </label></input>
         </div>
 
         <input type="submit" name="addCategory_submit" ng-click="isClicked=true" value="הוסף קטגוריה"/>
