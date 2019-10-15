@@ -1,7 +1,19 @@
 <!--<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"-->
 <!--      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>-->
-<div id="box" style="height: 650px; width: 1100px;">
+<div id="box" style="height: 1000px; width: 1100px;">
     <div class="right">
+        <h1>
+            בחירת ספורטאיים לרישום
+            <br>
+            לקטגוריה -
+            <div class="validate-input" ng-class="{'alert-validate' : !selectedCategory}" data-validate="בחר קטגוריה">
+                <select class="searchInput" name="selectedCategory" ng-model="selectedCategory"
+                        ng-options="x.name for x in categories" ng-change="setPage(1); filterSelectedLists()">
+                    <option value="">ללא קטגוריה</option>
+                </select>
+            </div>
+        </h1>
+
         <div ng-init="searchClicked=false">
             <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
                    ng-change="searchClicked=false" style="width: auto;">
@@ -12,6 +24,10 @@
                 <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
             </button>
         </div>
+        <select ng-show="access==userTypes.MANAGER" class="searchInput" name="selectedClub" ng-model="selectedClub"
+                ng-options="x.name for x in clubs" ng-change="setPage(1)">
+            <option value="">כל המועדונים</option>
+        </select>
         <div class="flexCenteredDiv">
             <div>
                 <label>בחירת ספורטאיים:</label>
@@ -21,7 +37,8 @@
                             <th class="thInItemList">ת.ז.</th>
                             <th class="thInItemList">שם מלא</th>
                         </tr>
-                        <tr class="itemInItemList" ng-repeat="user in notRegisteredUsers"
+                        <tr class="itemInItemList"
+                            ng-repeat="user in notRegisteredUsers | sportsmenByCategoryFilter : selectedCategory | sportsmenByClubFilter : selectedClub"
                             ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}"
                             ng-click="selectNotRegistered(user)">
                             <td class="tdInItemList">{{user.id}}</td>
@@ -41,7 +58,7 @@
                 </button>
             </div>
             <div>
-                <label>ספורטאיים להרשמה:</label>
+                <label>ספורטאיים להרשמה לקטגוריה-{{selectedCategory.name}}:</label>
                 <div class="itemListPanel">
                     <table class="tableUser" cellspacing="0">
                         <tr>
@@ -49,7 +66,8 @@
                             <th class="thInItemList">שם מלא</th>
                         </tr>
                         <tr class="itemInItemList" ng-class="{'active' : selectedRegisteredUsers.includes(user)}"
-                            ng-repeat="user in registeredUsers" ng-click="selectRegistered(user)">
+                            ng-repeat="user in registeredUsers | sportsmenCategoriesByCategoryFilter : selectedCategory | sportsmenByClubFilter : selectedClub"
+                            ng-click="selectRegistered(user)">
                             <td class="tdInItemList">{{user.id}}</td>
                             <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
                         </tr>
@@ -82,12 +100,12 @@
             <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
                    ng-click="register()"
                    ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
-                   value="שמור שינויים"/>
+                   value="שמירה עבור כל הקטגוריות"/>
         </div>
     </div>
     <!--    <div class="or">או</div>-->
     <div class="left">
-        <h1 class="loginwith">
+        <h1>
             רישום ע"י
             קובץ אקסל
         </h1>

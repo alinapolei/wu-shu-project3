@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, sportsmanService, pagingService,competitionService) {//$uibModalInstance, getId
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, sportsmanService, clubService, pagingService,competitionService) {//$uibModalInstance, getId
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -39,12 +39,32 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             });
     }
     function getData(){
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds('', null, null, null, null, $routeParams.idComp, '%3D%3D'))
+        // sportsmanService.getSportsmen(sportsmanService.buildConditionds('', null, null, null, null, $routeParams.idComp, '%3D%3D'))
+        //     .then(function (result) {
+        //         $scope.registeredUsers = result.data.sportsmen;
+        //     }, function (error) {
+        //         console.log(error)
+        //     });
+        competitionService.getRegistrationState($routeParams.idComp)
             .then(function (result) {
-                $scope.registeredUsers = result.data.sportsmen;
+                $scope.registeredUsers = result.data;
             }, function (error) {
                 console.log(error)
             });
+
+        clubService.getClubs()
+            .then(function (result) {
+                $scope.clubs = result.data;
+            }, function (error) {
+                console.log(error)
+            });
+
+        sportsmanService.getCategories()
+            .then(function (result) {
+                $scope.categories = result.data;
+            },function (error) {
+                console.log(error);
+            })
     }
 
     $scope.selectNotRegistered = function (user) {
@@ -59,24 +79,41 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         else
             $scope.selectedRegisteredUsers.push(user);
     };
-    $scope.registerSelected = function () {
-        $scope.toRegisterUsers = $scope.toRegisterUsers.concat($scope.selectedNotRegisteredUsers.map(selected => selected.id));
-        $scope.registeredUsers = $scope.registeredUsers.concat($scope.selectedNotRegisteredUsers);
-        $scope.selectedNotRegisteredUsers.forEach(selected => {
-            if($scope.toUnRegisterUsers.includes(selected.id))
-                $scope.toUnRegisterUsers = $rootScope.arrayRemove($scope.toUnRegisterUsers, selected.id);
-            $scope.notRegisteredUsers = $rootScope.arrayRemove($scope.notRegisteredUsers, selected);
-        });
+    $scope.filterSelectedLists = function(){
+        // $filter('sportsmenByCategoryFilter')($scope.selectedRegisteredUsers, $scope.selectedCategory);
+        // $filter('sportsmenByCategoryFilter')($scope.selectedNotRegisteredUsers, $scope.selectedCategory);
+        $scope.selectedRegisteredUsers = [];
         $scope.selectedNotRegisteredUsers = [];
+    };
+    $scope.registerSelected = function () {
+        if($scope.selectedCategory) {
+            $scope.toRegisterUsers = $scope.toRegisterUsers.concat($scope.selectedNotRegisteredUsers.map(selected => selected.id).map(id => {
+                return {id: id, category: $scope.selectedCategory.id}
+            }));
+            let categoryUsers = $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id);
+            if(categoryUsers)
+                $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = categoryUsers.users.concat($scope.selectedNotRegisteredUsers);
+            else
+                $scope.registeredUsers = $scope.registeredUsers.concat({category: $scope.selectedCategory, users: $scope.selectedNotRegisteredUsers});
+            $scope.selectedNotRegisteredUsers.forEach(selected => {
+                let registration = $scope.toUnRegisterUsers.find(item => item.id === selected.id);
+                if (registration)
+                    $scope.toUnRegisterUsers = $rootScope.arrayRemove($scope.toUnRegisterUsers, registration);
+                $scope.notRegisteredUsers = $rootScope.arrayRemove($scope.notRegisteredUsers, selected);
+            });
+            $scope.selectedNotRegisteredUsers = [];
+        }
     };
     $scope.unRegisterSelected = function () {
         $scope.notRegisteredUsers = $scope.notRegisteredUsers.concat($scope.selectedRegisteredUsers);
         $scope.selectedRegisteredUsers.forEach(selected =>{
-            if($scope.toRegisterUsers.includes(selected.id))
-                $scope.toRegisterUsers = $rootScope.arrayRemove($scope.toRegisterUsers, selected.id);
+            let registration = $scope.toRegisterUsers.find(item => item.id === selected.id);
+            if(registration)
+                $scope.toRegisterUsers = $rootScope.arrayRemove($scope.toRegisterUsers, registration);
             else
-                $scope.toUnRegisterUsers.push(selected.id);
-            $scope.registeredUsers = $rootScope.arrayRemove($scope.registeredUsers, selected);
+                $scope.toUnRegisterUsers.push({id: selected.id, category: $scope.selectedCategory.id});
+            let users = $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users;
+            $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = $rootScope.arrayRemove(users, selected);
         });
         $scope.selectedRegisteredUsers = [];
     };
@@ -158,4 +195,46 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 console.log(error)
             });
     }
+});
+
+app.filter('sportsmenByCategoryFilter', function(constants) {
+    return function(items, category) {
+        if(category) {
+            var filtered = [];
+            angular.forEach(items, function (item) {
+                if (category.minAge <= item.age && (item.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
+                    filtered.push(item);
+                }
+            });
+            return filtered;
+        }
+        else
+            return items;
+    };
+});
+app.filter('sportsmenCategoriesByCategoryFilter', function(constants) {
+    return function(items, category) {
+        var filtered = [];
+        angular.forEach(items, function (item) {
+            if ((!category && !item.category.id) || (category && item.category.id == category.id)) {
+                filtered = item.users;
+            }
+        });
+        return filtered;
+    };
+});
+app.filter('sportsmenByClubFilter', function(constants) {
+    return function(items, club) {
+        if(club) {
+            var filtered = [];
+            angular.forEach(items, function (item) {
+                if (item.sportclub === club.id) {
+                    filtered.push(item);
+                }
+            });
+            return filtered;
+        }
+        else
+            return items;
+    };
 });
