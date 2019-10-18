@@ -12,14 +12,9 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         sportsmenIds :[]
     }
 
-    // $scope.close=function () {
-    //     $uibModalInstance.close()
-    // };
-
     $scope.setPage = function(page){
         setPage(page);
     };
-
     function setPage(page) {
         if (page < 1 || (page > $scope.pager.totalPages && $scope.totalPages > 0)) {
             return;
@@ -39,12 +34,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             });
     }
     function getData(){
-        // sportsmanService.getSportsmen(sportsmanService.buildConditionds('', null, null, null, null, $routeParams.idComp, '%3D%3D'))
-        //     .then(function (result) {
-        //         $scope.registeredUsers = result.data.sportsmen;
-        //     }, function (error) {
-        //         console.log(error)
-        //     });
         competitionService.getRegistrationState($routeParams.idComp)
             .then(function (result) {
                 $scope.registeredUsers = result.data;
@@ -130,7 +119,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         ansExcel.style.display = "block"
         ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
     }
-
     function Excelcheck(data) {
         var errorLines = new String();
         var ExcelOk = true;
@@ -189,7 +177,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
             .then(function (result) {
-                //$uibModalInstance.close();
                 alert("הרישום בוצע בהצלחה");
             }, function (error) {
                 console.log(error)
@@ -197,6 +184,9 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     }
 });
 
+
+
+//////// filters //////////
 app.filter('sportsmenByCategoryFilter', function(constants) {
     return function(items, category) {
         if(category) {
@@ -208,19 +198,19 @@ app.filter('sportsmenByCategoryFilter', function(constants) {
             });
             return filtered;
         }
-        else
-            return items;
     };
 });
 app.filter('sportsmenCategoriesByCategoryFilter', function(constants) {
     return function(items, category) {
-        var filtered = [];
-        angular.forEach(items, function (item) {
-            if ((!category && !item.category.id) || (category && item.category.id == category.id)) {
-                filtered = item.users;
-            }
-        });
-        return filtered;
+        if(category) {
+            var filtered = [];
+            angular.forEach(items, function (item) {
+                if (item.category.id == category.id) {
+                    filtered = item.users;
+                }
+            });
+            return filtered;
+        }
     };
 });
 app.filter('sportsmenByClubFilter', function(constants) {

@@ -9,7 +9,7 @@
             <div class="validate-input" ng-class="{'alert-validate' : !selectedCategory}" data-validate="בחר קטגוריה">
                 <select class="searchInput" name="selectedCategory" ng-model="selectedCategory"
                         ng-options="x.name for x in categories" ng-change="setPage(1); filterSelectedLists()">
-                    <option value="">ללא קטגוריה</option>
+                    <option value="">בחר קטגוריה</option>
                 </select>
             </div>
         </h1>
