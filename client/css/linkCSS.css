@@ -12,20 +12,23 @@
     text-decoration: underline;
 }
 
+.downloadLink *{
+    color: #276873;/*#CFD8DC;*/
+}
+.downloadLink:hover *{
+    color: #408c99;
+}
 .linkDark{
-    line-height: 1.5;
+    line-height: 2.7;
     color: #276873;/*#CFD8DC;*/
     text-decoration: underline;
+    font-size: initial;
 }
 .linkDark:hover{
     color: #408c99;
     text-decoration: underline;
 }
-.downloadLink{
-    line-height: 2.5;
-    padding-right: 10%;
-    font-size: initial;
-}
+
 .iLink{
     line-height: 2.5;
     padding-right: 10px;

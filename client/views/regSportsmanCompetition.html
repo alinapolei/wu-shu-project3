@@ -1,33 +1,37 @@
 <!--<link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet"-->
 <!--      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"/>-->
-<div id="box" style="height: 1000px; width: 1100px;">
+<div id="box" style="height: 850px; width: 1100px;">
     <div class="right">
         <h1>
             בחירת ספורטאיים לרישום
             <br>
             לקטגוריה -
-            <div class="validate-input" ng-class="{'alert-validate' : !selectedCategory}" data-validate="בחר קטגוריה">
+            <div class="validate-input"
+                 ng-class="{'alert-validate' : !selectedCategory, 'visible-alert-validate' : !selectedCategory}"
+                 data-validate="בחר קטגוריה">
                 <select class="searchInput" name="selectedCategory" ng-model="selectedCategory"
                         ng-options="x.name for x in categories" ng-change="setPage(1); filterSelectedLists()">
-                    <option value="">בחר קטגוריה</option>
+                    <option value="" disabled="disabled">בחר קטגוריה</option>
                 </select>
             </div>
         </h1>
 
-        <div ng-init="searchClicked=false">
-            <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
-                   ng-change="searchClicked=false" style="width: auto;">
-            <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
-                <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
-            </button>
-            <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
-                <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
-            </button>
+        <div class="filtersItemListPanel">
+            <div ng-init="searchClicked=false" style="width: 300px">
+                <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
+                       ng-change="searchClicked=false" style="width: auto;">
+                <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
+                    <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+                </button>
+                <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
+                    <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
+                </button>
+            </div>
+            <select ng-show="access==userTypes.MANAGER" class="searchInput" style="min-width: 0px; width: 100%;" name="selectedClub" ng-model="selectedClub"
+                    ng-options="x.name for x in clubs" ng-change="setPage(1)">
+                <option value="">כל המועדונים</option>
+            </select>
         </div>
-        <select ng-show="access==userTypes.MANAGER" class="searchInput" name="selectedClub" ng-model="selectedClub"
-                ng-options="x.name for x in clubs" ng-change="setPage(1)">
-            <option value="">כל המועדונים</option>
-        </select>
         <div class="flexCenteredDiv">
             <div>
                 <label>בחירת ספורטאיים:</label>
@@ -58,7 +62,7 @@
                 </button>
             </div>
             <div>
-                <label>ספורטאיים להרשמה לקטגוריה-{{selectedCategory.name}}:</label>
+                <label>ספורטאיים להרשמה לקטגוריה{{selectedCategory ? '-' : ''}}{{selectedCategory.name}}:</label>
                 <div class="itemListPanel">
                     <table class="tableUser" cellspacing="0">
                         <tr>
@@ -109,15 +113,15 @@
             רישום ע"י
             קובץ אקסל
         </h1>
-        <div>
-            <!--            <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>-->
-            <i class="fa fa-arrow-down iColored" style="text-decoration: underline" aria-hidden="true"></i>
-            <a id="downExcelregCompetition" class="linkdark iLink"
-               href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
+        <div class="downloadLink">
+            <i class="fa fa-arrow-down" style="text-decoration: underline" aria-hidden="true"></i>
+            <a id="downExcelregCompetition" class="linkDark" href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
         </div>
 
+        <div class="center">
         <div class="dropzone" id="dropzone">
             <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+        </div>
         </div>
 
         <div class="uploadResults">
