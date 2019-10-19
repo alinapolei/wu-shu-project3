@@ -1,10 +1,13 @@
 DButilsAzure = require('./dBUtils');
+Constants = require('./constants');
 var app =require ("express")();
 var bodyParser = require("body-parser");
 var Enum = require('enum');
 var cors = require('cors');
 jwt = require("jsonwebtoken");
-validation = require('node-input-validator');
+//validation = require('node-input-validator');
+validator = require('validator');
+
 secret = "wushuSecret";
 const multer = require('multer');
 var schedule = require('node-schedule');
@@ -79,12 +82,17 @@ app.post("/login", (req, res) => {
     common_user_module._login(req, res)
 });
 
-app.post("/private/registerSportsman", function(req, res){
-    if(access !== userType.SPORTSMAN)
-        coach_user_module._registerSportman(req,res);
+app.post("/private/registerSportsman", async function(req, res){
+    if(access !== userType.SPORTSMAN) {
+        var ans = await coach_user_module._registerSportman(req.body);
+        if(!ans.isPassed)
+            res.send(ans.err)
+        res.send(ans.results)
+    }
     else
         res.status(400).send("Permission denied");
 });
+
 app.post("/private/registerCoach",function (req,res) {
     if(access === userType.MANAGER)
         manger_user_module._registerCoach(req,res);
