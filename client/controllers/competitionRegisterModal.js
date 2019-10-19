@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, sportsmanService, clubService, pagingService,competitionService) {//$uibModalInstance, getId
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService) {//$uibModalInstance, getId
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -178,6 +178,7 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
             .then(function (result) {
                 alert("הרישום בוצע בהצלחה");
+                $location.path("/competitions/registerToCompetition");
             }, function (error) {
                 console.log(error)
             });
