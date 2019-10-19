@@ -121,18 +121,18 @@
             </form>
         </div>
         <div class="left">
-            <h1 class="loginwith">
+            <h1>
                 רישום ע"י
                 קובץ אקסל
             </h1>
-            <div class="validate-input" ng-show="!coachReggister">
-                <span class="focus-input100 iColored" data-placeholder="&#xf220"></span>
-                <a id="downExcelSportsman" class="linkDark downloadLink"
+            <div class="validate-input downloadLink" ng-show="!coachReggister">
+                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <a id="downExcelSportsman" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
             </div>
-            <div class="validate-input" ng-show="coachReggister">
-                <span class="focus-input100" data-placeholder="&#xf220" style="color: #408c99"></span>
-                <a id="downExcelCoach" class="linkDark downloadLink"
+            <div class="validate-input downloadLink" ng-show="coachReggister">
+                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <a id="downExcelCoach" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
             </div>
 

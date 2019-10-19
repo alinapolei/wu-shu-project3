@@ -32,6 +32,10 @@
     -moz-transition: opacity 0.4s;
     transition: opacity 0.4s;
 }
+.visible-alert-validate::before{
+    visibility: visible;
+    opacity: 1;
+}
 
 .alert-validate::after {
     content: "\f12a";
