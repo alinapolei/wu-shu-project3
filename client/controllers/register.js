@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService,registerService) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService,registerService,constants) {
     serverUrl = "http://localhost:3000"
     $scope.sexEnum = constants.sexEnum;
     $scope.currentDate = new Date();
