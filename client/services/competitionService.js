@@ -100,16 +100,6 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     }
-    this.getSportsman = function () {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/getCoachSportsman',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            }
-        };
-        return $http(req);
-    };
     this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds) {
         var req = {
             method: 'POST',
