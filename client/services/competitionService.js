@@ -160,7 +160,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
             data:{
-                idComp : idComp
+                idCompetition : idComp
             }
         };
         return $http(req);
