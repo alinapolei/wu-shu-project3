@@ -142,7 +142,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                         if (error.status === 403)
                             alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
                         else {
-                            displayErr(JSON.stringify(error.data, replacer , 2));
+                            //displayErr(JSON.stringify(error.data, replacer , 2));
                             console.log(error.data)
                         }
                     });

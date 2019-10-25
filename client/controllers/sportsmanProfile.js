@@ -1,5 +1,5 @@
 app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService) {
-
+    var oldId;
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
     $scope.currentDate = new Date();
@@ -22,6 +22,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
                 birthdate: $filter('date')($scope.user.birthdate, "dd/MM/yyyy"),
                 address: $scope.user.address,
                 sex: $scope.user.sex,
+                oldId: oldId
             }
             sportsmanService.updateProfile(data)
                 .then(function (result) {
@@ -37,6 +38,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
         .then(function (result) {
             $scope.user = result.data;
             $scope.user.birthdate = new Date($scope.user.birthdate);
+            oldId = $scope.user.id;
         }, function (error) {
             console.log(error)
         });
