@@ -9,11 +9,12 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
     });
     competitionService.getCompetitionDetails(getId)
         .then(function (result) {
-            $scope.competitionNumber= "תחרות מספר "+result.data[0].idCompetition;
-            $scope.competitionType="ענף: " +result.data[0].sportStyle;
-            $scope.location="מיקום: " + result.data[0].location +","+result.data[0].city;
-            $scope.compDate = result.data[0].date;
-            $scope.compHour = result.data[0].startHour;
+            console.log(result.data)
+            $scope.competitionNumber= "תחרות מספר "+result.data.idCompetition;
+            $scope.competitionType="ענף: " +result.data.sportStyle;
+            $scope.location="מיקום: " + result.data.location +","+result.data.city;
+            $scope.compDate = result.data.date;
+            $scope.compHour = result.data.startHour;
 
             var mymap = L.map('mapid')
             mymap.setView(new L.LatLng(-85,50), 15 );
@@ -25,11 +26,11 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
                 accessToken: 'pk.eyJ1Ijoid3VzaHVzeXMiLCJhIjoiY2swZHRodDdmMGF3ODNibzJycHJnaGNtciJ9._Y5lebHWlgL3dphKLHcz3Q'
             }).addTo(mymap);
 
-            console.log(result.data[0].location +","+result.data[0].city)
+            console.log(result.data.location +","+result.data.city);
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "https://api.locationiq.com/v1/autocomplete.php?key=afa72e2030cce6&q="+result.data[0].location +","+result.data[0].city,
+                "url": "https://api.locationiq.com/v1/autocomplete.php?key=afa72e2030cce6&q="+result.data.location +","+result.data.city,
                 "method": "GET"
             }
 
@@ -38,7 +39,7 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
                 lon= response[0].lon;
                 mymap.setView(new L.LatLng(lat,lon), 15 );
                 L.marker([lat,lon]).addTo(mymap)
-                    .bindPopup( result.data[0].location)
+                    .bindPopup( result.data.location)
                     .openPopup();
             });
         }, function (error) {
