@@ -50,28 +50,36 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
             })
     };
 
-    $scope.addChange = function (user, oldCategoryId) {
-        let categorySportsman = $scope.categoryForSportsman.find(item => {return item.sportsmanId == user.id});
-        if(oldCategoryId != ''){
-            $scope.categories.find(category => {return category.id == oldCategoryId}).count--;
+    $scope.changeCategory = function (user, oldCategoryId) {
+        console.log(user);
+        let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
+        if(!newUserCategory || !newUserCategory.users.map(u=>u.id).includes(user.id)){
+            removeSportsmanFromoldCategory(oldCategoryId, user);
+            setNewCategoryToUser(user);
+            addSportsmanToNewCategory(newUserCategory, user);
+            user.selectedCategory.count++;
+            alert("הספורטאי הועבר קטגוריה");
+        }
+        else{
+            alert("הספורטאי רשום כבר בקטגוריה שנבחרה");
+            user.selectedCategory = $scope.categories.find(function (category) {
+                return category.id == oldCategoryId;
+            });
+        }
+    };
+    function removeSportsmanFromoldCategory(oldCategoryId, user) {
+        if (oldCategoryId != '') {
+            $scope.categories.find(category => {
+                return category.id == oldCategoryId
+            }).count--;
             let oldUsersCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == oldCategoryId);
             oldUsersCategory.users = $rootScope.arrayRemove(oldUsersCategory.users, user);
-            if(oldUsersCategory.users.length === 0)
+            if (oldUsersCategory.users.length === 0)
                 $scope.usersCategories = $rootScope.arrayRemove($scope.usersCategories, oldUsersCategory);
         }
-        if(categorySportsman){
-            categorySportsman.categoryId = user.selectedCategory.id;
-        }
-        else {
-            $scope.categoryForSportsman.push(
-                {
-                    sportsmanId: user.id,
-                    categoryId: user.selectedCategory.id
-                }
-            );
-        }
-        let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == user.selectedCategory.id);
-        if(newUserCategory)
+    }
+    function addSportsmanToNewCategory(newUserCategory, user) {
+        if (newUserCategory)
             newUserCategory.users.push(user);
         else
             $scope.usersCategories.push(
@@ -80,9 +88,22 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
                     users: new Array(user)
                 }
             );
-        user.selectedCategory.count++;
-        alert("הספורטאי הועבר קטגוריה");
-    };
+    }
+    function setNewCategoryToUser(user) {
+        let categorySportsman = $scope.categoryForSportsman.find(item => {
+            return item.sportsmanId == user.id
+        });
+        if (categorySportsman) {
+            categorySportsman.categoryId = user.selectedCategory.id;
+        } else {
+            $scope.categoryForSportsman.push(
+                {
+                    sportsmanId: user.id,
+                    categoryId: user.selectedCategory.id
+                }
+            );
+        }
+    }
 
     $scope.closeRegistration = function() {
         var res= confirm("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?")
