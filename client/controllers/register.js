@@ -113,6 +113,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
             registerUsers(data, $scope.coachReggister)
         }
     };
+    function replacer(key, value) {
+        return value.split(',').join('\n');
+    }
 
 
     function registerUsers(data, isCoach) {
@@ -142,9 +145,27 @@ app.controller("registerController", function ($scope, $http, $window, $location
     function displayErr(collectionErr) {
         ansExcel.style.color = "red";
         ansExcel.style.display = "block"
-        collectionErr.forEach((error) => {
-            ansExcel.innerHTML = ansExcel.innerHTML + error.id + "\n" + error.errors + "\n"
-        })
+        ansExcel.innerHTML = err
+    }
+    function registerCoach(data) {
+        var req = {
+            method: 'POST',
+            url: serverUrl + '/private/registerCoach',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
+            },
+            data: data
+        }
+        $http(req).then(function () {
+            alert("הרישום בוצע בהצלחה")
+        }, function (error) {
+            if (error.status === 403)
+                alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
+            else
+                alert("ארעה שגיאה");
+            console.log(error);
+        });
+
 
     }
 

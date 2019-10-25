@@ -64,8 +64,8 @@
                             <div ng-show="isEditModeOn"   class="update-input"
                                  ng-class="{'alert-validate' : updateProfile.id.$invalid && (updateProfile.id.$touched || isClicked)}"
                                  data-validate="{{updateProfile.id.$error.required ? 'הכנס ת.ז.' : (updateProfile.id.$error.minlength || updateProfile.id.$error.maxlength || updateProfile.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
-                                <input class="update-input100" type="text" name="id" ng-model="user.id" placeholder="ת.ז"
-                                       ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/">
+                                <input class="update-input100" ng-disabled="true" type="text" name="id" ng-model="user.id" placeholder="ת.ז">
+                                <!--ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/"-->
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                  ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
                                  data-validate="בחר מין">
                                 <span ng-repeat="sex in sexEnum">
-                                    <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-required="!selectedSex" ng-value="sex.name"><label
+                                    <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" ng-value="sex.name"><label
                                         class="radio_label"> {{sex.name}} </label></input>
                                 </span>
                             </div>
