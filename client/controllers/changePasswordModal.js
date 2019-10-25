@@ -15,6 +15,7 @@ app.controller("changePasswordController", function($scope, $uibModalInstance, $
                 }
             };
             $http(req).then(function () {
+                $window.sessionStorage.setItem('isFirstLogin', "0");
                 $uibModalInstance.close();
             }, function (error) {
                 if(error.status == 401)
