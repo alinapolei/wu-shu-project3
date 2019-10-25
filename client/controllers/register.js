@@ -134,7 +134,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
                 });
-                //registerUser(data);
                 registerService.registerUsers(data)
                     .then(function () {
                         alert("הרישום בוצע בהצלחה");
@@ -143,7 +142,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                         if (error.status === 403)
                             alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
                         else {
-                            displayErr(error.data[0])
+                            displayErr(JSON.stringify(error.data, replacer , 2));
                             console.log(error.data)
                         }
                     });
@@ -166,6 +165,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
             //$location.path("/home");
         }
     };
+    function replacer(key, value) {
+        return value.split(',').join('\n');
+    }
 
     function displayErr(err) {
         ansExcel.style.color = "red";

@@ -193,7 +193,7 @@ app.filter('sportsmenByCategoryFilter', function(constants) {
         if(category) {
             var filtered = [];
             angular.forEach(items, function (item) {
-                if (category.minAge <= item.age && (item.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
+                if (category.minAge <= item.age && (category.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
                     filtered.push(item);
                 }
             });
