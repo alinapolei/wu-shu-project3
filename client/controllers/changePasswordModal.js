@@ -1,32 +1,34 @@
 app.controller("changePasswordController", function($scope, $uibModalInstance, $window, $http) {
     serverUrl = "http://localhost:3000";
 
-    $scope.changePass = function(){
+    $scope.changePass = function(isValid){
         $scope.isClicked = true;
-        if($scope.password1 === $scope.password2){
-            var req = {
-                method: 'POST',
-                url: serverUrl + '/private/changePassword',
-                headers: {
-                    'x-auth-token': $window.sessionStorage.getItem('token')
-                },
-                data: {
-                    password: $scope.password1
-                }
-            };
-            $http(req).then(function () {
-                $window.sessionStorage.setItem('isFirstLogin', "0");
-                $uibModalInstance.close();
-            }, function (error) {
-                if(error.status == 401)
-                    $scope.error = "הסיסמא שהוזנה זהה לסיסמא הנוכחית";
-                else {
-                    console.log(error.data);
-                    alert("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.")
-                }
-            });
+        if(isValid) {
+            if ($scope.password1 === $scope.password2) {
+                var req = {
+                    method: 'POST',
+                    url: serverUrl + '/private/changePassword',
+                    headers: {
+                        'x-auth-token': $window.sessionStorage.getItem('token')
+                    },
+                    data: {
+                        password: $scope.password1
+                    }
+                };
+                $http(req).then(function () {
+                    $window.sessionStorage.setItem('isFirstLogin', "0");
+                    $uibModalInstance.close();
+                    alert("הסיסמא הוחלפה בהצלחה")
+                }, function (error) {
+                    if (error.status === 409)
+                        $scope.error = error.data;
+                    else {
+                        console.log(error.data);
+                        alert("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.")
+                    }
+                });
+            } else
+                $scope.error = "הסיסמאות שהוזנו אינן שוות";
         }
-        else
-            $scope.error = "הסיסמאות שהוזנו אינן שוות";
     }
 });
