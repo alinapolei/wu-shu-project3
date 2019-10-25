@@ -1,51 +1,40 @@
-app.service('registerService', function($window, $http,excelDataValidate) {
+app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
+    result=''
+
+    this.dropZoneDropFile = function (e){//, isCoach) {
+        e.stopPropagation();
+        e.preventDefault();
+        let files = e.dataTransfer.files, i, f;
+        let results ;
+        f = files[0]
+            let reader = new FileReader(),
+                name = f.name;
+            changeDropzone(f.name);
+            reader.onload =async function (e) {
+                let
+                    data = e.target.result,
+                    fixedData = fixdata(data),
+                    workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
+                    firstSheetName = workbook.SheetNames[0],
+                    worksheet = workbook.Sheets[firstSheetName];
+                    results = XLSX.utils.sheet_to_json(worksheet);
+                    reader.sendData= await XLSX.utils.sheet_to_json(worksheet);
+
+            };
+            reader.onloadend = async function(res){
+                console.log(res)
+                result=await results
+                console.log(result)
+            }
+            reader.readAsArrayBuffer(f);
+        return result
 
 
-this.dropZoneDropFile =function (e,isCoach) {
-    e.stopPropagation();
-    e.preventDefault();
-    console.log("DROPPED");
-    var errorText = document.getElementById("errorText");
-    errorText.innerHTML =""
-    var files = e.dataTransfer.files, i, f;
-    for (i = 0, f = files[i]; i !== files.length; ++i) {
-        var reader = new FileReader(),
-            name = f.name;
-        changeDropzone(f.name);
-        reader.onload = function (e) {
-            var results,
-                data = e.target.result,
-                fixedData = fixdata(data),
-                workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
-                firstSheetName = workbook.SheetNames[0],
-                worksheet = workbook.Sheets[firstSheetName];
-            results = XLSX.utils.sheet_to_json(worksheet);
-            excelCheck(results,isCoach);
-        };
-
-        reader.readAsArrayBuffer(f);
     }
 
-}
-    function excelCheck(data,isCoach) {
-        var droptext = document.getElementById("dropText");
-        var res;
-        if (!isCoach)
-            res = excelDataValidate.sportsmanValidateData(data)
-        else
-            res = excelDataValidate.coachValidateData(data)
-
-        if(res==true) {
-            droptext.className = "excelOK"
-            registerUsers(data)
-        }
-        else
-            droptext.className="excelBad"
-    }
-
-   this.registerUsers=function(data) {
-    console.log("register function");
+    this.registerUsers = function (data) {
+        console.log("register function");
         var req = {
             method: 'POST',
             url: serverUrl + '/private/registerSportsman',
@@ -63,6 +52,7 @@ this.dropZoneDropFile =function (e,isCoach) {
         o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
         return o;
     }
+
     function changeDropzone(name) {
         var droptext = document.getElementById("dropText");
         droptext.innerHTML = name.toString();
@@ -70,5 +60,12 @@ this.dropZoneDropFile =function (e,isCoach) {
         dropzone.className = "dropzoneExcel"
         changeExcel.style.display = "block"
     }
+    function displayErr(collectionErr) {
+        let errArea = document.getElementById('errorText');
 
+        errArea.style.color = "red";
+        errArea.style.display = "block"
+        errArea.innerHTML =  ansExcel.innerHTML+collectionErr
+
+    }
 });
