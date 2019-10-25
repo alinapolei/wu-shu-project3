@@ -44,7 +44,8 @@ this.dropZoneDropFile =function (e,isCoach) {
             droptext.className="excelBad"
     }
 
-    function registerUsers(data) {
+   this.registerUsers=function(data) {
+    console.log("register function");
         var req = {
             method: 'POST',
             url: serverUrl + '/private/registerSportsman',
@@ -54,8 +55,7 @@ this.dropZoneDropFile =function (e,isCoach) {
             data: data
         };
         return $http(req);
-
-    }
+    };
 
     function fixdata(data) {
         var o = "", l = 0, w = 10240;

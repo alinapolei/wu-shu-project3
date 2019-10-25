@@ -1,13 +1,13 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService,registerService,constants) {
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService, registerService, constants) {
     serverUrl = "http://localhost:3000"
     $scope.sexEnum = constants.sexEnum;
     $scope.currentDate = new Date();
-    $scope.coachReggister=false;
+    $scope.coachReggister = false;
     rowObj = new Object()
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     var changeExcel = document.getElementById("changeExcel")
-    var ansExcel =document.getElementById('ansExcel');
+    var ansExcel = document.getElementById('ansExcel');
 
     changeExcel.onclick = function (e) {
         e.preventDefault()
@@ -15,15 +15,16 @@ app.controller("registerController", function ($scope, $http, $window, $location
         changeExcel.style.display = "none"
         document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
-        ansExcel.style.display="none"
+        ansExcel.style.display = "none"
     }
 
     getCoachesAndClub();
+
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
-                $scope.allcoaches=result.data;
-                $scope.coaches=result.data;
+                $scope.allcoaches = result.data;
+                $scope.coaches = result.data;
             }, function (error) {
                 console.log(error)
             });
@@ -37,12 +38,12 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    $scope.filterCoach = function(){
-        $scope.coaches = $filter('filter')($scope.allcoaches, function(obj){
+    $scope.filterCoach = function () {
+        $scope.coaches = $filter('filter')($scope.allcoaches, function (obj) {
             return obj.sportclub == $scope.sportclub.id;
         });
     };
-    $scope.filterClub = function(){
+    $scope.filterClub = function () {
         $scope.sportclub = $filter('filter')($scope.clubs, function (obj) {
             return obj.id === $scope.coach.sportclub;
         })[0];
@@ -50,14 +51,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     var dropzone = document.getElementById("dropzone")
 
-   /* function fixdata(data) {
-        var o = "", l = 0, w = 10240;
-        for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
-        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
-        return o;
-    }
+    /* function fixdata(data) {
+         var o = "", l = 0, w = 10240;
+         for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+         o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+         return o;
+     }
 
-    */
+     */
 
     function workbook_to_json(workbook) {
         var result = {};
@@ -70,41 +71,41 @@ app.controller("registerController", function ($scope, $http, $window, $location
         return result;
     }
 
-   /* function changeDropzone(name) {
-        var droptext = document.getElementById("dropText");
-        droptext.innerHTML = name.toString();
-        var dropzone = document.getElementById("dropzone");
-        dropzone.className = "dropzoneExcel"
-        changeExcel.style.display = "block"
-    }
+    /* function changeDropzone(name) {
+         var droptext = document.getElementById("dropText");
+         droptext.innerHTML = name.toString();
+         var dropzone = document.getElementById("dropzone");
+         dropzone.className = "dropzoneExcel"
+         changeExcel.style.display = "block"
+     }
 
-    */
+     */
 
     dropzone.ondrop = function (e) {
-      /*  e.stopPropagation();
-        e.preventDefault();
-        console.log("DROPPED");
-        var files = e.dataTransfer.files, i, f;
-        for (i = 0, f = files[i]; i !== files.length; ++i) {
-            var reader = new FileReader(),
-                name = f.name;
-            changeDropzone(f.name);
-            reader.onload = function (e) {
-                var results,
-                    data = e.target.result,
-                    fixedData = fixdata(data),
-                    workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
-                    firstSheetName = workbook.SheetNames[0],
-                    worksheet = workbook.Sheets[firstSheetName];
-                results = XLSX.utils.sheet_to_json(worksheet);
-                Excelcheck(results);
-            };
+        /*  e.stopPropagation();
+          e.preventDefault();
+          console.log("DROPPED");
+          var files = e.dataTransfer.files, i, f;
+          for (i = 0, f = files[i]; i !== files.length; ++i) {
+              var reader = new FileReader(),
+                  name = f.name;
+              changeDropzone(f.name);
+              reader.onload = function (e) {
+                  var results,
+                      data = e.target.result,
+                      fixedData = fixdata(data),
+                      workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
+                      firstSheetName = workbook.SheetNames[0],
+                      worksheet = workbook.Sheets[firstSheetName];
+                  results = XLSX.utils.sheet_to_json(worksheet);
+                  Excelcheck(results);
+              };
 
-            reader.readAsArrayBuffer(f);
-        }
+              reader.readAsArrayBuffer(f);
+          }
 
-       */
-      registerService.dropZoneDropFile(e,$scope.coachReggister)
+         */
+        registerService.dropZoneDropFile(e, $scope.coachReggister)
     };
     dropzone.ondragover = function () {
         this.className = 'dropzone dragover';
@@ -117,9 +118,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     /*** manual registration ***/
     $scope.submit = function (isValid) {
+        let data = [];
         if (isValid) {
             if (!$scope.coachReggister) {
-                data = {
+                data.push({
                     id: $scope.id,
                     firstname: $scope.firstname,
                     lastname: $scope.lastname,
@@ -131,11 +133,22 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sex: $scope.selectedSex,
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
-                };
-                console.log(data);
-                registerUser(data);
+                });
+                //registerUser(data);
+                registerService.registerUsers(data)
+                    .then(function () {
+                        alert("הרישום בוצע בהצלחה");
+                        $location.path("/home");
+                    }, function (error) {
+                        if (error.status === 403)
+                            alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
+                        else {
+                            displayErr(error.data[0])
+                            console.log(error.data)
+                        }
+                    });
             } else {
-                data = {
+                data.push({
                     id: $scope.id,
                     firstname: $scope.firstname,
                     lastname: $scope.lastname,
@@ -146,13 +159,19 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sportclub: $scope.sportclub.id,
                     sportStyle: $scope.sportStyle,
                     teamname: $scope.teamname
-                };
+                });
                 console.log(data);
                 registerCoach(data);
             }
-            $location.path("/home");
+            //$location.path("/home");
         }
     };
+
+    function displayErr(err) {
+        ansExcel.style.color = "red";
+        ansExcel.style.display = "block"
+        ansExcel.innerHTML = err
+    }
     function registerCoach(data) {
         var req = {
             method: 'POST',
@@ -165,7 +184,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $http(req).then(function () {
             alert("הרישום בוצע בהצלחה")
         }, function (error) {
-            if(error.status === 403)
+            if (error.status === 403)
                 alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
             else
                 alert("ארעה שגיאה");
@@ -174,26 +193,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
 
     }
-    function registerUser(data) {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/registerSportman',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
-            },
-            data: data
-        };
-        $http(req).then(function () {
-            alert("הרישום בוצע בהצלחה");
-        }, function (error) {
-            if(error.status === 403)
-                alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
-            else
-                alert("ארעה שגיאה");
-            console.log(error)
-        });
 
-    }
 
 
     $scope.ExcelExport = function (event) {
@@ -260,10 +260,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
      */
 
     function registerExcelUser(data) {
-        if(!$scope.coachReggister)
+        if (!$scope.coachReggister)
             regUrl = serverUrl + '/private/registerSportman'
         else
-            regUrl =serverUrl +'/private/registerCoach'
+            regUrl = serverUrl + '/private/registerCoach'
 
         for (let i = 0; i < data.length; i++) {
             var req = {
@@ -276,10 +276,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
             }
             console.log(data)
             $http(req).then(function () {
-                if(i==data.length-1)
-                    ansExcel.style.color="green";
-                    ansExcel.style.display = "block"
-                    ansExcel.innerHTML = "רישום בוצע בהצלחה";
+                if (i == data.length - 1)
+                    ansExcel.style.color = "green";
+                ansExcel.style.display = "block"
+                ansExcel.innerHTML = "רישום בוצע בהצלחה";
             }, function (error) {
                 console.log(error)
             });
@@ -289,7 +289,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    function clearFields(){
+    function clearFields() {
         /*$scope.id = "";
         $scope.firstname = "";
         $scope.lastname = "";

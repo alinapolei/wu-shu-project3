@@ -8,6 +8,9 @@ let eventType = {
     event: 'אירוע'
 };
 let regexHeb = new RegExp("^[\u0590-\u05fe]+$");
+let regexHebWithSpace = new RegExp("^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$");
+let regexHebrewAndNumbers = new RegExp("^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$");
+
 let sexEnum = {
     זכר: 111,
     נקבה: 112
@@ -39,9 +42,10 @@ let errorMsg = {
     errLoginDetails: 'Access denied. Error in user\'s details',
     accessDenied: 'Access denied',
     failDownload: 'Fail to download resource',
-    samePassword: 'הסיסמאות זהות',
+    samePassword: 'הסיסמא שהוזנה זהה לסיסמא הנוכחית',
     compAgeErr: 'גיל לא חוקי',
-    minAgeErr: 'גיל מינימאלי חייב להיות קטן מגיל מאקסימלי'
+    minAgeErr: 'גיל מינימאלי חייב להיות קטן מגיל מאקסימלי',
+    hebErr : 'נא הכנס טקסט בעברית'
 }
 
 let msg = {
@@ -51,7 +55,11 @@ let msg = {
     competitionUpdate: 'competition update successfully',
     addCategory: 'category added successfully',
     closeRegistration: 'Register have been closed',
-    updateUserDetails: 'user\' details update successfully'
+    updateUserDetails: 'user details update successfully',
+    categoryRegistrationSuccess: ' add to user category successfully',
+    eventAdded : 'event have been created successfully',
+    profilePicUpdate : 'profile picture updated successfully'
+
 }
 
 let fileName = {
@@ -65,6 +73,7 @@ let statusCode = {
     badRequest: 400,
     unauthorized: 401,
     notFound: 404,
+    Conflict: 409,
     initialServerError: 500
 }
 
@@ -78,5 +87,7 @@ module.exports = {
     errorMsg: errorMsg,
     fileName: fileName,
     msg: msg,
-    statusCode: statusCode
+    statusCode: statusCode,
+    regexHebrewAndNumbers: regexHebrewAndNumbers,
+    regexHebWithSpace: regexHebWithSpace
 };

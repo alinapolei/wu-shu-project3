@@ -1,5 +1,66 @@
-function addCompetition(req, res) {
-    let validator = new validation(req.body, {
+function validateCompetitionDetails(eventDetails) {
+    let ans = new Object();
+    ans.isPassed = true;
+    let err = [];
+    //description
+    if (!validator.matches(eventDetails.description, Constants.regexHebWithSpace))
+        err.push(Constants.errorMsg.hebErr)
+    //location
+    if (!validator.matches(eventDetails.location, Constants.regexHebrewAndNumbers))
+        err.push(Constants.errorMsg.hebErr)
+    //branch
+    if (!(eventDetails.sportStyle in Constants.sportType))
+        err.push(Constants.errorMsg.sportTypeErr)
+    //city
+    if (!validator.matches(eventDetails.city, Constants.regexHebWithSpace))
+        err.push(Constants.errorMsg.hebErr)
+
+    if (err.length != 0)
+        ans.isPassed = false;
+    ans.results = err;
+    return ans;
+}
+
+async function addCompetition(competitionDetails) {
+    let ans = new Object();
+    let trans;
+    await dbUtils.beginTransaction()
+        .then(async function (newTransaction) {
+            trans = newTransaction;
+            return await trans.sql(` INSERT INTO events (location,type,date,startHour,city)
+                                     output inserted.idEvent
+                                    VALUES (@location,@eventType,@eventDate,@startHour,@city);`)
+                .parameter('location', tediousTYPES.NVarChar, competitionDetails.location)
+                .parameter('eventType', tediousTYPES.NVarChar, Constants.eventType.competition)
+                .parameter('eventDate', tediousTYPES.Date, competitionDetails.eventDate)
+                .parameter('startHour', tediousTYPES.NVarChar, competitionDetails.startHour)
+                .parameter('city', tediousTYPES.NVarChar, competitionDetails.city)
+                .execute();
+        })
+        .then(async function (Result) {
+            return await trans.sql(` INSERT INTO events_competition (sportStyle,description,closeRegDate,closeRegTime,status,idEvent)
+                                    VALUES (@sportStyle,@description,@closeDate,@closeTime,@status,@idEvent);`)
+                .parameter('sportStyle', tediousTYPES.NVarChar, competitionDetails.sportStyle)
+                .parameter('description', tediousTYPES.NVarChar, competitionDetails.description)
+                .parameter('closeDate', tediousTYPES.Date, competitionDetails.closeDate)
+                .parameter('closeTime', tediousTYPES.NVarChar, competitionDetails.closeTime)
+                .parameter('status', tediousTYPES.NVarChar, Constants.competitionStatus.open)
+                .parameter('idEvent', tediousTYPES.Int, Result[0].idEvent)
+                .returnRowCount()
+                .execute();
+        })
+        .then(async function (testResult) {
+            ans.status = Constants.statusCode.ok;
+            ans.results = Constants.msg.eventAdded;
+            trans.commitTransaction();
+        })
+        .fail(function (err) {
+            ans.status = Constants.statusCode.badRequest;
+            ans.results = err;
+            trans.rollbackTransaction();
+        })
+    return ans;
+    /*let validator = new validation(req.body, {
         location: 'required',
         eventDate: 'required',
         startHour: 'required',
@@ -50,6 +111,8 @@ function addCompetition(req, res) {
                 })
         }
     })
+
+     */
 }
 
 function initQuery(queryData) {
@@ -92,7 +155,7 @@ async function getCompetitions(queryData) {
             })])
         .then(result => {
             ans.results = {
-                sportsmen: result[0],
+                competitions: result[0],
                 totalCount: result[1][0].count
             };
             ans.status = Constants.statusCode.ok;
@@ -182,20 +245,46 @@ function sortUsers(users) {
     return resultJson;
 }
 
-function setCategoryRegistration(req, res) {
-    let queryStack = [];
-    req.body.categoryForSportsman.forEach(function (categorySportsman) {
-        queryStack.push(DButilsAzure.execQuery(`update competition_sportsman
-                                                        set category = ${categorySportsman.categoryId}
-                                                        where idSportsman = ${categorySportsman.sportsmanId} and idCompetition = ${req.body.compId}`));
-    });
-    Promise.all(queryStack)
-        .then(result => {
-            res.status(200).send("Successful update");
+async function setCategoryRegistration(categoryForSportsman, compId) {
+    let ans = new Object()
+    let trans;
+    await dbUtils.beginTransaction()
+        .then(async (newTransaction) => {
+            trans = newTransaction;
+            await insertCategoryRegistrationDB(trans, categoryForSportsman, categoryForSportsman[0], 0, compId)
+                .then((result) => {
+                    ans.status = Constants.statusCode.ok;
+                    ans.results = Constants.msg.categoryRegistrationSuccess;
+                    trans.commitTransaction();
+                })
+                .catch((err) => {
+                    ans.status = Constants.statusCode.badRequest;
+                    ans.results = err;
+                    trans.rollbackTransaction();
+                })
         })
-        .catch(error => {
-            res.status(404).send(error)
+        .fail(function (err) {
+            ans.status = Constants.statusCode.badRequest;
+            ans.results = err;
+            trans.rollbackTransaction();
         });
+
+    return ans
+}
+
+async function insertCategoryRegistrationDB(trans, categoryForSportsman, category, i, compID) {
+    return trans.sql(`update competition_sportsman
+                      set category = @category
+                      where idSportsman = @idSportsman and idCompetition = @idCompetition`)
+        .parameter('idSportsman', tediousTYPES.Int, category[0])
+        .parameter('category', tediousTYPES.Int, category[1])
+        .parameter('idCompetition', tediousTYPES.Int, compID)
+        .execute()
+        .then(async function (testResult) {
+            if (i + 1 < users.length)
+                await insertCategoryRegistrationDB(trans, categoryForSportsman, categoryForSportsman[i + 1], i + 1, compID);
+            return testResult
+        })
 }
 
 async function closeRegistration(idCompetition) {
@@ -332,14 +421,15 @@ async function getIdEvent(idComp) {
         });
 }
 
-module.exports._addCompetition = addCompetition;
+module.exports.addCompetition = addCompetition;
 module.exports.getCompetitions = getCompetitions;
 module.exports._getAllSportsman = getAllSportsman;
 module.exports.getRegistrationState = getRegistrationState;
-module.exports._setCategoryRegistration = setCategoryRegistration;
+module.exports.setCategoryRegistration = setCategoryRegistration;
 module.exports.closeRegistration = closeRegistration;
 module.exports.addNewCategory = addNewCategory;
 module.exports.updateCompetitionDetails = updateCompetitionDetails;
 module.exports.autoCloseRegCompetition = autoCloseRegCompetition;
 module.exports.getIdEvent = getIdEvent;
 module.exports.validateDataBeforeAddCategory = validateDataBeforeAddCategory;
+module.exports.validateCompetitionDetails = validateCompetitionDetails;

@@ -35,6 +35,18 @@ const sportsman_user_module = require("./implementation/sportsman/user_module");
 
 const common_function = require("./implementation/commonFunc")
 
+//uploade file const
+const storagePhoto = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __basedir + '/resources/profilePic/')
+    },
+    filename: (req, file, cb) => {
+        cb(null, String(id + ".jpeg"))
+    }
+});
+const uploadProfilePic = multer({storage: storagePhoto});
+
+
 
 //server schedule Jobs
 let automaticCloseCompetition = schedule.scheduleJob({hour: 2}, function () {
@@ -98,15 +110,13 @@ app.post("/private/registerCoach", function (req, res) {
 
 });
 
-/*
-const storagePhoto = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, __basedir + '/uploads/Photos/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, String(id + ".jpeg"))
-    }
+app.post('/private/uploadPhoto', uploadProfilePic.single("userProfilePic"), async (req, res) => {
+    let ans ;
+    ans =await common_user_module.uploadeProfilePic(common_user_module.getTabelName(access),id);
+    res.status(ans.status).send(ans.results);
 });
+
+/*
 const uploadMedical = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, __basedir + '/uploads/sportsman/MedicalScan/')
@@ -135,7 +145,9 @@ app.post('/private/uploadMedicalFile', uploadMedicals.single("userMedical"), (re
 app.post('/private/uploadInsurance', uploadInsurances.single("userInsurance"), (req, res) => {
     sportsman_user_module._uploadInsurances(req, res);
 });
+
  */
+
 
 
 app.get('/downloadExcelFormatSportsman', (req, res) => {
@@ -155,7 +167,7 @@ app.post("/private/changePassword", async function (req, res) {
         ans = await common_user_module.changeUserPassword(userData);
         res.status(ans.status).send(ans.results)
     } else
-        res.status(Constants.statusCode.badRequest).send(ans.err)
+        res.status(ans.status).send(ans.err)
 });
 
 app.post("/private/getCoaches", async function (req, res) {
@@ -207,16 +219,20 @@ app.post("/private/sportsmanProfile", async function (req, res) {
 
 app.post("/private/addCompetition", async function (req, res) {
     let ans = new Object();
-    if (access === Constants.userType.MANAGER)
-        ans = await manger_competition_module._addCompetition(req, res);
-    else
-        res.status(400).send("Permission denied")
+    if (access === Constants.userType.MANAGER) {
+        ans = manger_competition_module.validateCompetitionDetails(req.body)
+        if (ans.isPassed) {
+            ans = await manger_competition_module.addCompetition(req.body);
+            res.status(ans.status).send(ans.results)
+        } else
+            res.status(Constants.statusCode.badRequest).send(ans.results)
+    } else
+        res.status(Constants.statusCode.badRequest).send(Constants.errorMsg.accessDenied)
 });
 
 app.post("/private/getCompetitions", async function (req, res) {
     if (access === Constants.userType.MANAGER || access === Constants.userType.COACH) {
-        let ans = new Object();
-        ans = await manger_competition_module.getCompetitions(req.query);
+        let ans = await manger_competition_module.getCompetitions(req.query);
         res.status(ans.status).send(ans.results);
     } else
         res.status(Constants.statusCode.badRequest).send(Constants.errorMsg.accessDenied)
@@ -227,9 +243,11 @@ app.post("/private/getCompetitionDetail", async function (req, res) {
     res.status(ans.status).send(ans.results)
 });
 
-app.post("/private/competitionSportsmen", function (req, res) {
-    if (access !== userType.SPORTSMAN)
-        common_competition_module._registerSportsmenToCompetition(req, res);
+app.post("/private/competitionSportsmen", async function (req, res) {
+    let ans;
+    if (access == Constants.userType.COACH || access == Constants.userType.MANAGER)
+        ans = await common_competition_module.registerSportsmenToCompetition(req.body.insertSportsman, req.body.deleteSportsman, req.body.compId);
+    res.status(ans.status).send(ans.results)
 })
 
 app.post("/private/deleteSportsmanProfile", async function (req, res) {
@@ -261,11 +279,13 @@ app.post("/private/getRegistrationState", async function (req, res) {
         res.status(Constants.statusCode.unauthorized).send(Constants.errorMsg.accessDenied)
 });
 
-app.post("/private/setCategoryRegistration", function (req, res) {
-    if (access === userType.MANAGER)
-        manger_competition_module._setCategoryRegistration(req, res);
-    else
-        res.status(400).send("Permission denied")
+app.post("/private/setCategoryRegistration", async function (req, res) {
+    let ans;
+    if (access === Constants.userType.MANAGER) {
+        ans = await manger_competition_module.setCategoryRegistration(common_function.getArrayFromJson(req.body.categoryForSportsman), req.body.compId);
+        res.status(ans.status).send(ans.results)
+    } else
+        res.status(Constants.statusCode.badRequest).send(Constants.errorMsg.accessDenied)
 });
 
 app.post("/private/closeRegistration", async function (req, res) {
