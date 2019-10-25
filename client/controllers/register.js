@@ -6,9 +6,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
     rowObj = new Object()
     $scope.coaches = new Array()
     $scope.clubs = new Array();
-    var changeExcel = document.getElementById("changeExcel")
-    var ansExcel = document.getElementById('ansExcel');
+    var changeExcel = document.getElementById("changeExcel");
 
+    getCoachesAndClub();
+    fillDataTmpFunction();
     changeExcel.onclick = function (e) {
         e.preventDefault()
         dropzone.className = "dropzone"
@@ -18,7 +19,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
         ansExcel.style.display = "none"
     }
 
-    getCoachesAndClub();
 
     function getCoachesAndClub() {
         coachService.getCoaches()
@@ -51,14 +51,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     var dropzone = document.getElementById("dropzone")
 
-    /* function fixdata(data) {
-         var o = "", l = 0, w = 10240;
-         for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
-         o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
-         return o;
-     }
-
-     */
 
     function workbook_to_json(workbook) {
         var result = {};
@@ -71,41 +63,11 @@ app.controller("registerController", function ($scope, $http, $window, $location
         return result;
     }
 
-    /* function changeDropzone(name) {
-         var droptext = document.getElementById("dropText");
-         droptext.innerHTML = name.toString();
-         var dropzone = document.getElementById("dropzone");
-         dropzone.className = "dropzoneExcel"
-         changeExcel.style.display = "block"
-     }
-
-     */
 
     dropzone.ondrop = function (e) {
-        /*  e.stopPropagation();
-          e.preventDefault();
-          console.log("DROPPED");
-          var files = e.dataTransfer.files, i, f;
-          for (i = 0, f = files[i]; i !== files.length; ++i) {
-              var reader = new FileReader(),
-                  name = f.name;
-              changeDropzone(f.name);
-              reader.onload = function (e) {
-                  var results,
-                      data = e.target.result,
-                      fixedData = fixdata(data),
-                      workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
-                      firstSheetName = workbook.SheetNames[0],
-                      worksheet = workbook.Sheets[firstSheetName];
-                  results = XLSX.utils.sheet_to_json(worksheet);
-                  Excelcheck(results);
-              };
-
-              reader.readAsArrayBuffer(f);
-          }
-
-         */
-        registerService.dropZoneDropFile(e, $scope.coachReggister)
+        let dataExcel = registerService.dropZoneDropFile(e)//, $scope.coachReggister)
+        console.log(dataExcel)
+        //registerUsers(dataExcel, $scope.coachReggister)
     };
     dropzone.ondragover = function () {
         this.className = 'dropzone dragover';
@@ -117,7 +79,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
     };
 
     /*** manual registration ***/
-    $scope.submit = function (isValid) {
+    $scope.submit = async function (isValid) {
         let data = [];
         if (isValid) {
             if (!$scope.coachReggister) {
@@ -134,19 +96,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
                 });
-                //registerUser(data);
-                registerService.registerUsers(data)
-                    .then(function () {
-                        alert("הרישום בוצע בהצלחה");
-                        $location.path("/home");
-                    }, function (error) {
-                        if (error.status === 403)
-                            alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
-                        else {
-                            displayErr(error.data[0])
-                            console.log(error.data)
-                        }
-                    });
             } else {
                 data.push({
                     id: $scope.id,
@@ -160,41 +109,44 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     sportStyle: $scope.sportStyle,
                     teamname: $scope.teamname
                 });
-                console.log(data);
-                registerCoach(data);
             }
-            //$location.path("/home");
+            registerUsers(data, $scope.coachReggister)
         }
     };
 
-    function displayErr(err) {
+
+    function registerUsers(data, isCoach) {
+        if (!isCoach)
+            registerService.registerUsers(data)
+                .then((results) => {
+                    alert("ok")
+                    $location.path("/home");
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+    }
+
+    function fillDataTmpFunction() {
+        $scope.id = 222222222;
+        $scope.firstname = "ניסיון";
+        $scope.lastname = "ניסיון";
+        $scope.phone = "2222222222";
+        $scope.email = "tmp@gmail.com";
+        $scope.address = 'כגדכ'
+        $scope.selectedSex = 'זכר'
+        $scope.sportStyle = 'טאולו'
+        $scope.birthdate = new Date(1990, 3, 3);
+    }
+
+    function displayErr(collectionErr) {
         ansExcel.style.color = "red";
         ansExcel.style.display = "block"
-        ansExcel.innerHTML = err
-    }
-    function registerCoach(data) {
-        var req = {
-            method: 'POST',
-            url: serverUrl + '/private/registerCoach',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token') //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiYWNjZXNzIjoxLCJpYXQiOjE1NjUzNjY0MTUsImV4cCI6MTU2NTQ1MjgxNX0.R3hXyBVbiXfgKy9wOi7Y1V0YjZXMQ4jGIxWbHeQkuqI'
-            },
-            data: data
-        }
-        $http(req).then(function () {
-            alert("הרישום בוצע בהצלחה")
-        }, function (error) {
-            if (error.status === 403)
-                alert("משתמש עם הת.ז. שהוזנה קיים במערכת כבר");
-            else
-                alert("ארעה שגיאה");
-            console.log(error);
-        });
-
+        collectionErr.forEach((error) => {
+            ansExcel.innerHTML = ansExcel.innerHTML + error.id + "\n" + error.errors + "\n"
+        })
 
     }
-
-
 
     $scope.ExcelExport = function (event) {
         var input = event.target;
