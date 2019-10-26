@@ -1,10 +1,15 @@
 app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
+    let url;
+    this.registerUsers = function (data, isCoach) {
+        if (isCoach)
+            url = serverUrl + '/private/registerSportsman';
+        else
+            url = serverUrl + '/private/registerCoach';
 
-    this.registerUsers = function (data) {
         let req = {
             method: 'POST',
-            url: serverUrl + '/private/registerSportsman',
+            url: url,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -12,8 +17,6 @@ app.service('registerService', function ($window, $http) {
         };
         return $http(req);
     };
-
-
 
 
     function displayErr(collectionErr) {
