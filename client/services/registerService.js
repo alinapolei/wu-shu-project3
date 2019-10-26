@@ -1,36 +1,43 @@
 app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
-    result=''
+    result = ''
 
-    this.dropZoneDropFile = function (e){//, isCoach) {
+    this.dropZoneDropFile = function (e) {//, isCoach) {
         e.stopPropagation();
         e.preventDefault();
         let files = e.dataTransfer.files, i, f;
-        let results ;
+        let results;
         f = files[0]
-            let reader = new FileReader(),
-                name = f.name;
-            changeDropzone(f.name);
-            reader.onload =async function (e) {
-                let
-                    data = e.target.result,
-                    fixedData = fixdata(data),
-                    workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
-                    firstSheetName = workbook.SheetNames[0],
-                    worksheet = workbook.Sheets[firstSheetName];
-                    results = XLSX.utils.sheet_to_json(worksheet);
-                    reader.sendData= await XLSX.utils.sheet_to_json(worksheet);
+        let reader = new FileReader(),
+            name = f.name;
+        reader.onload =async function (e) {
+            let
+                data = e.target.result,
+                fixedData = fixdata(data),
+                workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
+                firstSheetName = workbook.SheetNames[0],
+                worksheet = workbook.Sheets[firstSheetName];
+                results = XLSX.utils.sheet_to_json(worksheet);
+                reader.sendData= await XLSX.utils.sheet_to_json(worksheet);
 
-            };
-            reader.onloadend = async function(res){
-                console.log(res)
-                result=await results
-                console.log(result)
+        };
+        reader.onloadend = async function(){
+            return  results
+            //return result
+        }
+        reader.readAsArrayBuffer(f);
+
+    }
+
+    function workbook_to_json(workbook) {
+        var result = {};
+        workbook.SheetNames.forEach(function (sheetName) {
+            var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+            if (roa.length > 0) {
+                result = roa;
             }
-            reader.readAsArrayBuffer(f);
-        return result
-
-
+        });
+        return result;
     }
 
     this.registerUsers = function (data) {
@@ -60,12 +67,13 @@ app.service('registerService', function ($window, $http) {
         dropzone.className = "dropzoneExcel"
         changeExcel.style.display = "block"
     }
+
     function displayErr(collectionErr) {
         let errArea = document.getElementById('errorText');
 
         errArea.style.color = "red";
         errArea.style.display = "block"
-        errArea.innerHTML =  ansExcel.innerHTML+collectionErr
+        errArea.innerHTML = ansExcel.innerHTML + collectionErr
 
     }
 });
