@@ -1,24 +1,14 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, coachService, registerService, constants) {
-    serverUrl = "http://localhost:3000"
+app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, excelService, coachService, registerService, constants) {
     $scope.sexEnum = constants.sexEnum;
     $scope.currentDate = new Date();
-    $scope.coachReggister = false;
-    rowObj = new Object()
+    $scope.isRegisterCoach = false;
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     var changeExcel = document.getElementById("changeExcel");
+    let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers")
+
 
     getCoachesAndClub();
-    fillDataTmpFunction();
-    changeExcel.onclick = function (e) {
-        e.preventDefault()
-        dropzone.className = "dropzone"
-        changeExcel.style.display = "none"
-        document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
-        document.getElementById("fileSportsman").value = "";
-        ansExcel.style.display = "none"
-    }
-
 
     function getCoachesAndClub() {
         coachService.getCoaches()
@@ -49,32 +39,43 @@ app.controller("registerController", function ($scope, $http, $window, $location
         })[0];
     };
 
-    var dropzone = document.getElementById("dropzone")
+    fillDataTmpFunction();
 
 
-    function workbook_to_json(workbook) {
-        var result = {};
-        workbook.SheetNames.forEach(function (sheetName) {
-            var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-            if (roa.length > 0) {
-                result[sheetName] = roa;
-            }
-        });
-        return result;
+    changeExcel.onclick = function (e) {
+        e.preventDefault()
+        dropZoneRegisterUsers.className = "dropzone"
+        changeExcel.style.display = "none"
+        document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
+        document.getElementById("fileSportsman").value = "";
+    }
+    $scope.ExcelExport = function (event) {
+        excelService.uploadExcel(event, function (res) {
+            //console.log(res)
+            registerUsers(res, $scope.coachReggister)
+        })
+    };
+
+
+    dropZoneRegisterUsers.ondrop = function (e) {
+        excelService.dropZoneDropFile(e, function (res) {
+            changeDropZone(res.fileName)
+            registerUsers(res.result, $scope.coachReggister)
+        })
+    };
+
+    function changeDropZone(name) {
+        var droptext = document.getElementById("dropText");
+        droptext.innerHTML = name.toString();
+        dropZoneRegisterUsers.className = "dropzoneExcel"
+        changeExcel.style.display = "block"
     }
 
-
-    dropzone.ondrop = function (e) {
-        registerService.dropZoneDropFile(e, function (res) {
-            console.log(res)
-        })//, $scope.coachReggister)
-        //registerUsers(dataExcel, $scope.coachReggister)
-    };
-    dropzone.ondragover = function () {
+    dropZoneRegisterUsers.ondragover = function () {
         this.className = 'dropzone dragover';
         return false;
     };
-    dropzone.ondragleave = function () {
+    dropZoneRegisterUsers.ondragleave = function () {
         this.className = 'dropzone';
         return false;
     };
@@ -114,6 +115,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
             registerUsers(data, $scope.coachReggister)
         }
     };
+
     function replacer(key, value) {
         return value.split(',').join('\n');
     }
@@ -127,7 +129,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     $location.path("/home");
                 })
                 .catch((err) => {
-                    console.log(err)
+                    displayMsgForRegister(err.data)
                 })
     }
 
@@ -143,11 +145,21 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.birthdate = new Date(1990, 3, 3);
     }
 
-    function displayErr(collectionErr) {
-        ansExcel.style.color = "red";
-        ansExcel.style.display = "block"
-        ansExcel.innerHTML = err
+    function displayMsgForRegister(collectionErr) {
+        console.log(collectionErr)
+        $scope.resErr = true;
+        let err = '';
+        collectionErr.forEach((e)=>{
+
+            let colErr =''
+            e.errors.forEach((ee)=>{
+                colErr =colErr +"\n"+ee+"\n"
+            })
+            err= err +"\n"+e.id +colErr
+        })
+        $scope.errorText = err;
     }
+
     function registerCoach(data) {
         var req = {
             method: 'POST',
@@ -170,69 +182,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    $scope.ExcelExport = function (event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function () {
-            var fileData = reader.result;
-            var wb = XLSX.read(fileData, {type: 'binary'});
-            wb.SheetNames.forEach(async function (sheetName) {
-                rowObj = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
-
-            })
-            changeDropzone(document.getElementById('fileSportsman').files[0].name)
-            //work with RowOBJ
-            Excelcheck(rowObj);
-        };
-        reader.readAsBinaryString(input.files[0]);
-    };
 
     /*
-    function Excelcheck(data) {
-        var errorLines = new String();
-        var ExcelOk = true;
-        if (!$scope.coachReggister){
-            for (let i=0; i<data.length;i++) {
-                if (!validateSportsmanData.validData(data[i])) {
-                    ExcelOk = false;
-                    if(i < data.length-1)
-                        errorLines = errorLines + (i + 1) + ", ";
-                    else
-                        errorLines = errorLines + (i + 1) + " ";
-                }
-            }
-        }
-        else {
-            for (let i=0; i<data.length;i++)
-            {
-                if(!validateCoachData.validData(data[i])) {
-                    ExcelOk = false;
-                    if (i < data.length - 1)
-                        errorLines = errorLines + (i + 1) + ", ";
-                    else
-                        errorLines = errorLines + (i + 1) + " ";
-                }
-            }
-        }
-            if (!ExcelOk)
-            {
-                console.log(errorLines);
-                ansExcel.style.color="red";
-                ansExcel.style.display = "block"
-                ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
-            }
-
-            else {
-                console.log("register")
-                registerExcelUser(data);
-            }
-            document.getElementById("fileSportsman").value = "";
-
-
-    }
-
-     */
-
     function registerExcelUser(data) {
         if (!$scope.coachReggister)
             regUrl = serverUrl + '/private/registerSportman'
@@ -262,6 +213,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
         }
 
     }
+
+     */
 
     function clearFields() {
         /*$scope.id = "";
