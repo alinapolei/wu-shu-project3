@@ -65,10 +65,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
 
     dropzone.ondrop = function (e) {
-        let res= registerService.dropZoneDropFile(e)//, $scope.coachReggister)
-        console.log(res)
-
-
+        registerService.dropZoneDropFile(e, function (res) {
+            console.log(res)
+        })//, $scope.coachReggister)
         //registerUsers(dataExcel, $scope.coachReggister)
     };
     dropzone.ondragover = function () {
@@ -188,7 +187,51 @@ app.controller("registerController", function ($scope, $http, $window, $location
         reader.readAsBinaryString(input.files[0]);
     };
 
+    /*
+    function Excelcheck(data) {
+        var errorLines = new String();
+        var ExcelOk = true;
+        if (!$scope.coachReggister){
+            for (let i=0; i<data.length;i++) {
+                if (!validateSportsmanData.validData(data[i])) {
+                    ExcelOk = false;
+                    if(i < data.length-1)
+                        errorLines = errorLines + (i + 1) + ", ";
+                    else
+                        errorLines = errorLines + (i + 1) + " ";
+                }
+            }
+        }
+        else {
+            for (let i=0; i<data.length;i++)
+            {
+                if(!validateCoachData.validData(data[i])) {
+                    ExcelOk = false;
+                    if (i < data.length - 1)
+                        errorLines = errorLines + (i + 1) + ", ";
+                    else
+                        errorLines = errorLines + (i + 1) + " ";
+                }
+            }
+        }
+            if (!ExcelOk)
+            {
+                console.log(errorLines);
+                ansExcel.style.color="red";
+                ansExcel.style.display = "block"
+                ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
+            }
 
+            else {
+                console.log("register")
+                registerExcelUser(data);
+            }
+            document.getElementById("fileSportsman").value = "";
+
+
+    }
+
+     */
 
     function registerExcelUser(data) {
         if (!$scope.coachReggister)

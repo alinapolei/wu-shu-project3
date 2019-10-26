@@ -1,8 +1,8 @@
 app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
-    result = ''
+    var result = ''
 
-    this.dropZoneDropFile = function (e) {//, isCoach) {
+    this.dropZoneDropFile = function (e, callback) {//, isCoach) {
         e.stopPropagation();
         e.preventDefault();
         let files = e.dataTransfer.files, i, f;
@@ -10,34 +10,22 @@ app.service('registerService', function ($window, $http) {
         f = files[0]
         let reader = new FileReader(),
             name = f.name;
-        reader.onload =async function (e) {
+        changeDropzone(f.name);
+        reader.onload = function (e) {
             let
                 data = e.target.result,
                 fixedData = fixdata(data),
                 workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
                 firstSheetName = workbook.SheetNames[0],
                 worksheet = workbook.Sheets[firstSheetName];
-                results = XLSX.utils.sheet_to_json(worksheet);
-                reader.sendData= await XLSX.utils.sheet_to_json(worksheet);
-
+            results = XLSX.utils.sheet_to_json(worksheet);
+            reader.sendData = XLSX.utils.sheet_to_json(worksheet);
+            callback(results);
         };
-        reader.onloadend = async function(){
-            return  results
-            //return result
-        }
         reader.readAsArrayBuffer(f);
+        return reader;
 
-    }
 
-    function workbook_to_json(workbook) {
-        var result = {};
-        workbook.SheetNames.forEach(function (sheetName) {
-            var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-            if (roa.length > 0) {
-                result = roa;
-            }
-        });
-        return result;
     }
 
     this.registerUsers = function (data) {
