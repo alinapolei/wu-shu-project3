@@ -65,8 +65,9 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
 
     dropzone.ondrop = function (e) {
-        let dataExcel = registerService.dropZoneDropFile(e)//, $scope.coachReggister)
-        console.log(dataExcel)
+        registerService.dropZoneDropFile(e, function (res) {
+            console.log(res)
+        })//, $scope.coachReggister)
         //registerUsers(dataExcel, $scope.coachReggister)
     };
     dropzone.ondragover = function () {

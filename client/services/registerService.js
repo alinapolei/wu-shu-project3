@@ -1,34 +1,29 @@
 app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
-    result=''
+    var result = ''
 
-    this.dropZoneDropFile = function (e){//, isCoach) {
+    this.dropZoneDropFile = function (e, callback) {//, isCoach) {
         e.stopPropagation();
         e.preventDefault();
         let files = e.dataTransfer.files, i, f;
-        let results ;
+        let results;
         f = files[0]
-            let reader = new FileReader(),
-                name = f.name;
-            changeDropzone(f.name);
-            reader.onload =async function (e) {
-                let
-                    data = e.target.result,
-                    fixedData = fixdata(data),
-                    workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
-                    firstSheetName = workbook.SheetNames[0],
-                    worksheet = workbook.Sheets[firstSheetName];
-                    results = XLSX.utils.sheet_to_json(worksheet);
-                    reader.sendData= await XLSX.utils.sheet_to_json(worksheet);
-
-            };
-            reader.onloadend = async function(res){
-                console.log(res)
-                result=await results
-                console.log(result)
-            }
-            reader.readAsArrayBuffer(f);
-        return result
+        let reader = new FileReader(),
+            name = f.name;
+        changeDropzone(f.name);
+        reader.onload = function (e) {
+            let
+                data = e.target.result,
+                fixedData = fixdata(data),
+                workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
+                firstSheetName = workbook.SheetNames[0],
+                worksheet = workbook.Sheets[firstSheetName];
+            results = XLSX.utils.sheet_to_json(worksheet);
+            reader.sendData = XLSX.utils.sheet_to_json(worksheet);
+            callback(results);
+        };
+        reader.readAsArrayBuffer(f);
+        return reader;
 
 
     }
@@ -60,12 +55,13 @@ app.service('registerService', function ($window, $http) {
         dropzone.className = "dropzoneExcel"
         changeExcel.style.display = "block"
     }
+
     function displayErr(collectionErr) {
         let errArea = document.getElementById('errorText');
 
         errArea.style.color = "red";
         errArea.style.display = "block"
-        errArea.innerHTML =  ansExcel.innerHTML+collectionErr
+        errArea.innerHTML = ansExcel.innerHTML + collectionErr
 
     }
 });
