@@ -12,19 +12,17 @@
         </div>
 
         <div class="wrap-input100 validate-input"
-             ng-class="{'alert-validate' : addCategoryForm.minAge.$invalid && (addCategoryForm.minAge.$touched || isClicked)}"
-             data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : addCategoryForm.$error.pattern ? 'הכנס גיל מינימאלי' : ''}}"
+             ng-class="{'alert-validate' : addCategoryForm.minAge.$invalid && (addCategoryForm.minAge.$dirty || isClicked)}"
+             data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : (addCategoryForm.minAge.$error.min || addCategoryForm.minAge.$error.max) ? 'גיל מיניאלי אינו תקין' : ''}}"
              style="width: 200px;">
-            <input class="input100" type="number" name="minAge" ng-model="minAge" placeholder="גיל מינימאלי"
-                   ng-required="true">
+            <input class="input100" type="number" name="minAge" ng-model="minAge" placeholder="גיל מינימאלי" ng-required="true" ng-min="0" ng-max="maxAge">
         </div>
 
         <div class="wrap-input100 validate-input"
-             ng-class="{'alert-validate' : addCategoryForm.maxAge.$invalid && (addCategoryForm.maxAge.$touched || isClicked)}"
-             data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : addCategoryForm.$error.pattern ? 'הכנס גיל מקסימאלי' : ''}}"
+             ng-class="{'alert-validate' : addCategoryForm.maxAge.$invalid && (addCategoryForm.maxAge.$dirty || isClicked)}"
+             data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : (addCategoryForm.maxAge.$error.min || addCategoryForm.maxAge.$error.max) ? 'גיל מקסימאלי אינו תקין' : ''}}"
              style="width: 200px;">
-            <input class="input100" type="number" name="maxAge" ng-model="maxAge" placeholder="גיל מקסימאלי"
-                   ng-required="true">
+            <input class="input100" type="number" name="maxAge" ng-model="maxAge" placeholder="גיל מקסימאלי" ng-required="true" ng-min="minAge" ng-max="100">
         </div>
 
         <div class="wrap-input100 validate-input radioDiv" id="sexUser"

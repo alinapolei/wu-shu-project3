@@ -22,12 +22,13 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, $routeParams.idComp, '!%3D'))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, null, null))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page, 14);
                 $scope.notRegisteredUsers = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+                console.log($scope.notRegisteredUsers)
 
             }, function (error) {
                 console.log(error)
@@ -189,16 +190,19 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
 
 //////// filters //////////
 app.filter('sportsmenByCategoryFilter', function(constants) {
-    return function(items, category) {
+    return function(items, category, registered) {
         if(category) {
             var filtered = [];
             angular.forEach(items, function (item) {
-                if (category.minAge <= item.age && (category.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
+                let categorySportsman = registered.find(cs => cs.category.id == category.id);
+                let isAlreadyRegistered = categorySportsman? categorySportsman.users.map(s => s.id).includes(item.id) : false;
+                if (!isAlreadyRegistered && category.minAge <= item.age && (category.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
                     filtered.push(item);
                 }
             });
             return filtered;
         }
+        return [];
     };
 });
 app.filter('sportsmenCategoriesByCategoryFilter', function(constants) {

@@ -5,8 +5,8 @@
 
 <div>
     <div id="chooseTypeUser" ng-show="access==userTypes.MANAGER">
-        <input type="radio"  name="userType" ng-click="coachReggister=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
-        <input type="radio"  name="userType" ng-click="coachReggister=true;downloadClicked=false"> רישום מאמן </input>
+        <input type="radio"  name="userType" ng-click="isRegisterCoach=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
+        <input type="radio"  name="userType" ng-click="isRegisterCoach=true;downloadClicked=false"> רישום מאמן </input>
     </div>
     </div>
     <!--<div>
@@ -20,8 +20,8 @@
 
     <div id="box" style="height: 1000px">
         <div class="right">
-            <h1 ng-show="!coachReggister">רישום ספורטאי</h1>
-            <h1 ng-show="coachReggister">רישום מאמן</h1>
+            <h1 ng-show="!isRegisterCoach">רישום ספורטאי</h1>
+            <h1 ng-show="isRegisterCoach">רישום מאמן</h1>
 
             <form class="login100-form validate-form" name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
 
@@ -73,12 +73,12 @@
                            required>
                     <span class="focus-input100" data-placeholder="&#xf175;"></span>
                 </div>
-                <div class="wrap-input100 validate-input radioDiv" id="sexUser" ng-show="!coachReggister"
+                <div class="wrap-input100 validate-input radioDiv" id="sexUser" ng-show="!isRegisterCoach"
                      ng-class="{'alert-validate' : registerForm.selectedSex.$invalid && (registerForm.selectedSex.$touched || isClicked)}"
                      data-validate="בחר מין">
                     <label>בחר מין</label>
                     <span ng-repeat="sex in sexEnum">
-                        <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-required="!selectedSex && !coachReggister" ng-value="sex.name"><label
+                        <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-required="!selectedSex && !isRegisterCoach" ng-value="sex.name"><label
                             class="radio_label"> {{sex.name}} </label></input>
                     </span>
                     <span class="focus-input100" data-placeholder="&#xf211;"></span>
@@ -101,19 +101,19 @@
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf20c"></span>
                 </div>
-                <div ng-show="!coachReggister" id="coachChoose" class="validate-input"
+                <div ng-show="!isRegisterCoach" id="coachChoose" class="validate-input"
                      ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
                      data-validate="בחר מאמן">
-                    <select name="coach" ng-model="coach" ng-required="!coachReggister" ng-options="x.firstname + ' ' + x.lastname + ' ' for x in coaches" ng-change="filterClub()">
+                    <select name="coach" ng-model="coach" ng-required="!isRegisterCoach" ng-options="x.firstname + ' ' + x.lastname + ' ' for x in coaches" ng-change="filterClub()">
                         <option value="" disabled="disabled"> בחר מאמן</option>
                     </select>
                     <span class="focus-input100" data-placeholder="&#xf205"></span>
                 </div>
-                <div ng-show="coachReggister" class="wrap-input100 validate-input"
+                <div ng-show="isRegisterCoach" class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : registerForm.teamname.$invalid && (registerForm.teamname.$touched || isClicked)}"
                      data-validate="הכנס שם קבוצה ">
                     <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה"
-                           ng-required="coachReggister">
+                           ng-required="isRegisterCoach">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
@@ -125,18 +125,18 @@
                 רישום ע"י
                 קובץ אקסל
             </h1>
-            <div class="validate-input downloadLink" ng-show="!coachReggister">
+            <div class="validate-input downloadLink" ng-show="!isRegisterCoach">
                 <span class="focus-input100" data-placeholder="&#xf220"></span>
                 <a id="downExcelSportsman" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelFormatSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
             </div>
-            <div class="validate-input downloadLink" ng-show="coachReggister">
+            <div class="validate-input downloadLink" ng-show="isRegisterCoach">
                 <span class="focus-input100" data-placeholder="&#xf220"></span>
                 <a id="downExcelCoach" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelFormatCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
             </div>
 
-            <div class="dropzone" id="dropzone">
+            <div class="dropzone" id="dropZoneRegisterUsers">
                 <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
             </div>
 
@@ -152,7 +152,7 @@
             </div>
 
             <div>
-                <label id="errorText"></label>
+                <input type="text" ng-model="errorText" disabled ng-show="resErr"></input>
             </div>
 
         </div>
