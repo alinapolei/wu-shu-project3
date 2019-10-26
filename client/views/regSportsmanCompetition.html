@@ -40,7 +40,7 @@
                             <th class="thInItemList">שם מלא</th>
                         </tr>
                         <tr class="itemInItemList"
-                            ng-repeat="user in notRegisteredUsers | sportsmenByCategoryFilter : selectedCategory | sportsmenByClubFilter : selectedClub"
+                            ng-repeat="user in notRegisteredUsers | sportsmenByCategoryFilter : selectedCategory : registeredUsers | sportsmenByClubFilter : selectedClub"
                             ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}"
                             ng-click="selectNotRegistered(user)">
                             <td class="tdInItemList">{{user.id}}</td>

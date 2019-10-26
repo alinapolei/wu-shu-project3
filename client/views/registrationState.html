@@ -28,7 +28,7 @@
                             <div ng-disable="access==userTypes.MANAGER" class="tdInItemList">
                                 <select name="selectedCategory" ng-model="user.selectedCategory"
                                         ng-selected="{{categories[user.category]}}"
-                                        ng-change="addChange(user, '{{user.selectedCategory.id}}')"
+                                        ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
                                         ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex for x in categories | categoryFilter : user">
                                     <option value="" disabled="disabled">בחר קטגוריה</option>
                                 </select>
@@ -38,15 +38,6 @@
 
                 </tbody>
             </table>
-            <!--            <div ng-repeat="user in users track by $index" class="row">-->
-            <!--                <label class="labelForInput100">{{$index+1}}. {{user.id}} {{user.firstname}} {{user.lastname}} גיל:{{user.age}}</label>-->
-            <!--                <div ng-diable="access==userTypes.MANAGER"-->
-            <!--                     data-validate="בחר קטגוריה">-->
-            <!--                    <select name="selectedCategory" ng-model="user.selectedCategory" ng-selected="{{categories[user.category]}}" ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex + ' (' + x.count + ')' for x in categories | categoryFilter : user" ng-change="addChange(user, '{{user.selectedCategory.id}}')">-->
-            <!--                        <option value="" disabled="disabled">בחר קטגוריה</option>-->
-            <!--                    </select>-->
-            <!--                </div>-->
-            <!--            </div>-->
             <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
         </div>
 
