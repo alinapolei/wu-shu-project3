@@ -6,11 +6,11 @@ app.controller("openCompetitionController", function ($scope,$filter,$location, 
             let data = {
                 location : $scope.location,
                 eventDate : $filter('date')($scope.date,"MM/dd/yyyy"),
-                startHour : $filter('date')($scope.time,"hh:mm"),
+                startHour : $filter('date')($scope.time,"HH:mm"),
                 sportStyle : $scope.sportStyle,
                 description : $scope.description,
                 closeDate: $filter('date')($scope.regCloseDate,"MM/dd/yyyy"),
-                closeTime :$filter('date')($scope.regCloseTime,"hh:mm"),
+                closeTime :$filter('date')($scope.regCloseTime,"HH:mm"),
                 city: $scope.city
             };
 

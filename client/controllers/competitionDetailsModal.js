@@ -9,12 +9,11 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
     });
     competitionService.getCompetitionDetails(getId)
         .then(function (result) {
-            console.log(result.data)
             $scope.competitionNumber= "תחרות מספר "+result.data.idCompetition;
             $scope.competitionType="ענף: " +result.data.sportStyle;
             $scope.location="מיקום: " + result.data.location +","+result.data.city;
             $scope.compDate = result.data.date;
-            $scope.compHour = result.data.startHour;
+            $scope.compHour = result.data.startHour.substring(0, result.data.startHour.length-1);
 
             var mymap = L.map('mapid')
             mymap.setView(new L.LatLng(-85,50), 15 );
