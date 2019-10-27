@@ -148,16 +148,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
     function displayMsgForRegister(collectionErr) {
         console.log(collectionErr)
         $scope.resErr = true;
-        let err = '';
-        collectionErr.forEach((e)=>{
 
-            let colErr =''
-            e.errors.forEach((ee)=>{
-                colErr =colErr +"\n"+ee+"\n"
-            })
-            err= err +"\n"+e.id +colErr
-        })
-        $scope.errorText = err;
+        $scope.errorText =collectionErr;
     }
 
 
