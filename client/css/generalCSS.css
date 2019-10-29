@@ -108,8 +108,14 @@ button:hover {
 }
 
 .radioDiv{
+    height: 45px;
+    padding: 10px 0px;
+}
+.radioInput{
     padding: 0px 35px 0px 20px;
     text-align: initial;
+    float: right;
+    width: 120px;
 }
 .timedateDiv{
     /*padding: 0px 35px 0px 0px;*/
@@ -137,6 +143,7 @@ a:hover {
 }
 .radio_label{
     display: initial;
+    font-weight: initial;
 }
 
 /***FORM***/
@@ -144,10 +151,12 @@ form {
     width: 100%;
     direction: rtl;
     font-size: 16px;
+    text-align: right;
 }
-.openComp-form {
+.centered-form {
     width: 390px;
     margin: auto;
+    text-align: initial;
 }
 
 /***LABEL***/

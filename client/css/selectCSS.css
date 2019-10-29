@@ -1,13 +1,16 @@
 select {
     min-width: 280px;
-    margin-bottom: 1em;
-    padding: 10px 35px;
+    /*margin-bottom: 1em;*/
+    /*padding: 10px 35px;*/
+    padding: 0px 38px 0px 5px;
     border: 0;
-    border-bottom: 1px solid #e5ffff;
+    /*border-bottom: 1px solid #e5ffff;*/
     letter-spacing: .15em;
     border-radius: 0;
     width: 100%;
     font-size: 16px;
+    height: 45px;
+
 }
 select:focus, select:active {
     outline: 0;

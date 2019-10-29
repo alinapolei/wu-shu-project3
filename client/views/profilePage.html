@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.sex}}</label>
-                            <div ng-show="isEditModeOn" class="update-input radioDiv" id="sexUser"
+                            <div ng-show="isEditModeOn" class="update-input radioInput" id="sexUser"
                                  ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
                                  data-validate="בחר מין">
                                 <span ng-repeat="sex in sexEnum">
