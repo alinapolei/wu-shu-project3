@@ -1,4 +1,6 @@
-app.controller("editCompetitionDetailsModal", function($scope, $uibModalInstance, $window, $http,$filter,getId,competitionService) {
+app.controller("editCompetitionDetailsModal", function($scope, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants) {
+    $scope.sportStyleEnum = constants.sportStyleEnum;
+
     $scope.close=function () {
         $uibModalInstance.close()
     }
