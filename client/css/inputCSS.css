@@ -97,23 +97,20 @@ input[type=date]::-webkit-inner-spin-button {
     transition: all 0.4s;
     background: #599bb3;
 }
-/*.focus-input100::after {*/
-/*    font-family: Material-Design-Iconic-Font;*/
-/*    font-size: 22px;*/
+.downloadLink .focus-input100::after {
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 6px;
+    left: 0px;
+    padding-left: 5px;
+    padding-top: 0px;
 
-/*    content: attr(data-placeholder);*/
-/*    display: block;*/
-/*    width: 100%;*/
-/*    position: absolute;*/
-/*    top: 6px;*/
-/*    left: 0px;*/
-/*    padding-left: 5px;*/
-
-/*    -webkit-transition: all 0.4s;*/
-/*    -o-transition: all 0.4s;*/
-/*    -moz-transition: all 0.4s;*/
-/*    transition: all 0.4s;*/
-/*}*/
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
 /*.input100:focus {*/
 /*    padding-left: 5px;*/
 /*}*/
