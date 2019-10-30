@@ -131,8 +131,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     $location.path("/home");
                 })
                 .catch((err) => {
-                   console.log(err)
-                    // displayMsgForRegister(err.data)
+                    console.log(err)
                 })
     }
 
@@ -152,17 +151,16 @@ app.controller("registerController", function ($scope, $http, $window, $location
         console.log(collectionErr)
         $scope.resErr = true;
         let err = '';
-        collectionErr.forEach((e)=>{
+        collectionErr.forEach((e) => {
 
-            let colErr =''
-            e.errors.forEach((ee)=>{
-                colErr =colErr +"\n"+ee+"\n"
+            let colErr = ''
+            e.errors.forEach((ee) => {
+                colErr = colErr + "\n" + ee + "\n"
             })
-            err= err +"\n"+e.id +colErr
+            err = err + "\n" + e.id + colErr
         })
         $scope.errorText = err;
     }
-
 
 
     function clearFields() {
