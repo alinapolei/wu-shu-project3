@@ -89,13 +89,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
             if (!$scope.isRegisterCoach) {
                 data.push({
                     id: $scope.id,
-                    firstname: $scope.firstname,
-                    lastname: $scope.lastname,
+                    firstName: $scope.firstname,
+                    lastName: $scope.lastname,
                     phone: $scope.phone,
-                    email: $scope.email,
-                    birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
                     address: $scope.address,
-                    sportclub: $scope.sportclub.id,
+                    birthDate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
+                    email: $scope.email,
+                    sportClub: $scope.sportclub.id,
                     sex: $scope.selectedSex,
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
@@ -123,15 +123,16 @@ app.controller("registerController", function ($scope, $http, $window, $location
     }
 
 
-    function registerUsers(data, isCoach) {
-        if (!isCoach)
+    function registerUsers(data, isRegisterCoach) {
+        if (!isRegisterCoach)
             registerService.registerUsers(data)
                 .then((results) => {
                     alert("ok")
                     $location.path("/home");
                 })
                 .catch((err) => {
-                    displayMsgForRegister(err.data)
+                   console.log(err)
+                    // displayMsgForRegister(err.data)
                 })
     }
 

@@ -1,8 +1,8 @@
 app.service('registerService', function ($window, $http) {
     serverUrl = "http://localhost:3000";
     let url;
-    this.registerUsers = function (data, isCoach) {
-        if (isCoach)
+    this.registerUsers = function (data, isRegisterCoach) {
+        if (!isRegisterCoach)
             url = serverUrl + '/private/registerSportsman';
         else
             url = serverUrl + '/private/registerCoach';
