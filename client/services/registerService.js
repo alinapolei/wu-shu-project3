@@ -18,12 +18,4 @@ app.service('registerService', function ($window, $http) {
     };
 
 
-    function displayErr(collectionErr) {
-        let errArea = document.getElementById('errorText');
-
-        errArea.style.color = "red";
-        errArea.style.display = "block"
-        errArea.innerHTML = ansExcel.innerHTML + collectionErr
-
-    }
 });
