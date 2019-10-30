@@ -42,8 +42,8 @@
         </div>
 
         <div class="col-md-3" ng-show="access==userTypes.MANAGER">
+            <label>סטטוס הרישום: {{currentCompetition.status}}</label>
             <div>
-                <label>סטטוס הרישום: {{currentCompetition.status}}</label>
                 <i class="fa fa-times iColored" aria-hidden="true"></i>
                 <a class="linkDark" href="" ng-click="closeRegistration()">סגור רישום</a>
             </div>
