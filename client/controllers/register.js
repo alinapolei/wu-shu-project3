@@ -6,7 +6,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
     $scope.isRegisterCoach = false;
     $scope.coaches = new Array()
     $scope.clubs = new Array();
-    var changeExcel = document.getElementById("changeExcel");
     let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers")
 
 
@@ -44,10 +43,10 @@ app.controller("registerController", function ($scope, $http, $window, $location
     fillDataTmpFunction();
 
 
-    changeExcel.onclick = function (e) {
-        e.preventDefault()
+    $scope.uploadNewFile = function(){
+        $scope.excelErrors = [];
+        $scope.isDropped = false;
         dropZoneRegisterUsers.className = "dropzone"
-        changeExcel.style.display = "none"
         document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
     }
@@ -69,8 +68,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
     function changeDropZone(name) {
         var droptext = document.getElementById("dropText");
         droptext.innerHTML = name.toString();
+        $scope.isDropped = true;
         dropZoneRegisterUsers.className = "dropzoneExcel"
-        changeExcel.style.display = "block"
     }
 
     dropZoneRegisterUsers.ondragover = function () {
@@ -89,13 +88,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
             if (!$scope.isRegisterCoach) {
                 data.push({
                     id: $scope.id,
-                    firstname: $scope.firstname,
-                    lastname: $scope.lastname,
+                    firstName: $scope.firstname,
+                    lastName: $scope.lastname,
                     phone: $scope.phone,
                     address: $scope.address,
-                    birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
+                    birthDate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
                     email: $scope.email,
-                    sportclub: $scope.sportclub.id,
+                    sportClub: $scope.sportclub.id,
                     sex: $scope.selectedSex,
                     sportStyle: $scope.sportStyle,
                     idCoach: $scope.coach.id
@@ -118,20 +117,16 @@ app.controller("registerController", function ($scope, $http, $window, $location
         }
     };
 
-    function replacer(key, value) {
-        return value.split(',').join('\n');
-    }
-
-
-    function registerUsers(data, isCoach) {
-        if (!isCoach)
+    function registerUsers(data, isRegisterCoach) {
+        if (!isRegisterCoach)
             registerService.registerUsers(data)
                 .then((results) => {
                     alert("ok")
                     $location.path("/home");
                 })
                 .catch((err) => {
-                    displayMsgForRegister(err.data)
+                    console.log(err);
+                    $scope.excelErrors = err.data;
                 })
     }
 
@@ -146,15 +141,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
     }
-
-    function displayMsgForRegister(collectionErr) {
-        console.log(collectionErr)
-        $scope.resErr = true;
-
-        $scope.errorText =collectionErr;
-    }
-
-
 
     function clearFields() {
         /*$scope.id = "";

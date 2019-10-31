@@ -1,9 +1,11 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService) {//$uibModalInstance, getId
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService) {//$uibModalInstance, getId
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
     $scope.toUnRegisterUsers = [];
     $scope.pager = {};
+    let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition")
+
 
     setPage(1);
     getData();
@@ -114,66 +116,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     }
 
 
-    function setErrorLable(errorLines) {
-        var ansExcel =document.getElementById('ansExcel');
-        ansExcel.style.color="red";
-        ansExcel.style.display = "block"
-        ansExcel.innerHTML = "ישנה בעיה בשורות מספר "+errorLines+ "אנא תקן את הקובץ והעלה שוב";
-    }
-    function Excelcheck(data) {
-        var errorLines = new String();
-        var ExcelOk = true;
-        for (let i = 0; i < data.length; i++) {
-            if (!competitionService.checkExcel(data[i])) {
-                ExcelOk = false;
-                if (i < data.length - 1)
-                    errorLines = errorLines + (i + 1) + ", ";
-                else
-                    errorLines = errorLines + (i + 1) + " ";
-            }
-        }
-        if (ExcelOk) {
-            console.log("ok")
-            return true;
-        } else {
-            setErrorLable(errorLines)
-            return false;
-        }
-    }
-
-    $scope.ExcelExport = function (event) {
-        var ansExcel =document.getElementById('ansExcel');
-        ansExcel.style.display='none';
-        regObj.sportsmenIds=[]
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function () {
-            var fileData = reader.result;
-            var wb = XLSX.read(fileData, {type: 'binary'});
-            wb.SheetNames.forEach(async function (sheetName) {
-                rowObj = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
-
-            })
-            //work with RowOBJ
-            makeJsonToReg(rowObj);
-            if(Excelcheck(regObj.sportsmenIds)) {
-                competitionService.regSportsmanCompetition(regObj)
-                    .then(function (result) {
-                        //$uibModalInstance.close();
-                        alert("הרישום בוצע בהצלחה");
-                    }, function (error) {
-                        console.log(error)
-                    });
-            }
-            else
-                alert("error")
-        };
-
-
-        reader.readAsBinaryString(input.files[0]);
-    };
-
-
 
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
@@ -184,6 +126,34 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 console.log(error)
             });
     }
+
+/*Drop zone */
+    dropZoneRegCompetition.ondrop = function (e) {
+        excelService.dropZoneDropFile(e, function (res) {
+            changeDropZone(res.fileName)
+            console.log(res.result)
+            //competitionService.registerUsers(res.result);
+        })
+    };
+
+    function changeDropZone(name) {
+        var droptext = document.getElementById("dropText");
+        droptext.innerHTML = name.toString();
+        dropZoneRegCompetition.className = "dropzoneExcel"
+    }
+
+    dropZoneRegCompetition.ondragover = function () {
+        this.className = 'dropzone dragover';
+        return false;
+    };
+    dropZoneRegCompetition.ondragleave = function () {
+        this.className = 'dropzone';
+        return false;
+    };
+
+
+
+
 });
 
 

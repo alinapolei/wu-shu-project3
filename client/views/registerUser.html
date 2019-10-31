@@ -8,14 +8,7 @@
         <input type="radio"  name="userType" ng-click="isRegisterCoach=false;downloadClicked=false" checked="checked"> רישום ספורטאי</input>
         <input type="radio"  name="userType" ng-click="isRegisterCoach=true;downloadClicked=false"> רישום מאמן </input>
     </div>
-    </div>
-    <!--<div>
-        <input type="checkbox" id="pure-toggle-3" hidden checked="checked" />
-        <label class="pure-toggle wide" for="pure-toggle-3">
-            <span class="fontawesome-ok"></span>
-            <span class="fontawesome-remove"></span>
-        </label>
-    </div>    -->
+</div>
 
 
     <div id="box" style="height: 1250px">
@@ -125,9 +118,9 @@
                 <div ng-show="isRegisterCoach" class="wrap-input100 validate-input"
                      ng-class="{'alert-validate' : registerForm.teamname.$invalid && (registerForm.teamname.$touched || isClicked)}"
                      data-validate="הכנס שם קבוצה ">
-                    <input class="input100" type="text" name="teamname" ng-model="teamname" placeholder="שם קבוצה"
-                           ng-required="isRegisterCoach">
-                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                    <span class="label-input100">קבוצה</span>
+                    <input class="input100" type="text" name="teamname" ng-model="teamname" ng-required="isRegisterCoach">
+                    <span class="focus-input100" data-symbol="&#xf207;"></span>
                 </div>
 
                 <input type="submit" name="signup_submit" ng-click="isClicked=true" value="הירשם"/>
@@ -139,12 +132,12 @@
                 קובץ אקסל
             </h1>
             <div class="validate-input downloadLink" ng-show="!isRegisterCoach">
-                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <span class="focus-input100" data-symbol="&#xf220"></span>
                 <a id="downExcelSportsman" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelFormatSportsman" download>הורד פורמט קובץ אקסל לרישום ספורטאי</a>
             </div>
             <div class="validate-input downloadLink" ng-show="isRegisterCoach">
-                <span class="focus-input100" data-placeholder="&#xf220"></span>
+                <span class="focus-input100" data-symbol="&#xf220"></span>
                 <a id="downExcelCoach" class="linkDark" style="padding-right: 15px"
                 href="http://localhost:3000/downloadExcelFormatCoach" download> הורד פורמט קובץ אקסל לרישום מאמן</a>
             </div>
@@ -153,15 +146,24 @@
                 <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
             </div>
 
-            <div class="uploadBtn">
+            <div class="uploadBtn" ng-show="!isDropped">
                 <input type="file" id="fileSportsman" ng-model="csvFile"
                        onchange="angular.element(this).scope().ExcelExport(event)"
                        style="display:block;margin-top: 5%"/>
                 <label for="fileSportsman"/> העלאת קובץ</label><br>
             </div>
             <div class="uploadResultsPanel">
-                <label id="ansExcel" style="display: none;"> </label>
-                <a class="linkDark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
+                <div class="error" ng-show="isDropped">
+                    הרישום לא הצליח, הקובץ מכיל שגיאות
+                    <div ng-repeat="errorSportsman in excelErrors" style="text-align: right">
+                        <br>
+                        בשורה מס' {{errorSportsman.line}}:
+                        <div ng-repeat="error in errorSportsman.errors track by $index">
+                            {{index+1}}. {{error}}
+                        </div>
+                    </div>
+                </div>
+                <a class="linkDark" id="changeExcel" ng-show="isDropped" href="" ng-click="uploadNewFile()"> העלה קובץ חדש </a>
             </div>
 
             <div>
