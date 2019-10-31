@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService) {//$uibModalInstance, getId
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService) {//$uibModalInstance, getId
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -131,15 +131,15 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     dropZoneRegCompetition.ondrop = function (e) {
         excelService.dropZoneDropFile(e, function (res) {
             changeDropZone(res.fileName)
-            console.log(res)
+            console.log(res.result)
+            //competitionService.registerUsers(res.result);
         })
     };
 
     function changeDropZone(name) {
         var droptext = document.getElementById("dropText");
         droptext.innerHTML = name.toString();
-        dropZoneRegisterUsers.className = "dropzoneExcel"
-        changeExcel.style.display = "block"
+        dropZoneRegCompetition.className = "dropzoneExcel"
     }
 
     dropZoneRegCompetition.ondragover = function () {
