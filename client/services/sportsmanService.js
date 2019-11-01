@@ -49,7 +49,7 @@ app.service('sportsmanService', function($window, $http) {
     this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId, compOperator){
         var conditions = [];
 
-        if(searchText !== null && searchText !== undefined) {
+        if(searchText !== null && searchText !== undefined && searchText !== '') {
             conditions.push('value=' + searchText);
         }
         if(sportStyle !== null && sportStyle !== undefined){

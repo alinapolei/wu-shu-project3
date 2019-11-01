@@ -172,18 +172,6 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         }).result.catch(function () { });
     };
     this.regSportsman = function (idCompetiton) {
-        // $uibModal.open({
-        //     templateUrl: "views/regSportsmanCompetition.html",
-        //     controller: "competitionRegisterModal as cRegCtrl",
-        //     backdrop  : true,
-        //     keyboard  : false,
-        //     resolve: {
-        //         getId: function () {
-        //             return idCompetiton;
-        //         }
-        //     },
-        //     size: 'lg'
-        // }).result.catch(function () { });
         $location.path('/competitionRegistration/'+idCompetiton);
     };
     this.registrationState = function (competition) {
@@ -192,7 +180,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.buildConditions = function buildConditions(location, sportStyle, statusArr){
         var conditions = [];
 
-        if(location !== null && location !== undefined) {
+        if(location !== null && location !== undefined && location !== "") {
             conditions.push('location=' + location);
         }
         if(sportStyle !== null && sportStyle !== undefined){

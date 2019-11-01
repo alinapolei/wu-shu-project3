@@ -17,10 +17,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         COACH: 2,
         SPORTSMAN: 3
     };
-    $scope.sportStyles = [
-        {id : 1, name : 'טאולו'},
-        {id : 2, name : 'סנדא'}
-    ];
     $rootScope.compStatus = [
         {id : 1, name : 'פתוח'},
         {id : 2, name : 'סגור'},
