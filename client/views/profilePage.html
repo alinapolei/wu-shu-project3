@@ -103,10 +103,10 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.sex}}</label>
-                            <div ng-show="isEditModeOn" class="update-input radioInput" id="sexUser"
+                            <div ng-show="isEditModeOn" class="update-input" id="sexUser"
                                  ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
                                  data-validate="בחר מין">
-                                <span ng-repeat="sex in sexEnum">
+                                <span ng-repeat="sex in sexEnum" radioInput>
                                     <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" ng-value="sex.name"><label
                                         class="radio_label"> {{sex.name}} </label></input>
                                 </span>
@@ -174,7 +174,7 @@
                             <label>ענף</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.sportStyle}}</label>
+                            <label>{{user.sportStyle}}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -182,7 +182,7 @@
                             <label>מועדון ספורט</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.club}}</label>
+                            <label>{{user.club}}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -190,7 +190,7 @@
                             <label>מאמן</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.cfirstname}} {{user.clastname}}</label>
+                            <label>{{user.cfirstname}} {{user.clastname}}</label>
                         </div>
                     </div>
 

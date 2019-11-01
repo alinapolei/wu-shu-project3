@@ -63,7 +63,7 @@ input[type=date]::-webkit-inner-spin-button {
     width: fit-content;
     height: 30px;
     background: transparent;
-    padding: 0 38px 0 5px;
+    /*padding: 0 38px 0 5px;*/
 }
 .input100 {
     font-size: 16px;
