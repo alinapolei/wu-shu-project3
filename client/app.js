@@ -36,19 +36,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         $rootScope.access = '';
         $location.path('/login');
     }
-
-    $rootScope.arrayRemove = function arrayRemove(arr, value) {
-        return arr.filter(function(ele){
-            return ele != value;
-        });
-    }
-    $rootScope.enumToArray = function (enumObject) {
-            var all = [];
-            for(var key in enumObject){
-                all.push(enumObject[key]);
-            }
-            return all;
-    }
 });
 
 // config routes

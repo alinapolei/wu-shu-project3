@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService) {//$uibModalInstance, getId
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService) {
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -61,13 +61,13 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
 
     $scope.selectNotRegistered = function (user) {
         if($scope.selectedNotRegisteredUsers.includes(user))
-            $scope.selectedNotRegisteredUsers = $rootScope.arrayRemove($scope.selectedNotRegisteredUsers, user);
+            $scope.selectedNotRegisteredUsers = commonFunctionsService.arrayRemove($scope.selectedNotRegisteredUsers, user);
         else
             $scope.selectedNotRegisteredUsers.push(user);
     };
     $scope.selectRegistered = function (user){
         if($scope.selectedRegisteredUsers.includes(user))
-            $scope.selectedRegisteredUsers = $rootScope.arrayRemove($scope.selectedRegisteredUsers, user);
+            $scope.selectedRegisteredUsers = commonFunctionsService.arrayRemove($scope.selectedRegisteredUsers, user);
         else
             $scope.selectedRegisteredUsers.push(user);
     };
@@ -90,8 +90,8 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             $scope.selectedNotRegisteredUsers.forEach(selected => {
                 let registration = $scope.toUnRegisterUsers.find(item => item.id === selected.id);
                 if (registration)
-                    $scope.toUnRegisterUsers = $rootScope.arrayRemove($scope.toUnRegisterUsers, registration);
-                $scope.notRegisteredUsers = $rootScope.arrayRemove($scope.notRegisteredUsers, selected);
+                    $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
+                $scope.notRegisteredUsers = commonFunctionsService.arrayRemove($scope.notRegisteredUsers, selected);
             });
             $scope.selectedNotRegisteredUsers = [];
         }
@@ -101,11 +101,11 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         $scope.selectedRegisteredUsers.forEach(selected =>{
             let registration = $scope.toRegisterUsers.find(item => item.id === selected.id);
             if(registration)
-                $scope.toRegisterUsers = $rootScope.arrayRemove($scope.toRegisterUsers, registration);
+                $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
             else
                 $scope.toUnRegisterUsers.push({id: selected.id, category: $scope.selectedCategory.id});
             let users = $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users;
-            $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = $rootScope.arrayRemove(users, selected);
+            $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = commonFunctionsService.arrayRemove(users, selected);
         });
         $scope.selectedRegisteredUsers = [];
     };
