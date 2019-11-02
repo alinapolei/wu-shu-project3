@@ -2,6 +2,7 @@ app.controller("competitionTableController", function($scope, $window, $http,com
     serverUrl = "http://localhost:3000";
     $scope.sportStyles = constants.sportStyleEnum;
     $scope.compStatus = constants.compStatus;
+    $scope.compStatusType = constants.compStatusType;
     $scope.headerTable = "תחרויות";
     $scope.isShowStatus = true;
     $scope.pager = {};

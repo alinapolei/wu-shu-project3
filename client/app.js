@@ -17,16 +17,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         COACH: 2,
         SPORTSMAN: 3
     };
-    $rootScope.compStatus = [
-        {id : 1, name : 'פתוח'},
-        {id : 2, name : 'סגור'},
-        {id : 3, name : 'רישום סגור'}
-    ];
-    $rootScope.statusType={
-        OPEN: 1,
-        CLOSE: 2,
-        REGCLOSE: 3
-    };
 
     $scope.logout = function () {
         //need to delete $rootScope
