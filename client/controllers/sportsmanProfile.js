@@ -4,6 +4,8 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
     $scope.isEditModeOn = false;
     $scope.currentDate = new Date();
     $scope.sexEnum = constants.sexEnum;
+    $scope.regex = constants.regex;
+
     $scope.turnOnEditMode = function () {
         $scope.isEditModeOn = true;
     };

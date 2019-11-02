@@ -1,5 +1,7 @@
-app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,$uibModal) {
+app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,constants) {
     serverUrl = "http://localhost:3000";
+    $scope.sportStyles = constants.sportStyleEnum;
+    $scope.compStatus = constants.compStatus;
     $scope.headerTable = "תחרויות";
     $scope.isShowStatus = true;
     $scope.pager = {};

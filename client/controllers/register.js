@@ -1,6 +1,7 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, excelService, coachService, registerService, constants) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
+    $scope.regex = constants.regex;
 
     $scope.currentDate = new Date();
     $scope.isRegisterCoach = false;

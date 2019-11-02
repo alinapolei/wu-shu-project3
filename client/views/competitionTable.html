@@ -11,10 +11,16 @@
         </button>
     </div>
     <div>
-        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyles" ng-change="setPage(1)">
+        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle"
+                ng-options="x.name
+                for
+                x in sportStyles" ng-change="setPage(1)">
             <option value="">כל הענפים</option>
         </select>
-        <select class="searchInput" ng-show="isShowStatus" name="status" ng-model="selectedStatus" ng-options="x.name for x in compStatus" ng-change="setPage(1)">
+        <select class="searchInput" ng-show="isShowStatus" name="status" ng-model="selectedStatus"
+                 ng-options="x.name
+                 for
+                 x in compStatus" ng-change="setPage(1)">
             <option value="">כל הסטטוסים</option>
         </select>
     </div>

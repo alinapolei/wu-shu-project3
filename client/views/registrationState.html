@@ -29,7 +29,9 @@
                                 <select name="selectedCategory" ng-model="user.selectedCategory"
                                         ng-selected="{{categories[user.category]}}"
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
-                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex for x in categories | categoryBySportsmanFilter : user">
+                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex
+                                         for
+                                         x in categories | categoryBySportsmanFilter : user">
                                     <option value="" disabled="disabled">בחר קטגוריה</option>
                                 </select>
                             </div>

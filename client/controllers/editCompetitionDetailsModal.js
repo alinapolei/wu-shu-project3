@@ -1,5 +1,6 @@
 app.controller("editCompetitionDetailsModal", function($scope, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants) {
     $scope.sportStyleEnum = constants.sportStyleEnum;
+    $scope.regex = constants.regex;
 
     $scope.close=function () {
         $uibModalInstance.close()

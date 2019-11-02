@@ -79,7 +79,7 @@
                                  ng-class="{'alert-validate' : updateProfile.firstname.$invalid && (updateProfile.firstname.$touched || isClicked)}"
                                  data-validate="{{updateProfile.firstname.$error.required ? 'הכנס שם פרטי' : updateProfile.firstname.$error.pattern ? 'שם פרטי לא תקין' : ''}}">
                                 <input class="update-input100" type="text" name="firstname" ng-model="user.sfirstname" placeholder="שם פרטי"
-                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                                       required ng-pattern="regex.regexHeb">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                  ng-class="{'alert-validate' : updateProfile.lastname.$invalid && (updateProfile.lastname.$touched || isClicked)}"
                                  data-validate="{{updateProfile.lastname.$error.required ? 'הכנס שם משפחה' : updateProfile.lastname.$error.pattern ? 'שם משפחה לא תקין' : ''}}">
                                 <input class="update-input100" type="text" name="lastname" ng-model="user.slastname" placeholder="שם משפחה"
-                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                                       required ng-pattern="regex.regexHeb">
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                  ng-class="{'alert-validate' : updateProfile.phone.$invalid && (updateProfile.phone.$touched || isClicked)}"
                                  data-validate="{{updateProfile.phone.$error.required ? 'הכנס פלאפון' : (updateProfile.phone.$error.minlength || updateProfile.phone.$error.maxlength || updateProfile.phone.$error.pattern ? 'פלאפון לא תקין' : '')}}">
                                 <input class="update-input100" type="text" name="phone" ng-model="user.phone" placeholder="פאלפון"
-                                       required ng-minlength="10" ng-maxlength="10" ng-pattern="/^(\d)+$/">
+                                       required ng-minlength="10" ng-maxlength="10" ng-pattern="regex.regexOnlyNumbers">
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                                  ng-class="{'alert-validate' : updateProfile.email.$invalid && (updateProfile.email.$touched || isClicked)}"
                                  data-validate="{{updateProfile.email.$error.required ? 'הכנס אימייל' : updateProfile.email.$error.pattern ? 'אימייל לא תקין' : ''}}">
                                 <input class="update-input100" type="email" name="email" ng-model="user.email" placeholder="איימיל"
-                                       required ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)+$/">
+                                       required ng-pattern="regex.regexEmail">
                             </div>
                         </div>
                     </div>

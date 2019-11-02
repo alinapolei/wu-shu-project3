@@ -12,13 +12,21 @@
     </div>
     <div>
         <select ng-show="access==userTypes.MANAGER" class="searchInput" name="selectedClub" ng-model="selectedClub"
-                ng-options="x.name for x in clubs" ng-change="setPage(1)">
+                ng-options="x.name
+                for
+                x in clubs" ng-change="setPage(1)">
             <option value="">כל המועדונים</option>
         </select>
-        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyles" ng-change="setPage(1)">
+        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle"
+                ng-options="x.name
+                for
+                x in sportStyles" ng-change="setPage(1)">
             <option value="">כל הענפים</option>
         </select>
-        <select class="searchInput" name="sex" ng-model="selectedSex" ng-options="x.name for x in sexEnum" ng-change="setPage(1)">
+        <select class="searchInput" name="sex" ng-model="selectedSex"
+                ng-options="x.name
+                for
+                x in sexEnum" ng-change="setPage(1)">
             <option value="">זכר ונקבה</option>
         </select>
         <button>

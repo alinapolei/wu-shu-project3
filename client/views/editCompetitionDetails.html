@@ -14,7 +14,7 @@
                  data-validate="{{editCompetitionForm.description.$error.required ? 'הכנס תיאור.' : editCompetitionForm.$error.pattern ? 'הכנס תיאור בשפה העברית' : ''}}">
                 <span class="label-input100">תיאור</span>
                 <input class="input100" type="text" name="description" ng-model="description" placeholder="תיאור"
-                       ng-required="true" ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                       ng-required="true" ng-pattern="regex.regexHebrewAndNumbers">
                 <span class="focus-input100" data-symbol="&#xf207;"></span>
             </div>
             <div class="wrap-input100 validate-input"
@@ -22,7 +22,7 @@
                  data-validate="{{editCompetitionForm.location.$error.required ? 'הכנס כתובת.' : editCompetitionForm.$error.pattern ? 'הכנס כתובת בשפה העברית' : ''}}">
                 <span class="label-input100">כתובת</span>
                 <input class="input100" type="text" name="location" ng-model="location" placeholder="כתובת" required
-                       ng-pattern="/^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$/">
+                       ng-pattern="regex.regexHebrewAndNumbers">
                 <span class="focus-input100" data-symbol="&#xf175;"></span>
             </div>
             <div class="wrap-input100 validate-input"
@@ -30,7 +30,7 @@
                  data-validate="{{editCompetitionForm.city.$error.required ? 'הכנס עיר' : editCompetitionForm.$error.pattern ? 'הכנס עיר בשפה העברית' : ''}}">
                 <span class="label-input100">עיר</span>
                 <input class="input100" type="text" name="city" ng-model="city" placeholder="עיר" required
-                       ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                       ng-pattern="regex.regexHebWithSpace">
                 <span class="focus-input100" data-symbol="&#xf175;"></span>
             </div>
             <div class="wrap-input100 validate-input" id="sportStyle"
