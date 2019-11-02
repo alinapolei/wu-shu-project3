@@ -1,9 +1,8 @@
-app.service('userService', function($window, $http,$uibModal) {
-    serverUrl = "http://localhost:3000";
+app.service('userService', function($window, $http, constants) {
     this.deleteProfile =function (data) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/deleteSportsmanProfile',
+            url: constants.serverUrl + '/private/deleteSportsmanProfile',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },

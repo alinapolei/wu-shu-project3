@@ -1,9 +1,8 @@
-app.service('sportsmanService', function($window, $http) {
-    serverUrl = "http://localhost:3000";
+app.service('sportsmanService', function($window, $http, constants) {
     this.getSportsmanProfile = function (data) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/sportsmanProfile',
+            url: constants.serverUrl + '/private/sportsmanProfile',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -15,7 +14,7 @@ app.service('sportsmanService', function($window, $http) {
     this.updateProfile =function (data) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/updateSportsmanProfile',
+            url: constants.serverUrl + '/private/updateSportsmanProfile',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -27,7 +26,7 @@ app.service('sportsmanService', function($window, $http) {
     this.getSportsmen = function(conditions){
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getSportsmen' + conditions,
+            url: constants.serverUrl + '/private/getSportsmen' + conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -37,7 +36,7 @@ app.service('sportsmanService', function($window, $http) {
     this.getCategories = function(){
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getCategories',
+            url: constants.serverUrl + '/private/getCategories',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }

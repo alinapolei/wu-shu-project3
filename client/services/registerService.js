@@ -1,6 +1,4 @@
-app.service('registerService', function ($window, $http) {
-    serverUrl = "http://localhost:3000";
-
+app.service('registerService', function ($window, $http, constants) {
     this.registerUsers = function (data, isRegisterCoach) {
         let url = getRegisterUserUrl(isRegisterCoach);
         let req = {
@@ -17,7 +15,7 @@ app.service('registerService', function ($window, $http) {
 
 function getRegisterUserUrl(isRegisterCoach) {
     if (!isRegisterCoach)
-        return  serverUrl + '/private/registerSportsman';
+        return constants.serverUrl + '/private/registerSportsman';
     else
-        return serverUrl + '/private/registerCoach';
+        return constants.serverUrl + '/private/registerCoach';
 }

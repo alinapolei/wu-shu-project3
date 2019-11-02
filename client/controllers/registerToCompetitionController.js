@@ -1,5 +1,4 @@
 app.controller("registerToCompetitionController", function($scope, $rootScope, $window, $http,competitionService,pagingService, constants) {
-    serverUrl = "http://localhost:3000";
     $scope.sportStyles = constants.sportStyleEnum;
     $scope.compStatus = constants.compStatus;
     $scope.compStatusType = constants.compStatusType;

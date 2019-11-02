@@ -1,5 +1,4 @@
 app.controller("sportsmenController", function ($scope, $http, $window, $location, constants, clubService, pagingService, sportsmanService) {
-    serverUrl = "http://localhost:3000";
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyles = constants.sportStyleEnum;
     var allUsers;
@@ -31,7 +30,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
 
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
+            url: constants.serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
