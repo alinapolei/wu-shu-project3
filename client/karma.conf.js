@@ -31,6 +31,9 @@ module.exports = function(config) {
         './services/competitionService.js',
         './services/commonFunctionsService.js',
         './controllers/registrationStateController.js',
+        './filters/categoryBySportsmanFilter.js',
+        './filters/coachByClubFilter.js',
+        './filters/sportsmanByClubFilter.js',
 
         //test files
         './services/tests/sportsmanServiceTest.spec.js',
@@ -38,7 +41,10 @@ module.exports = function(config) {
         './services/tests/pagingServiceTest.js',
         './services/tests/competitionServiceTest.js',
         './services/tests/commonFunctionsServiceTests.js',
-        './controllers/tests/registrationStateControllerTest.js'
+        './controllers/tests/registrationStateControllerTest.js',
+        './filters/tests/categoryBySportsmanFilterTest.js',
+        './filters/tests/coachByClubFilterTest.js',
+        './filters/tests/sportsmanByClubFilterTest.js'
     ],
 
 

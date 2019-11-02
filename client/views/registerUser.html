@@ -101,7 +101,7 @@
                      ng-class="{'alert-validate' : registerForm.sportclub.$invalid && (registerForm.sportclub.$touched || isClicked)}"
                      data-validate="בחר מועדון ספורט">
                     <span class="label-input100">מועדון</span>
-                    <select name="sportclub" ng-model="sportclub" required ng-options="x.name for x in clubs" ng-change="filterCoach()">
+                    <select name="sportclub" ng-model="sportclub" required ng-options="x.name for x in clubs">
                         <option value="" disabled="disabled">בחר מועדון ספורט</option>
                     </select>
                     <span class="focus-input100" data-symbol="&#xf20c"></span>
@@ -110,7 +110,7 @@
                      ng-class="{'alert-validate' : registerForm.coach.$invalid && (registerForm.coach.$touched || isClicked)}"
                      data-validate="בחר מאמן">
                     <span class="label-input100">מאמן</span>
-                    <select name="coach" ng-model="coach" ng-required="!isRegisterCoach" ng-options="x.firstname + ' ' + x.lastname + ' ' for x in coaches" ng-change="filterClub()">
+                    <select name="coach" ng-model="coach" ng-required="!isRegisterCoach" ng-options="x.firstname + ' ' + x.lastname + ' ' for x in coaches | coachByClubFilter : sportclub" ng-change="filterClub()">
                         <option value="" disabled="disabled"> בחר מאמן</option>
                     </select>
                     <span class="focus-input100" data-symbol="&#xf205"></span>

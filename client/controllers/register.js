@@ -14,7 +14,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
-                $scope.allcoaches = result.data;
                 $scope.coaches = result.data;
             }, function (error) {
                 console.log(error)
@@ -29,11 +28,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    $scope.filterCoach = function () {
-        $scope.coaches = $filter('filter')($scope.allcoaches, function (obj) {
-            return obj.sportclub == $scope.sportclub.id;
-        });
-    };
     $scope.filterClub = function () {
         $scope.sportclub = $filter('filter')($scope.clubs, function (obj) {
             return obj.id === $scope.coach.sportclub;
