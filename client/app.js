@@ -43,11 +43,11 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         });
     }
     $rootScope.enumToArray = function (enumObject) {
-        var all = [];
-        for(var key in enumObject){
-            all.push(enumObject[key]);
-        }
-        return all;
+            var all = [];
+            for(var key in enumObject){
+                all.push(enumObject[key]);
+            }
+            return all;
     }
 });
 

@@ -39,7 +39,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
             let totalCount = result.data.totalCount;
 
             $scope.pager = pagingService.GetPager(totalCount, page);
-            $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+            $scope.users = pagingService.sliceData(result.data.sportsmen, $scope.pager.startIndex, $scope.pager.endIndex);
         }, function (error) {
             console.log(error)
         });

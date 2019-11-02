@@ -37,37 +37,77 @@ describe('paging service test', function () {
         }
     ];
 
-    it('get the first two items', function () {
-        let pager = pagingService.GetPager(userList.length, 1, 2);
-        expect(pager.currentPage).toEqual(1);
-        expect(pager.pageSize).toEqual(2);
-        expect(pager.totalPages).toEqual(2);
-        expect(pager.startPage).toEqual(1);
-        expect(pager.endPage).toEqual(2);
-        expect(pager.startIndex).toEqual(0);
-        expect(pager.endIndex).toEqual(1);
-        expect(pager.pages).toEqual([ 1, 2 ]);
+    describe('get pager', function () {
+        it('get the first two items', function () {
+            let pager = pagingService.GetPager(userList.length, 1, 2);
+            expect(pager.currentPage).toEqual(1);
+            expect(pager.pageSize).toEqual(2);
+            expect(pager.totalPages).toEqual(2);
+            expect(pager.startPage).toEqual(1);
+            expect(pager.endPage).toEqual(2);
+            expect(pager.startIndex).toEqual(0);
+            expect(pager.endIndex).toEqual(1);
+            expect(pager.pages).toEqual([1, 2]);
+        });
+        it('get the last two items', function () {
+            let pager = pagingService.GetPager(userList.length, 2, 2);
+            expect(pager.currentPage).toEqual(2);
+            expect(pager.pageSize).toEqual(2);
+            expect(pager.totalPages).toEqual(2);
+            expect(pager.startPage).toEqual(1);
+            expect(pager.endPage).toEqual(2);
+            expect(pager.startIndex).toEqual(2);
+            expect(pager.endIndex).toEqual(3);
+            expect(pager.pages).toEqual([1, 2]);
+        });
+        it('get one item from the middle', function () {
+            let pager = pagingService.GetPager(userList.length, 3, 1);
+            expect(pager.currentPage).toEqual(3);
+            expect(pager.pageSize).toEqual(1);
+            expect(pager.totalPages).toEqual(4);
+            expect(pager.startPage).toEqual(1);
+            expect(pager.endPage).toEqual(4);
+            expect(pager.startIndex).toEqual(2);
+            expect(pager.endIndex).toEqual(2);
+            expect(pager.pages).toEqual([1, 2, 3, 4]);
+        });
     });
-    it('get the last two items', function () {
-        let pager = pagingService.GetPager(userList.length, 2, 2);
-        expect(pager.currentPage).toEqual(2);
-        expect(pager.pageSize).toEqual(2);
-        expect(pager.totalPages).toEqual(2);
-        expect(pager.startPage).toEqual(1);
-        expect(pager.endPage).toEqual(2);
-        expect(pager.startIndex).toEqual(2);
-        expect(pager.endIndex).toEqual(3);
-        expect(pager.pages).toEqual([ 1, 2 ]);
-    });
-    it('get one item from the middle', function () {
-        let pager = pagingService.GetPager(userList.length, 3, 1);
-        expect(pager.currentPage).toEqual(3);
-        expect(pager.pageSize).toEqual(1);
-        expect(pager.totalPages).toEqual(4);
-        expect(pager.startPage).toEqual(1);
-        expect(pager.endPage).toEqual(4);
-        expect(pager.startIndex).toEqual(2);
-        expect(pager.endIndex).toEqual(2);
-        expect(pager.pages).toEqual([ 1, 2, 3, 4 ]);
+
+    describe('competitionService service test', function () {
+        it('get the first two items', function () {
+            let sliced = pagingService.sliceData(userList, 0, 1);
+            expect(sliced).toEqual([
+                {
+                    id: '1',
+                    name: 'Jane',
+                    role: 'Designer',
+                    location: 'New York',
+                    twitter: 'gijane'
+                },
+                {
+                    id: '2',
+                    name: 'Bob',
+                    role: 'Developer',
+                    location: 'New York',
+                    twitter: 'billybob'
+                }]);
+        });
+        it('get the middle two items', function () {
+            let sliced = pagingService.sliceData(userList, 1, 2);
+            expect(sliced).toEqual([{
+                id: '2',
+                name: 'Bob',
+                role: 'Developer',
+                location: 'New York',
+                twitter: 'billybob'
+            },
+            {
+                id: '3',
+                name: 'Jim',
+                role: 'Developer',
+                location: 'Chicago',
+                twitter: 'jimbo'
+            }]);
+        });
     });
 });

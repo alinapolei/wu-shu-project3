@@ -5,11 +5,13 @@ describe('register service test', function () {
         registerService = _registerService_;
         constants = _constants_;
     }));
-    
-    it('url for sportsman registration', function () {
-        expect(getRegisterUserUrl(false)).toEqual(serverUrl + '/private/registerSportsman');
-    })
-    it('url for sportsman coach', function () {
-        expect(getRegisterUserUrl(true)).toEqual(serverUrl + '/private/registerCoach');
-    })
+
+    describe('get register user url', function () {
+        it('url for sportsman registration', function () {
+            expect(getRegisterUserUrl(false)).toEqual(serverUrl + '/private/registerSportsman');
+        })
+        it('url for sportsman coach', function () {
+            expect(getRegisterUserUrl(true)).toEqual(serverUrl + '/private/registerCoach');
+        })
+    });
 });

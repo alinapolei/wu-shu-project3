@@ -29,12 +29,16 @@ module.exports = function(config) {
         './services/registerService.js',
         './services/pagingService.js',
         './services/competitionService.js',
+        './services/commonFunctionsService.js',
+        './controllers/registrationStateController.js',
 
         //test files
         './services/tests/sportsmanServiceTest.spec.js',
         './services/tests/registerServiceTest.js',
         './services/tests/pagingServiceTest.js',
-        './services/tests/competitionServiceTest.js'
+        './services/tests/competitionServiceTest.js',
+        './services/tests/commonFunctionsServiceTests.js',
+        './controllers/tests/registrationStateControllerTest.js'
     ],
 
 

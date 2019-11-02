@@ -26,7 +26,7 @@ app.controller("registerToCompetitionController", function($scope, $rootScope, $
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.competitions = result.data.competitions.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+                $scope.competitions = pagingService.sliceData(result.data.competitions, $scope.pager.startIndex, $scope.pager.endIndex);
             }, function (error) {
                 console.log(error)
             });

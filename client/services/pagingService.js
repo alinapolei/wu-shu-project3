@@ -1,7 +1,6 @@
 app.service('pagingService', function() {
     this.GetPager = GetPager;
 
-    // service implementation
     function GetPager(totalItems, currentPage, pageSize = 10) {
         // default to first page
         currentPage = currentPage || 1;
@@ -50,5 +49,9 @@ app.service('pagingService', function() {
             endIndex: endIndex,
             pages: pages
         };
+    }
+
+    this.sliceData = function (data, startIndex, endIndex) {
+        return data.slice(startIndex, endIndex + 1);
     }
 })
