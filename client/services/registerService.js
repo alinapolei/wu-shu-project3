@@ -11,6 +11,7 @@ app.service('registerService', function ($window, $http, constants) {
         };
         return $http(req);
     };
+
 });
 
 function getRegisterUserUrl(isRegisterCoach) {
@@ -19,3 +20,5 @@ function getRegisterUserUrl(isRegisterCoach) {
     else
         return constants.serverUrl + '/private/registerCoach';
 }
+
+

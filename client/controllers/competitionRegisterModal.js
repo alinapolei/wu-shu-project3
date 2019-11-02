@@ -1,11 +1,11 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService) {
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService,constants) {
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
     $scope.toUnRegisterUsers = [];
     $scope.pager = {};
     let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition")
-
+    let downExcelRegCompetition = document.getElementById("downExcelRegCompetition")
 
     setPage(1);
     getData();
@@ -125,6 +125,13 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             }, function (error) {
                 console.log(error)
             });
+    }
+
+    $scope.downloadExcelRegCompetition = function (){
+        let token =$window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelFormatRegisterToCompetition/'+token;
+        downExcelRegCompetition.setAttribute('href', url);
+        downExcelRegCompetition.click();
     }
 
 /*Drop zone */
