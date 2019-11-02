@@ -1,4 +1,4 @@
-let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap']);
+let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap', 'ngPatternRestrict']);
 app.controller("mainController", function ($scope, $location, $window, $rootScope) {
     if($window.sessionStorage.getItem('name') != null && $window.sessionStorage.getItem('name')!=='')
         $rootScope.name = $window.sessionStorage.getItem('name');

@@ -136,22 +136,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
     }
-
-    function clearFields() {
-        /*$scope.id = "";
-        $scope.firstname = "";
-        $scope.lastname = "";
-        $scope.phone
-            email: $scope.email,
-            birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
-            address: $scope.address,
-            sportclub: $scope.sportclub.id,
-            sex: $scope.sex,
-            sportStyle: $scope.sportStyle,
-            idCoach: $scope.coach.id
-
-         */
-    }
 });
 
 

@@ -1,11 +1,11 @@
 app.constant('constants', {
     serverUrl: "http://localhost:3000",
     regex:{
-        regexOnlyNumbers : new RegExp("^(\\d)+$"),
+        regexOnlyNumbers : new RegExp("^(\\d)*$"),
         regexEmail : new RegExp("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)+$"),
-        regexHeb : new RegExp("^[\u0590-\u05fe]+$"),
-        regexHebWithSpace : new RegExp("^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$"),
-        regexHebrewAndNumbers : new RegExp("^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$")
+        regexHeb : new RegExp("^[\u0590-\u05fe]*$"),
+        regexHebWithSpace : new RegExp("^[\u0590-\u05fe ]*$"),
+        regexHebrewAndNumbers : new RegExp("^[\u0590-\u05fe0-9 ]*$")
     },
     sexEnum: [
         {id : 1, name : 'זכר' },

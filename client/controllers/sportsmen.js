@@ -1,6 +1,7 @@
 app.controller("sportsmenController", function ($scope, $http, $window, $location, constants, clubService, pagingService, sportsmanService) {
     serverUrl = "http://localhost:3000";
     $scope.sexEnum = constants.sexEnum;
+    $scope.sportStyles = constants.sportStyleEnum;
     var allUsers;
     $scope.pager = {};
     $scope.isToDesc = true;

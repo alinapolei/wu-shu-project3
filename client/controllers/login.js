@@ -1,5 +1,6 @@
-app.controller("loginController", function ($scope, $http, $window, $location, $rootScope) {
+app.controller("loginController", function ($scope, $http, $window, $location, $rootScope, constants) {
     serverUrl = "http://localhost:3000";
+    $scope.regex = constants.regex;
 
     $scope.submit = function(isValid){
         if(isValid){
