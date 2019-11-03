@@ -8,7 +8,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers")
-
+    let downloadExcelLink = document.getElementById("downExcelSportsman")
 
     getCoachesAndClub();
 
@@ -123,6 +123,13 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     console.log(err);
                     $scope.excelErrors = err.data;
                 })
+    }
+
+    $scope.downloadExcelRegisterSportsMan = function () {
+        let token =$window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelFormatSportsman/'+token;
+        downloadExcelLink.setAttribute('href', url);
+        downloadExcelLink.click();
     }
 
     function fillDataTmpFunction() {
