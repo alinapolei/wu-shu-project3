@@ -2,14 +2,20 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     /*****http requests*****/
     serverUrl = "http://localhost:3000";
 
-
-    this.checkExcel=function (data) {
-        if (isNaN(parseInt(data))||data.toString().length!=9)
-            return false;
-        return true;
+    this.registerExcelUsers= function (data) {
+        let req = {
+            method: 'POST',
+            url: serverUrl + '/private/competitionExcelSportsmen',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
     }
+
     this.regSportsmanCompetition = function (data) {
-        var req = {
+        let req = {
             method: 'POST',
             url: serverUrl + '/private/competitionSportsmen',
             headers: {
@@ -21,7 +27,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     };
 
     this.addCategroyDB =function (data) {
-        var req = {
+        let req = {
             method: 'POST',
             url: serverUrl + '/private/addNewCategory',
             headers: {

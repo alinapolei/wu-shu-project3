@@ -129,7 +129,7 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     $scope.excelErrors = err.data;
                 })
     }
-
+/*
     function fillDataTmpFunction() {
         $scope.id = 222222222;
         $scope.firstname = "ניסיון";
@@ -141,6 +141,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
     }
+
+ */
 
     function clearFields() {
         /*$scope.id = "";
