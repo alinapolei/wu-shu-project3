@@ -11,10 +11,16 @@
         </button>
     </div>
     <div>
-        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle" ng-options="x.name for x in sportStyles" ng-change="setPage(1)">
+        <select class="searchInput" name="sportStyle" ng-model="selectedsportStyle"
+                ng-options="x.name
+                for
+                x in sportStyles" ng-change="setPage(1)">
             <option value="">כל הענפים</option>
         </select>
-        <select class="searchInput" ng-show="isShowStatus" name="status" ng-model="selectedStatus" ng-options="x.name for x in compStatus" ng-change="setPage(1)">
+        <select class="searchInput" ng-show="isShowStatus" name="status" ng-model="selectedStatus"
+                 ng-options="x.name
+                 for
+                 x in compStatus" ng-change="setPage(1)">
             <option value="">כל הסטטוסים</option>
         </select>
     </div>
@@ -36,7 +42,7 @@
         </tr >
         <tr class="tableTr" ng-repeat="competition in competitions">
             <td class="tableTd tdLast" ng-show="access==userTypes.MANAGER">
-                <button class="linkDark" ng-show="competition.status != compStatus[statusType.CLOSE-1].name" ng-click="editCompetitionDetails(competition.idCompetition)" title="ערוך פרטי תחרות">
+                <button class="linkDark" ng-show="competition.status != compStatus[compStatusType.CLOSE].name" ng-click="editCompetitionDetails(competition.idCompetition)" title="ערוך פרטי תחרות">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
             </td>
@@ -49,11 +55,11 @@
                 <button class="linkDark" ng-click="watchCompDetails(competition.idCompetition)"> פרטי תחרות</button>
             </td>
             <td class="tableTd tdLast" >
-                <button ng-show="competition.status == compStatus[statusType.OPEN-1].name " class="linkDark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
-                <button ng-show="competition.status == compStatus[statusType.CLOSE-1].name " class="linkDark" ng-click="">תוצאות</button>
+                <button ng-show="competition.status == compStatus[compStatusType.OPEN].name " class="linkDark" ng-click="regSportsman(competition.idCompetition)">רישום</button>
+                <button ng-show="competition.status == compStatus[compStatusType.CLOSE].name " class="linkDark" ng-click="">תוצאות</button>
             </td>
             <td class="tableTd tdLast" >
-                <button ng-show="competition.status != compStatus[statusType.CLOSE-1].name" class="linkDark" ng-click="registrationState(competition)">מצב הרישום</button>
+                <button ng-show="competition.status != compStatus[compStatusType.CLOSE].name" class="linkDark" ng-click="registrationState(competition)">מצב הרישום</button>
             </td>
         </tr >
     </table>

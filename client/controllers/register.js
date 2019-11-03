@@ -1,20 +1,20 @@
 app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, excelService, coachService, registerService, constants) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
+    $scope.regex = constants.regex;
 
     $scope.currentDate = new Date();
     $scope.isRegisterCoach = false;
     $scope.coaches = new Array()
     $scope.clubs = new Array();
     let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers")
-
+    let downloadExcelLink = document.getElementById("downExcelSportsman")
 
     getCoachesAndClub();
 
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
-                $scope.allcoaches = result.data;
                 $scope.coaches = result.data;
             }, function (error) {
                 console.log(error)
@@ -29,11 +29,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     }
 
-    $scope.filterCoach = function () {
-        $scope.coaches = $filter('filter')($scope.allcoaches, function (obj) {
-            return obj.sportclub == $scope.sportclub.id;
-        });
-    };
     $scope.filterClub = function () {
         $scope.sportclub = $filter('filter')($scope.clubs, function (obj) {
             return obj.id === $scope.coach.sportclub;
@@ -129,7 +124,14 @@ app.controller("registerController", function ($scope, $http, $window, $location
                     $scope.excelErrors = err.data;
                 })
     }
-/*
+
+    $scope.downloadExcelRegisterSportsMan = function () {
+        let token =$window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelFormatSportsman/'+token;
+        downloadExcelLink.setAttribute('href', url);
+        downloadExcelLink.click();
+    }
+
     function fillDataTmpFunction() {
         $scope.id = 222222222;
         $scope.firstname = "ניסיון";
@@ -140,24 +142,6 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.selectedSex = 'זכר'
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
-    }
-
- */
-
-    function clearFields() {
-        /*$scope.id = "";
-        $scope.firstname = "";
-        $scope.lastname = "";
-        $scope.phone
-            email: $scope.email,
-            birthdate: $filter('date')($scope.birthdate, "dd-MM-yyyy"),
-            address: $scope.address,
-            sportclub: $scope.sportclub.id,
-            sex: $scope.sex,
-            sportStyle: $scope.sportStyle,
-            idCoach: $scope.coach.id
-
-         */
     }
 });
 

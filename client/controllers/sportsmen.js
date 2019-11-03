@@ -1,6 +1,6 @@
 app.controller("sportsmenController", function ($scope, $http, $window, $location, constants, clubService, pagingService, sportsmanService) {
-    serverUrl = "http://localhost:3000";
     $scope.sexEnum = constants.sexEnum;
+    $scope.sportStyles = constants.sportStyleEnum;
     var allUsers;
     $scope.pager = {};
     $scope.isToDesc = true;
@@ -30,7 +30,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
 
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
+            url: constants.serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -39,7 +39,7 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
             let totalCount = result.data.totalCount;
 
             $scope.pager = pagingService.GetPager(totalCount, page);
-            $scope.users = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+            $scope.users = pagingService.sliceData(result.data.sportsmen, $scope.pager.startIndex, $scope.pager.endIndex);
         }, function (error) {
             console.log(error)
         });

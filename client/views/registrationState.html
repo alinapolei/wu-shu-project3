@@ -29,7 +29,9 @@
                                 <select name="selectedCategory" ng-model="user.selectedCategory"
                                         ng-selected="{{categories[user.category]}}"
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
-                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex for x in categories | categoryFilter : user">
+                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex
+                                         for
+                                         x in categories | categoryBySportsmanFilter : user">
                                     <option value="" disabled="disabled">בחר קטגוריה</option>
                                 </select>
                             </div>
@@ -41,9 +43,9 @@
             <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
         </div>
 
-        <div class="col-md-3" ng-show="access==userTypes.MANAGER">
+        <div class="col-md-3">
             <label>סטטוס הרישום: {{currentCompetition.status}}</label>
-            <div>
+            <div ng-show="access==userTypes.MANAGER">
                 <i class="fa fa-times iColored" aria-hidden="true"></i>
                 <a class="linkDark" href="" ng-click="closeRegistration()">סגור רישום</a>
             </div>
@@ -51,7 +53,7 @@
                 <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>
                 <a class="linkDark" href="" ng-click="exportRegistrationState()">ייצא לאקסל</a>
             </div>
-            <div style="position: fixed;">
+            <div style="position: fixed;" ng-show="access==userTypes.MANAGER">
                 <i class="fa fa-plus-square-o iColored" aria-hidden="true"></i>
                 <a class="linkDark" href="" ng-click="addCategoeyModal()">הוסף קטגוריה חדשה</a>
             </div>

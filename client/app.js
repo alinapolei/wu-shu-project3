@@ -1,4 +1,4 @@
-let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap']);
+let app = angular.module('myApp', ["ngRoute", 'ui.bootstrap', 'ngPatternRestrict']);
 app.controller("mainController", function ($scope, $location, $window, $rootScope) {
     if($window.sessionStorage.getItem('name') != null && $window.sessionStorage.getItem('name')!=='')
         $rootScope.name = $window.sessionStorage.getItem('name');
@@ -17,20 +17,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         COACH: 2,
         SPORTSMAN: 3
     };
-    $scope.sportStyles = [
-        {id : 1, name : 'טאולו'},
-        {id : 2, name : 'סנדא'}
-    ];
-    $rootScope.compStatus = [
-        {id : 1, name : 'פתוח'},
-        {id : 2, name : 'סגור'},
-        {id : 3, name : 'רישום סגור'}
-    ];
-    $rootScope.statusType={
-        OPEN: 1,
-        CLOSE: 2,
-        REGCLOSE: 3
-    };
 
     $scope.logout = function () {
         //need to delete $rootScope
@@ -39,19 +25,6 @@ app.controller("mainController", function ($scope, $location, $window, $rootScop
         $rootScope.name = '';
         $rootScope.access = '';
         $location.path('/login');
-    }
-
-    $rootScope.arrayRemove = function arrayRemove(arr, value) {
-        return arr.filter(function(ele){
-            return ele != value;
-        });
-    }
-    $rootScope.enumToArray = function (enumObject) {
-        var all = [];
-        for(var key in enumObject){
-            all.push(enumObject[key]);
-        }
-        return all;
     }
 });
 

@@ -65,7 +65,7 @@
                                  ng-class="{'alert-validate' : updateProfile.id.$invalid && (updateProfile.id.$touched || isClicked)}"
                                  data-validate="{{updateProfile.id.$error.required ? 'הכנס ת.ז.' : (updateProfile.id.$error.minlength || updateProfile.id.$error.maxlength || updateProfile.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
                                 <input class="update-input100" ng-disabled="true" type="text" name="id" ng-model="user.id" placeholder="ת.ז">
-                                <!--ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="/^(\d)+$/"-->
+                                <!--ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="regex.regexOnlyNumbers" ng-pattern-restrict-->
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                                  ng-class="{'alert-validate' : updateProfile.firstname.$invalid && (updateProfile.firstname.$touched || isClicked)}"
                                  data-validate="{{updateProfile.firstname.$error.required ? 'הכנס שם פרטי' : updateProfile.firstname.$error.pattern ? 'שם פרטי לא תקין' : ''}}">
                                 <input class="update-input100" type="text" name="firstname" ng-model="user.sfirstname" placeholder="שם פרטי"
-                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                                       required ng-pattern="regex.regexHeb" ng-pattern-restrict>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                  ng-class="{'alert-validate' : updateProfile.lastname.$invalid && (updateProfile.lastname.$touched || isClicked)}"
                                  data-validate="{{updateProfile.lastname.$error.required ? 'הכנס שם משפחה' : updateProfile.lastname.$error.pattern ? 'שם משפחה לא תקין' : ''}}">
                                 <input class="update-input100" type="text" name="lastname" ng-model="user.slastname" placeholder="שם משפחה"
-                                       required ng-pattern="/^[\u0590-\u05fe]+$/">
+                                       required ng-pattern="regex.regexHeb" ng-pattern-restrict>
                             </div>
                         </div>
                     </div>
@@ -103,10 +103,10 @@
                         </div>
                         <div class="col-md-6">
                             <label ng-show="!isEditModeOn">{{user.sex}}</label>
-                            <div ng-show="isEditModeOn" class="update-input radioInput" id="sexUser"
+                            <div ng-show="isEditModeOn" class="update-input" id="sexUser"
                                  ng-class="{'alert-validate' : updateProfile.selectedSex.$invalid && (updateProfile.selectedSex.$touched || isClicked)}"
                                  data-validate="בחר מין">
-                                <span ng-repeat="sex in sexEnum">
+                                <span ng-repeat="sex in sexEnum" radioInput>
                                     <input type="radio" name="selectedSex" ng-model="user.sex" ng-required="!selectedSex" ng-value="sex.name"><label
                                         class="radio_label"> {{sex.name}} </label></input>
                                 </span>
@@ -134,9 +134,9 @@
                             <label ng-show="!isEditModeOn">{{user.address}} {{user.city}}</label>
                             <div ng-show="isEditModeOn" class="update-input"
                                  ng-class="{'alert-validate' : updateProfile.address.$invalid && (updateProfile.address.$touched || isClicked)}"
-                                 data-validate="הכנס כתובת">
+                                 data-validate="{{updateProfile.address.$error.required ? 'הכנס כתובת' : (updateProfile.address.$error.pattern ? 'כתובת לא תקינה' : '')}}">
                                 <input class="update-input100" type="text" name="address" ng-model="user.address" placeholder="כתובת מגורים"
-                                       required>
+                                       required ng-pattern="regex.regexHebrewAndNumbers" ng-pattern-restrict>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                  ng-class="{'alert-validate' : updateProfile.phone.$invalid && (updateProfile.phone.$touched || isClicked)}"
                                  data-validate="{{updateProfile.phone.$error.required ? 'הכנס פלאפון' : (updateProfile.phone.$error.minlength || updateProfile.phone.$error.maxlength || updateProfile.phone.$error.pattern ? 'פלאפון לא תקין' : '')}}">
                                 <input class="update-input100" type="text" name="phone" ng-model="user.phone" placeholder="פאלפון"
-                                       required ng-minlength="10" ng-maxlength="10" ng-pattern="/^(\d)+$/">
+                                       required ng-minlength="10" ng-maxlength="10" ng-pattern="regex.regexOnlyNumbers" ng-pattern-restrict>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                                  ng-class="{'alert-validate' : updateProfile.email.$invalid && (updateProfile.email.$touched || isClicked)}"
                                  data-validate="{{updateProfile.email.$error.required ? 'הכנס אימייל' : updateProfile.email.$error.pattern ? 'אימייל לא תקין' : ''}}">
                                 <input class="update-input100" type="email" name="email" ng-model="user.email" placeholder="איימיל"
-                                       required ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)+$/">
+                                       required ng-pattern="regex.regexEmail">
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                             <label>ענף</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.sportStyle}}</label>
+                            <label>{{user.sportStyle}}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -182,7 +182,7 @@
                             <label>מועדון ספורט</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.club}}</label>
+                            <label>{{user.club}}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -190,7 +190,7 @@
                             <label>מאמן</label>
                         </div>
                         <div class="col-md-6">
-                            <label ng-show="!isEditModeOn">{{user.cfirstname}} {{user.clastname}}</label>
+                            <label>{{user.cfirstname}} {{user.clastname}}</label>
                         </div>
                     </div>
 

@@ -1,5 +1,7 @@
-app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,$uibModal) {
-    serverUrl = "http://localhost:3000";
+app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,constants) {
+    $scope.sportStyles = constants.sportStyleEnum;
+    $scope.compStatus = constants.compStatus;
+    $scope.compStatusType = constants.compStatusType;
     $scope.headerTable = "תחרויות";
     $scope.isShowStatus = true;
     $scope.pager = {};
@@ -26,7 +28,7 @@ app.controller("competitionTableController", function($scope, $window, $http,com
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.competitions = result.data.competitions.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+                $scope.competitions = pagingService.sliceData(result.data.competitions, $scope.pager.startIndex, $scope.pager.endIndex);
             }, function (error) {
                 console.log(error)
             });

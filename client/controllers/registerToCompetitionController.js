@@ -1,5 +1,7 @@
-app.controller("registerToCompetitionController", function($scope, $rootScope, $window, $http,competitionService,pagingService) {
-    serverUrl = "http://localhost:3000";
+app.controller("registerToCompetitionController", function($scope, $rootScope, $window, $http,competitionService,pagingService, constants) {
+    $scope.sportStyles = constants.sportStyleEnum;
+    $scope.compStatus = constants.compStatus;
+    $scope.compStatusType = constants.compStatusType;
     $scope.headerTable = "תחרויות פתוחות להרשמה";
     $scope.isShowStatus = false;
     $scope.pager = {};
@@ -21,12 +23,12 @@ app.controller("registerToCompetitionController", function($scope, $rootScope, $
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[$rootScope.statusType.OPEN-1], $scope.compStatus[$rootScope.statusType.REGCLOSE-1]]))
+        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[constants.compStatusType.OPEN], $scope.compStatus[constants.compStatusType.REGCLOSE]]))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.competitions = result.data.competitions.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+                $scope.competitions = pagingService.sliceData(result.data.competitions, $scope.pager.startIndex, $scope.pager.endIndex);
             }, function (error) {
                 console.log(error)
             });

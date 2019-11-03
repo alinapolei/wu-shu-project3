@@ -1,12 +1,6 @@
-app.service('registerService', function ($window, $http) {
-    serverUrl = "http://localhost:3000";
-    let url;
+app.service('registerService', function ($window, $http, constants) {
     this.registerUsers = function (data, isRegisterCoach) {
-        if (!isRegisterCoach)
-            url = serverUrl + '/private/registerSportsman';
-        else
-            url = serverUrl + '/private/registerCoach';
-
+        let url = getRegisterUserUrl(isRegisterCoach);
         let req = {
             method: 'POST',
             url: url,
@@ -18,13 +12,13 @@ app.service('registerService', function ($window, $http) {
         return $http(req);
     };
 
-
-    function displayErr(collectionErr) {
-        let errArea = document.getElementById('errorText');
-
-        errArea.style.color = "red";
-        errArea.style.display = "block"
-        errArea.innerHTML = ansExcel.innerHTML + collectionErr
-
-    }
 });
+
+function getRegisterUserUrl(isRegisterCoach) {
+    if (!isRegisterCoach)
+        return constants.serverUrl + '/private/registerSportsman';
+    else
+        return constants.serverUrl + '/private/registerCoach';
+}
+
+

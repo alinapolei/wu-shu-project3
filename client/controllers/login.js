@@ -1,12 +1,12 @@
-app.controller("loginController", function ($scope, $http, $window, $location, $rootScope) {
-    serverUrl = "http://localhost:3000";
+app.controller("loginController", function ($scope, $http, $window, $location, $rootScope, constants) {
+    $scope.regex = constants.regex;
 
     $scope.submit = function(isValid){
         if(isValid){
             var user ={
                 userID : $scope.username,
                 password : $scope.password};
-            $http.post(serverUrl+ '/login', user)
+            $http.post(constants.serverUrl+ '/login', user)
                 .then(function (response) {
                         $window.sessionStorage.setItem('name', response.data.firstname);
                         $rootScope.name = $window.sessionStorage.getItem('name');

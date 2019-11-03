@@ -1,9 +1,9 @@
-app.service('clubService', function($window, $http) {
+app.service('clubService', function($window, $http, constants) {
 
     this.getClubs = function () {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getClubs',
+            url: constants.serverUrl + '/private/getClubs',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },

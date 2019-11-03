@@ -12,7 +12,7 @@
              data-validate="{{openCompetitionForm.description.$error.required ? 'הכנס תיאור.' : openCompetitionForm.$error.pattern ? 'הכנס תיאור בשפה העברית' : ''}}">
             <span class="label-input100">תיאור</span>
             <input class="input100" type="text" name="description" ng-model="description"
-                   ng-required="true" ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                   ng-required="true">
             <span class="focus-input100" data-symbol="&#xf207;"></span>
         </div>
         <div class="timedateDiv">
@@ -65,7 +65,7 @@
              data-validate="{{openCompetitionForm.location.$error.required ? 'הכנס כתובת.' : openCompetitionForm.$error.pattern ? 'הכנס כתובת בשפה העברית' : ''}}">
             <span class="label-input100">כתובת</span>
             <input class="input100" type="text" name="location" ng-model="location" required
-                   ng-pattern="/^[\u0590-\u05fe0-9 _]*[\u0590-\u05fe0-9][\u0590-\u05fe0-9 _]*$/">
+                   ng-pattern="regex.regexHebrewAndNumbers" ng-pattern-restrict>
             <span class="focus-input100" data-symbol="&#xf175;"></span>
         </div>
         <div class="wrap-input100 validate-input"
@@ -73,7 +73,7 @@
              data-validate="{{openCompetitionForm.city.$error.required ? 'הכנס עיר' : openCompetitionForm.$error.pattern ? 'הכנס עיר בשפה העברית' : ''}}">
             <span class="label-input100">עיר</span>
             <input class="input100" type="text" name="city" ng-model="city" required
-                   ng-pattern="/^[\u0590-\u05fe _]*[\u0590-\u05fe][\u0590-\u05fe _]*$/">
+                   ng-pattern="regex.regexHebWithSpace" ng-pattern-restrict>
             <span class="focus-input100" data-symbol="&#xf175;"></span>
         </div>
         <div class="wrap-input100 validate-input" id="sportStyle"

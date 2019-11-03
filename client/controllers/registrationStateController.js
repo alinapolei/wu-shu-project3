@@ -1,4 +1,4 @@
-app.controller("registrationStateController", function($scope, $rootScope, $window, $http, $location, $filter, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams) {
     $scope.categoryForSportsman = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
@@ -25,7 +25,7 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
                            }).count++;
                        return user;
                    });
-                });
+            });
             }, function (error) {
                 console.log(error)
             });
@@ -51,7 +51,6 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
     };
 
     $scope.changeCategory = function (user, oldCategoryId) {
-        console.log(user);
         let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
         if(!newUserCategory || !newUserCategory.users.map(u=>u.id).includes(user.id)){
             removeSportsmanFromoldCategory(oldCategoryId, user);
@@ -73,9 +72,9 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
                 return category.id == oldCategoryId
             }).count--;
             let oldUsersCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == oldCategoryId);
-            oldUsersCategory.users = $rootScope.arrayRemove(oldUsersCategory.users, user);
+            oldUsersCategory.users = commonFunctionsService.arrayRemove(oldUsersCategory.users, user);
             if (oldUsersCategory.users.length === 0)
-                $scope.usersCategories = $rootScope.arrayRemove($scope.usersCategories, oldUsersCategory);
+                $scope.usersCategories = commonFunctionsService.arrayRemove($scope.usersCategories, oldUsersCategory);
         }
     }
     function addSportsmanToNewCategory(newUserCategory, user) {
@@ -154,16 +153,4 @@ app.controller("registrationStateController", function($scope, $rootScope, $wind
         }
     }
 
-});
-
-app.filter('categoryFilter', function(constants) {
-    return function( items, user) {
-        var filtered = [];
-        angular.forEach(items, function(item) {
-            if( user.age >= item.minAge && (item.maxAge == null ||  user.age <= item.maxAge) && (! constants.sexEnum.map(s => s.name).includes(item.sex) || user.sex == item.sex)) {
-                filtered.push(item);
-            }
-        });
-        return filtered;
-    };
 });

@@ -8,7 +8,9 @@
                  ng-class="{'alert-validate' : !selectedCategory, 'visible-alert-validate' : !selectedCategory}"
                  data-validate="בחר קטגוריה">
                 <select class="searchInput" name="selectedCategory" ng-model="selectedCategory"
-                        ng-options="x.name for x in categories" ng-change="setPage(1); filterSelectedLists()">
+                        ng-options="x.name
+                        for
+                        x in categories" ng-change="setPage(1); filterSelectedLists()">
                     <option value="" disabled="disabled">בחר קטגוריה</option>
                 </select>
             </div>
@@ -26,7 +28,9 @@
                 </button>
             </div>
             <select ng-show="access==userTypes.MANAGER" class="searchInput" style="min-width: 0px; width: 100%;" name="selectedClub" ng-model="selectedClub"
-                    ng-options="x.name for x in clubs" ng-change="setPage(1)">
+                    ng-options="x.name
+                    for
+                    x in clubs" ng-change="setPage(1)">
                 <option value="">כל המועדונים</option>
             </select>
         </div>
@@ -113,7 +117,7 @@
         </h1>
         <div class="downloadLink">
             <i class="fa fa-arrow-down" style="text-decoration: underline" aria-hidden="true"></i>
-            <a id="downExcelRegCompetition" class="linkDark" href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
+            <a id="downExcelRegCompetition" ng-click="downloadExcelRegCompetition()"  class="linkDark" href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
         </div>
 
         <div class="center">

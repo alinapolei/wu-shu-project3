@@ -1,6 +1,7 @@
 app.controller("openCompetitionController", function ($scope,$filter,$location, competitionService, constants) {
     $scope.currentDate = new Date();
     $scope.sportStyleEnum = constants.sportStyleEnum;
+    $scope.regex = constants.regex;
 
     $scope.submit = function (isValid) {
         if(isValid){

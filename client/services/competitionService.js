@@ -1,23 +1,13 @@
-app.service('competitionService', function ($window, $http, $uibModal, $location) {
-    /*****http requests*****/
-    serverUrl = "http://localhost:3000";
-
-    this.registerExcelUsers= function (data) {
-        let req = {
-            method: 'POST',
-            url: serverUrl + '/private/competitionExcelSportsmen',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            },
-            data: data
-        };
-        return $http(req);
+app.service('competitionService', function ($window, $http, $uibModal, $location, constants) {
+    this.checkExcel=function (data) {
+        if (isNaN(parseInt(data))||data.toString().length!=9)
+            return false;
+        return true;
     }
-
     this.regSportsmanCompetition = function (data) {
-        let req = {
+        var req = {
             method: 'POST',
-            url: serverUrl + '/private/competitionSportsmen',
+            url: constants.serverUrl + '/private/competitionSportsmen',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -27,9 +17,9 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     };
 
     this.addCategroyDB =function (data) {
-        let req = {
+        var req = {
             method: 'POST',
-            url: serverUrl + '/private/addNewCategory',
+            url: constants.serverUrl + '/private/addNewCategory',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -41,7 +31,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.insertCompetition = function (data) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/addCompetition',
+            url: constants.serverUrl + '/private/addCompetition',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -52,7 +42,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getCompetitons = function (conditions) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getCompetitions'+conditions,
+            url: constants.serverUrl + '/private/getCompetitions'+conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }
@@ -85,7 +75,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getCompetitionDetails = function (id) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getCompetitionDetail',
+            url: constants.serverUrl + '/private/getCompetitionDetail',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -98,7 +88,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.updateCompetitionDetails =function (data) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/updateCompetitionDetails',
+            url: constants.serverUrl + '/private/updateCompetitionDetails',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -109,7 +99,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/competitionSportsmen',
+            url: constants.serverUrl + '/private/competitionSportsmen',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -124,7 +114,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getRegistrationState = function(compId){
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/getRegistrationState',
+            url: constants.serverUrl + '/private/getRegistrationState',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -137,7 +127,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.setCategoryRegistration = function (compId, categoryForSportsman) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/setCategoryRegistration',
+            url: constants.serverUrl + '/private/setCategoryRegistration',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -151,7 +141,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.closeRegistration = function (idComp) {
         var req = {
             method: 'POST',
-            url: serverUrl + '/private/closeRegistration',
+            url: constants.serverUrl + '/private/closeRegistration',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -178,18 +168,6 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         }).result.catch(function () { });
     };
     this.regSportsman = function (idCompetiton) {
-        // $uibModal.open({
-        //     templateUrl: "views/regSportsmanCompetition.html",
-        //     controller: "competitionRegisterModal as cRegCtrl",
-        //     backdrop  : true,
-        //     keyboard  : false,
-        //     resolve: {
-        //         getId: function () {
-        //             return idCompetiton;
-        //         }
-        //     },
-        //     size: 'lg'
-        // }).result.catch(function () { });
         $location.path('/competitionRegistration/'+idCompetiton);
     };
     this.registrationState = function (competition) {
@@ -198,7 +176,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.buildConditions = function buildConditions(location, sportStyle, statusArr){
         var conditions = [];
 
-        if(location !== null && location !== undefined) {
+        if(location !== null && location !== undefined && location !== "") {
             conditions.push('location=' + location);
         }
         if(sportStyle !== null && sportStyle !== undefined){

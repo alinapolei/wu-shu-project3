@@ -1,7 +1,6 @@
 app.service('pagingService', function() {
     this.GetPager = GetPager;
 
-    // service implementation
     function GetPager(totalItems, currentPage, pageSize = 10) {
         // default to first page
         currentPage = currentPage || 1;
@@ -36,7 +35,7 @@ app.service('pagingService', function() {
         var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
         // create an array of pages to ng-repeat in the pager control
-        var pages = _.range(startPage, endPage + 1);
+        var pages = [...Array(endPage).keys()].map(i => i + startPage);//_.range(startPage, endPage + 1);
 
         // return object with all pager properties required by the view
         return {
@@ -50,5 +49,9 @@ app.service('pagingService', function() {
             endIndex: endIndex,
             pages: pages
         };
+    }
+
+    this.sliceData = function (data, startIndex, endIndex) {
+        return data.slice(startIndex, endIndex + 1);
     }
 })
