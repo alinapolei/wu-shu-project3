@@ -23,4 +23,8 @@ describe('sportsman service test', function () {
             expect(conditions).toEqual('');
         })
     });
+
+    describe('formatSportsmanCategoriesList', function () {
+        //TODO
+    })
 });

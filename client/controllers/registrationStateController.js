@@ -1,10 +1,10 @@
-app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService) {
     $scope.categoryForSportsman = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
 
     async function getDisplayData(){
-        let result = await sportsmanService.getCategories();
+        let result = await categoryService.getCategories();
         $scope.categories = result.data;
         $scope.categories.map((obj) => {
             obj.count = 0;
@@ -30,12 +30,7 @@ app.controller("registrationStateController", function($scope, $window, $http, $
                 console.log(error)
             });
     }
-    $scope.getAgeRange = function(category){
-      if(category.maxAge == null)
-          return category.minAge + "+";
-      else
-          return category.minAge + "-" + category.maxAge;
-    };
+    $scope.getAgeRange = categoryService.getAgeRange;
 
     $scope.submit = function () {
         competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)

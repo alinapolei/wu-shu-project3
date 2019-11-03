@@ -116,6 +116,18 @@ select.searchInput:focus{
 .clickableSearch:hover{
     color: #327a81;
 }
+.clickableSearch.little{
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    font-size: 10px;
+    background: white;
+    color: red;
+}
+.clickableSearch.little:hover{
+    /*font-weight: bold;*/
+    border-width: 1.2px;
+}
 .squreClickable{
     border-radius: 0px;
     margin: 1px;

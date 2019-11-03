@@ -33,17 +33,6 @@ app.service('sportsmanService', function($window, $http, constants) {
         };
         return $http(req);
     };
-    this.getCategories = function(){
-        var req = {
-            method: 'POST',
-            url: constants.serverUrl + '/private/getCategories',
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            }
-        };
-        return $http(req);
-    };
-
 
     this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId, compOperator){
         var conditions = [];
@@ -71,5 +60,31 @@ app.service('sportsmanService', function($window, $http, constants) {
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';
+    }
+    
+    this.formatSportsmanCategoriesList = function (sportsmanList, categoriesList) {
+        let sportsmanCategoriesList = [];
+        if(sportsmanList !== undefined && categoriesList !== undefined && sportsmanList.length > 0) {
+            let i = 0, currId = sportsmanList[0].id;
+            while(i < sportsmanList.length) {
+                let user = {
+                    id: sportsmanList[i].id,
+                    firstname: sportsmanList[i].firstname,
+                    lastname: sportsmanList[i].lastname,
+                    sex: sportsmanList[i].sex,
+                    age: sportsmanList[i].age,
+                    selectedCategories: []
+                };
+                while (i < sportsmanList.length && sportsmanList[i].id === currId){
+                    let category = categoriesList.find(c => c.id === sportsmanList[i].category);
+                    user.selectedCategories.push(category);
+                    i++;
+                }
+                sportsmanCategoriesList.push(user);
+                if(i < sportsmanList.length)
+                    currId = sportsmanList[i].id;
+            }
+        }
+        return sportsmanCategoriesList;
     }
 });

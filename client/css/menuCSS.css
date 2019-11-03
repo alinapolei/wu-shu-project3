@@ -121,9 +121,6 @@ div.menuItem{
     background-color: #f1f1f1;
     width: max-content;
 }
-.filtersItemListPanel{
-    width: 250px;
-}
 .arrowDiv{
     height: fit-content;
     line-height: 80px;
