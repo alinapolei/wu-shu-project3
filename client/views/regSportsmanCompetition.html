@@ -50,11 +50,12 @@
                                ng-style="{'visibility': user.selectedCategories[$index] ? 'visible' : 'hidden'}"
                                ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])" aria-hidden="true"></i>
                         </div>
-                        <select ng-model="user.selectedCategories[$index]" class="littleSelect"
+                        <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
+                                ng-model="user.selectedCategories[$index]" class="littleSelect"
                                 ng-change="addToToRegisterUsers(user, user.selectedCategories[$index])"
-                                ng-options="x.name + '\n' + getAgeRange(x) + ' ' + x.sex
+                                ng-options="x.name + '\n' + getAgeRange(x)
                                          for
-                                         x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index)">
+                                         x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index) : true">
                             <option value="" disabled="disabled">בחר קטגוריה</option>
                         </select>
                     </div>
