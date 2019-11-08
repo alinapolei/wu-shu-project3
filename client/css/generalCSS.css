@@ -68,7 +68,7 @@ button:hover {
 #box{
     position: relative;
     margin: 0px auto 5%;
-    width: 950px; /*700px;*/
+    width: 80%; /*950px;*/
     height: 100%;
     padding: 40px;
     background: #FFF;

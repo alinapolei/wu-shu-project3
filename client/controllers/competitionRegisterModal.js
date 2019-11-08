@@ -28,7 +28,7 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
-                $scope.pager = pagingService.GetPager(totalCount, page, 14);
+                $scope.pager = pagingService.GetPager(totalCount, page);
                 $scope.users = pagingService.sliceData(sportsmanService.formatSportsmanCategoriesList(result.data.sportsmen, $scope.categories), $scope.pager.startIndex, $scope.pager.endIndex)
 
             }, function (error) {
@@ -93,6 +93,16 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     dropZoneRegCompetition.ondrop = function (e) {
         excelService.dropZoneDropFile(e, function (res) {
             changeDropZone(res.fileName)
+            let data = {
+                compId: $routeParams.idComp,
+                sportsman :res.result
+            }
+            competitionService.registerExcelUsers(data)
+            .then((res)=>{
+                console.log(res)
+            }).catch((err)=>{
+                console.log(err)
+            })
             console.log(res.result)
             //competitionService.registerUsers(res.result);
         })
