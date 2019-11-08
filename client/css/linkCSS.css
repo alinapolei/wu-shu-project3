@@ -20,13 +20,18 @@
 }
 .linkDark{
     line-height: 2.7;
-    color: #276873;/*#CFD8DC;*/
-    text-decoration: underline;
+    color: #276873 !important;/*#CFD8DC;*/
+    text-decoration: underline !important;
     font-size: initial;
+    cursor: pointer;
 }
-.linkDark:hover{
-    color: #408c99;
-    text-decoration: underline;
+.linkDark.th{
+    font-size: small;
+    line-height: 0;
+}
+.linkDark:hover, .linkDark.th:hover{
+    color: #408c99 !important;
+    text-decoration: underline !important;
 }
 
 .iLink{

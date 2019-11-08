@@ -8,10 +8,10 @@ describe('register service test', function () {
 
     describe('get register user url', function () {
         it('url for sportsman registration', function () {
-            expect(getRegisterUserUrl(false)).toEqual(constants.serverUrl + '/private/registerSportsman');
+            expect(registerService.getRegisterUserUrl(false)).toEqual(constants.serverUrl + '/private/registerSportsman');
         })
         it('url for sportsman coach', function () {
-            expect(getRegisterUserUrl(true)).toEqual(constants.serverUrl + '/private/registerCoach');
+            expect(registerService.getRegisterUserUrl(true)).toEqual(constants.serverUrl + '/private/registerCoach');
         })
     });
 });

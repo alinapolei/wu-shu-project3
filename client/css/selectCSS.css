@@ -1,7 +1,5 @@
 select {
-    min-width: 280px;
-    /*margin-bottom: 1em;*/
-    /*padding: 10px 35px;*/
+    /*min-width: 280px;*/
     padding: 0px 38px 0px 5px;
     border: 0;
     /*border-bottom: 1px solid #e5ffff;*/
@@ -15,4 +13,9 @@ select {
 select:focus, select:active {
     outline: 0;
     border-bottom-color: #599bb3;
+}
+.littleSelect{
+    /*width: 150px;*/
+    /*padding: 0px 10px 0px 5px;*/
+    padding: 0px;
 }

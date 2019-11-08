@@ -6,7 +6,7 @@
             <table cellspacing="0">
                 <tr>
                     <th></th>
-                    <th></th>
+                    <th colspan="2" style="text-align: center"><a class="linkDark th" ng-click="mergeSelected()" ng-show="selectedSportsmenToMerge.length>0">מזג לקטגוריה<br>אחת</a></th>
                     <th class="thInItemList">ת.ז.</th>
                     <th class="thInItemList">שם מלא</th>
                     <th class="thInItemList">מין</th>
@@ -19,6 +19,7 @@
                     </tr>
                     <tr ng-repeat="user in userCategory.users track by $index">
                         <td></td>
+                        <td><input type="checkbox" ng-model="user.isChecked" ng-change="selectedSportsmenToMerge.push(user)"></td>
                         <td class="tdInItemList">{{$index+1}}.</td>
                         <td class="tdInItemList">{{user.id}}</td>
                         <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
@@ -29,9 +30,9 @@
                                 <select name="selectedCategory" ng-model="user.selectedCategory"
                                         ng-selected="{{categories[user.category]}}"
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
-                                        ng-options="x.name + ' ' + getAgeRange(x) + ' ' + x.sex
+                                        ng-options="x.name + ' ' + getAgeRange(x)
                                          for
-                                         x in categories | categoryBySportsmanFilter : user">
+                                         x in categories | categoryBySportsmanFilter : user : undefined : false">
                                     <option value="" disabled="disabled">בחר קטגוריה</option>
                                 </select>
                             </div>

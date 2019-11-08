@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService,constants) {
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService,constants, categoryService) {
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -24,26 +24,18 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
 
         //$scope.pager = pagingService.GetPager(allUsers.length, page);
 
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, null, null, null, null, null))
+        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, $scope.selectedClub, null, null, $routeParams.idComp, null))
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
                 $scope.pager = pagingService.GetPager(totalCount, page, 14);
-                $scope.notRegisteredUsers = result.data.sportsmen.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
-                console.log($scope.notRegisteredUsers)
+                $scope.users = pagingService.sliceData(sportsmanService.formatSportsmanCategoriesList(result.data.sportsmen, $scope.categories), $scope.pager.startIndex, $scope.pager.endIndex)
 
             }, function (error) {
                 console.log(error)
             });
     }
-    function getData(){
-        competitionService.getRegistrationState($routeParams.idComp)
-            .then(function (result) {
-                $scope.registeredUsers = result.data;
-            }, function (error) {
-                console.log(error)
-            });
-
+    async function getData(){
         clubService.getClubs()
             .then(function (result) {
                 $scope.clubs = result.data;
@@ -51,71 +43,34 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 console.log(error)
             });
 
-        sportsmanService.getCategories()
-            .then(function (result) {
-                $scope.categories = result.data;
-            },function (error) {
-                console.log(error);
-            })
+        let result = await categoryService.getCategories();
+        $scope.categories = result.data;
+        setPage(1);
     }
-
-    $scope.selectNotRegistered = function (user) {
-        if($scope.selectedNotRegisteredUsers.includes(user))
-            $scope.selectedNotRegisteredUsers = commonFunctionsService.arrayRemove($scope.selectedNotRegisteredUsers, user);
-        else
-            $scope.selectedNotRegisteredUsers.push(user);
-    };
-    $scope.selectRegistered = function (user){
-        if($scope.selectedRegisteredUsers.includes(user))
-            $scope.selectedRegisteredUsers = commonFunctionsService.arrayRemove($scope.selectedRegisteredUsers, user);
-        else
-            $scope.selectedRegisteredUsers.push(user);
-    };
-    $scope.filterSelectedLists = function(){
-        // $filter('sportsmenByCategoryFilter')($scope.selectedRegisteredUsers, $scope.selectedCategory);
-        // $filter('sportsmenByCategoryFilter')($scope.selectedNotRegisteredUsers, $scope.selectedCategory);
-        $scope.selectedRegisteredUsers = [];
-        $scope.selectedNotRegisteredUsers = [];
-    };
-    $scope.registerSelected = function () {
-        if($scope.selectedCategory) {
-            $scope.toRegisterUsers = $scope.toRegisterUsers.concat($scope.selectedNotRegisteredUsers.map(selected => selected.id).map(id => {
-                return {id: id, category: $scope.selectedCategory.id}
-            }));
-            let categoryUsers = $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id);
-            if(categoryUsers)
-                $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = categoryUsers.users.concat($scope.selectedNotRegisteredUsers);
-            else
-                $scope.registeredUsers = $scope.registeredUsers.concat({category: $scope.selectedCategory, users: $scope.selectedNotRegisteredUsers});
-            $scope.selectedNotRegisteredUsers.forEach(selected => {
-                let registration = $scope.toUnRegisterUsers.find(item => item.id === selected.id);
-                if (registration)
-                    $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
-                $scope.notRegisteredUsers = commonFunctionsService.arrayRemove($scope.notRegisteredUsers, selected);
-            });
-            $scope.selectedNotRegisteredUsers = [];
-        }
-    };
-    $scope.unRegisterSelected = function () {
-        $scope.notRegisteredUsers = $scope.notRegisteredUsers.concat($scope.selectedRegisteredUsers);
-        $scope.selectedRegisteredUsers.forEach(selected =>{
-            let registration = $scope.toRegisterUsers.find(item => item.id === selected.id);
-            if(registration)
-                $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
-            else
-                $scope.toUnRegisterUsers.push({id: selected.id, category: $scope.selectedCategory.id});
-            let users = $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users;
-            $scope.registeredUsers.find(usersCategory => usersCategory.category.id == $scope.selectedCategory.id).users = commonFunctionsService.arrayRemove(users, selected);
-        });
-        $scope.selectedRegisteredUsers = [];
-    };
+    $scope.getAgeRange = categoryService.getAgeRange;
 
     function makeJsonToReg(rowObj) {
         for (let  i =0 ;i<rowObj.length;i++)
             regObj.sportsmenIds.push(parseInt(rowObj[i]["ת.ז ספורטאי"]))
     }
 
-
+    $scope.addToToRegisterUsers = function(user, newCategory){
+        let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
+        if (registration)
+            $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
+        else
+            $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
+    };
+    $scope.addToToUnRegisterUsers = function(user, oldCategory){
+        let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
+        if(registration)
+            $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
+        else
+            $scope.toUnRegisterUsers.push({id:user.id, category:oldCategory.id});
+        user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
+        if(user.selectedCategories.length === 0)
+            user.selectedCategories.push(undefined);
+    };
 
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
@@ -166,42 +121,5 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
     dropZoneRegCompetition.ondragleave = function () {
         this.className = 'dropzone';
         return false;
-    };
-
-
-
-
-});
-
-
-
-//////// filters //////////
-app.filter('sportsmenByCategoryFilter', function(constants) {
-    return function(items, category, registered) {
-        if(category) {
-            var filtered = [];
-            angular.forEach(items, function (item) {
-                let categorySportsman = registered.find(cs => cs.category.id == category.id);
-                let isAlreadyRegistered = categorySportsman? categorySportsman.users.map(s => s.id).includes(item.id) : false;
-                if (!isAlreadyRegistered && category.minAge <= item.age && (category.maxAge == null || category.maxAge >= item.age) && (!constants.sexEnum.map(s => s.name).includes(category.sex) || category.sex == item.sex)) {
-                    filtered.push(item);
-                }
-            });
-            return filtered;
-        }
-        return [];
-    };
-});
-app.filter('sportsmenCategoriesByCategoryFilter', function(constants) {
-    return function(items, category) {
-        if(category) {
-            var filtered = [];
-            angular.forEach(items, function (item) {
-                if (item.category.id == category.id) {
-                    filtered = item.users;
-                }
-            });
-            return filtered;
-        }
     };
 });

@@ -12,13 +12,12 @@ app.service('registerService', function ($window, $http, constants) {
         return $http(req);
     };
 
+    this.getRegisterUserUrl = function (isRegisterCoach) {
+        if (!isRegisterCoach)
+            return constants.serverUrl + '/private/registerSportsman';
+        else
+            return constants.serverUrl + '/private/registerCoach';
+    }
 });
-
-function getRegisterUserUrl(isRegisterCoach) {
-    if (!isRegisterCoach)
-        return constants.serverUrl + '/private/registerSportsman';
-    else
-        return constants.serverUrl + '/private/registerCoach';
-}
 
 

@@ -1,10 +1,11 @@
-app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams) {
+app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService) {
     $scope.categoryForSportsman = [];
+    $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
 
     async function getDisplayData(){
-        let result = await sportsmanService.getCategories();
+        let result = await categoryService.getCategories();
         $scope.categories = result.data;
         $scope.categories.map((obj) => {
             obj.count = 0;
@@ -30,12 +31,7 @@ app.controller("registrationStateController", function($scope, $window, $http, $
                 console.log(error)
             });
     }
-    $scope.getAgeRange = function(category){
-      if(category.maxAge == null)
-          return category.minAge + "+";
-      else
-          return category.minAge + "-" + category.maxAge;
-    };
+    $scope.getAgeRange = categoryService.getAgeRange;
 
     $scope.submit = function () {
         competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
@@ -51,21 +47,27 @@ app.controller("registrationStateController", function($scope, $window, $http, $
     };
 
     $scope.changeCategory = function (user, oldCategoryId) {
+        if(updateUserCategories(user, oldCategoryId))
+            alert("הספורטאי הועבר קטגוריה");
+        else
+            alert("הספורטאי רשום כבר בקטגוריה שנבחרה");
+    };
+    function updateUserCategories(user, oldCategoryId) {
         let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
         if(!newUserCategory || !newUserCategory.users.map(u=>u.id).includes(user.id)){
             removeSportsmanFromoldCategory(oldCategoryId, user);
             setNewCategoryToUser(user);
             addSportsmanToNewCategory(newUserCategory, user);
             user.selectedCategory.count++;
-            alert("הספורטאי הועבר קטגוריה");
+            return true;
         }
         else{
-            alert("הספורטאי רשום כבר בקטגוריה שנבחרה");
             user.selectedCategory = $scope.categories.find(function (category) {
                 return category.id == oldCategoryId;
             });
+            return false;
         }
-    };
+    }
     function removeSportsmanFromoldCategory(oldCategoryId, user) {
         if (oldCategoryId != '') {
             $scope.categories.find(category => {
@@ -103,6 +105,26 @@ app.controller("registrationStateController", function($scope, $window, $http, $
             );
         }
     }
+
+    $scope.mergeSelected = function(){
+        let maxCategory = $scope.selectedSportsmenToMerge.map(u => u.selectedCategory).reduce(function(obj1, obj2) {
+            if (obj1.maxAge === null && obj2.maxAge === null)
+                return (obj1.minAge < obj2.minAge) ? obj2 : obj1;
+            if (obj1.maxAge === null)
+                return obj1;
+            if (obj2.maxAge === null)
+                return obj2;
+            return (obj1.maxAge < obj2.maxAge) ? obj2 : obj1
+        });
+        let isDuplicate = false;
+        $scope.selectedSportsmenToMerge.forEach(user => {
+           user.selectedCategory = maxCategory;
+           user.isChecked = false;
+           isDuplicate = isDuplicate || !updateUserCategories(user, user.category);
+        });
+        $scope.selectedSportsmenToMerge = [];
+        alert("הספורטאיים מוזגו לקטגוריה " + maxCategory.name + " " + categoryService.getAgeRange(maxCategory))
+    };
 
     $scope.closeRegistration = function() {
         var res= confirm("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?")

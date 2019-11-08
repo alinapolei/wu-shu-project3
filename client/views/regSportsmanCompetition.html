@@ -1,86 +1,74 @@
-<div id="box" style="height: 850px; width: 1100px;">
+<div id="box" style="height: 850px; width: 1400px;">
     <div class="right">
-        <h1>
-            בחירת ספורטאיים לרישום
-            <br>
-            לקטגוריה -
-            <div class="validate-input"
-                 ng-class="{'alert-validate' : !selectedCategory, 'visible-alert-validate' : !selectedCategory}"
-                 data-validate="בחר קטגוריה">
-                <select class="searchInput" name="selectedCategory" ng-model="selectedCategory"
-                        ng-options="x.name
-                        for
-                        x in categories" ng-change="setPage(1); filterSelectedLists()">
-                    <option value="" disabled="disabled">בחר קטגוריה</option>
-                </select>
-            </div>
-        </h1>
+        <div style="width: 550px">
+            <h1>
+                רישום ספורטאיים לתחרות
+            </h1>
 
-        <div class="filtersItemListPanel">
-            <div ng-init="searchClicked=false" style="width: 300px">
-                <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
-                       ng-change="searchClicked=false" style="width: auto;">
-                <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
-                    <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
-                </button>
-                <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
-                    <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
-                </button>
-            </div>
-            <select ng-show="access==userTypes.MANAGER" class="searchInput" style="min-width: 0px; width: 100%;" name="selectedClub" ng-model="selectedClub"
-                    ng-options="x.name
+            <div class="center">
+                <div ng-init="searchClicked=false">
+                    <input class="searchInput" type="text" placeholder="חפש..." ng-model="searchText"
+                           ng-change="searchClicked=false">
+                    <button ng-click="setPage(1); searchClicked=true" ng-show="searchClicked==false">
+                        <i class="fa fa-search clickableSearch" style="left: 45px" aria-hidden="true"></i>
+                    </button>
+                    <button ng-click="searchText=''; setPage(1); searchClicked=false" ng-show="searchClicked==true">
+                        <i class="fa fa-times clickableSearch" style="left: 45px" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <select ng-show="access==userTypes.MANAGER" class="searchInput" name="selectedClub"
+                        ng-model="selectedClub"
+                        ng-options="x.name
                     for
                     x in clubs" ng-change="setPage(1)">
-                <option value="">כל המועדונים</option>
-            </select>
-        </div>
-        <div class="flexCenteredDiv">
-            <div>
-                <label>בחירת ספורטאיים:</label>
-                <div class="itemListPanel">
-                    <table class="tableUser" cellspacing="0">
-                        <tr>
-                            <th class="thInItemList">ת.ז.</th>
-                            <th class="thInItemList">שם מלא</th>
-                        </tr>
-                        <tr class="itemInItemList"
-                            ng-repeat="user in notRegisteredUsers | sportsmenByCategoryFilter : selectedCategory : registeredUsers | sportsmenByClubFilter : selectedClub"
-                            ng-class="{'active' : selectedNotRegisteredUsers.includes(user)}"
-                            ng-click="selectNotRegistered(user)">
-                            <td class="tdInItemList">{{user.id}}</td>
-                            <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="arrowDiv">
-                <button ng-click="unRegisterSelected()" style="display: block;">
-                    <i class="fa fa-arrow-right clickableSearch squreClickable" style="border-radius: 0px;"
-                       aria-hidden="true"></i>
-                </button>
-                <button ng-click="registerSelected()">
-                    <i class="fa fa-arrow-left clickableSearch squreClickable" style="border-radius: 0px;"
-                       aria-hidden="true"></i>
-                </button>
-            </div>
-            <div>
-                <label>ספורטאיים להרשמה לקטגוריה{{selectedCategory ? '-' : ''}}{{selectedCategory.name}}:</label>
-                <div class="itemListPanel">
-                    <table class="tableUser" cellspacing="0">
-                        <tr>
-                            <th class="thInItemList">ת.ז.</th>
-                            <th class="thInItemList">שם מלא</th>
-                        </tr>
-                        <tr class="itemInItemList" ng-class="{'active' : selectedRegisteredUsers.includes(user)}"
-                            ng-repeat="user in registeredUsers | sportsmenCategoriesByCategoryFilter : selectedCategory | sportsmenByClubFilter : selectedClub"
-                            ng-click="selectRegistered(user)">
-                            <td class="tdInItemList">{{user.id}}</td>
-                            <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
-                        </tr>
-                    </table>
-                </div>
+                    <option value="">כל המועדונים</option>
+                </select>
             </div>
         </div>
+        <br>
+
+        <table cellspacing="0">
+            <tr>
+                <th></th>
+                <th class="thInItemList">ת.ז.</th>
+                <th class="thInItemList">שם מלא</th>
+                <th class="thInItemList">מין</th>
+                <th class="thInItemList">גיל</th>
+                <th class="thInItemList" colspan="3">קטגוריה</th>
+            </tr>
+            <tr ng-repeat="user in users track by $index">
+                <td class="tdInItemList">{{$index+1}}.</td>
+                <td class="tdInItemList">{{user.id}}</td>
+                <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
+                <td class="tdInItemList">{{user.sex}}</td>
+                <td class="tdInItemList">{{user.age}}</td>
+
+                <td ng-repeat="category in user.selectedCategories track by $index">
+                    <div class="tdInItemList" style="display: flex">
+                        <div>
+                            <i class="fa fa-minus clickableSearch little"
+                               ng-style="{'visibility': user.selectedCategories[$index] ? 'visible' : 'hidden'}"
+                               ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])" aria-hidden="true"></i>
+                        </div>
+                        <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
+                                ng-model="user.selectedCategories[$index]" class="littleSelect"
+                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index])"
+                                ng-options="x.name + '\n' + getAgeRange(x)
+                                         for
+                                         x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index) : true">
+                            <option value="" disabled="disabled">בחר קטגוריה</option>
+                        </select>
+                    </div>
+                </td>
+                <td ng-show="user.selectedCategories.length<3" style="text-align: right;">
+                    <button>
+                        <i class="fa fa-plus clickableSearch"
+                           ng-click="user.selectedCategories.push(undefined)" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
         <div style="margin-top: 2px;"><!--ng-show="pager.totalPages>1"-->
             <!-- pager -->
             <ul ng-if="pager.pages.length" class="pagination">
@@ -106,24 +94,25 @@
             <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
                    ng-click="register()"
                    ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
-                   value="שמירה עבור כל הקטגוריות"/>
+                   value="שמור"/>
         </div>
     </div>
     <!--    <div class="or">או</div>-->
     <div class="left">
         <h1>
-            רישום ע"י
+            רישום ספורטאיים לתחרות<br>באמצעות
             קובץ אקסל
         </h1>
         <div class="downloadLink">
             <i class="fa fa-arrow-down" style="text-decoration: underline" aria-hidden="true"></i>
-            <a id="downExcelRegCompetition" ng-click="downloadExcelRegCompetition()"  class="linkDark" href="" download> הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
+            <a id="downExcelRegCompetition" ng-click="downloadExcelRegCompetition()" class="linkDark" href="" download>
+                הורד פורמט קובץ אקסל לרישום ספורטאים לתחרות</a>
         </div>
 
         <div class="center">
-        <div class="dropzone" id="dropZoneRegCompetition">
-            <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
-        </div>
+            <div class="dropzone" id="dropZoneRegCompetition">
+                <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+            </div>
         </div>
 
         <div class="uploadResults">
@@ -141,4 +130,3 @@
 
     </div>
 </div>
-<!--<button class="btn btn-primary" ng-click="close()">סגור חלון</button>-->
