@@ -1,4 +1,4 @@
-<div id="box" style="height: 850px; width: 97%;">
+<div id="box" style="height: 1000px; width: 97%;">
     <div class="right">
         <div style="width: 550px">
             <h1>
@@ -48,7 +48,8 @@
                         <div>
                             <i class="fa fa-minus clickableSearch little"
                                ng-style="{'visibility': user.selectedCategories[$index] ? 'visible' : 'hidden'}"
-                               ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])" aria-hidden="true"></i>
+                               ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])"
+                               aria-hidden="true"></i>
                         </div>
                         <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
                                 ng-model="user.selectedCategories[$index]" class="littleSelect"
@@ -69,32 +70,35 @@
             </tr>
         </table>
 
-        <div style="margin-top: 2px;"><!--ng-show="pager.totalPages>1"-->
-            <!-- pager -->
-            <ul ng-if="pager.pages.length" class="pagination">
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(1)">ראשון</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === 1}">
-                    <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
-                </li>
-                <li ng-repeat="page in pager.pages" ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
-                    ng-click="setPage(page)">
-                    {{page}}
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
-                </li>
-                <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
-                    <a ng-click="setPage(pager.totalPages)">אחרון</a>
-                </li>
-            </ul>
-        </div>
-        <div class="center">
-            <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
-                   ng-click="register()"
-                   ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
-                   value="שמור"/>
+        <div style="width: 550px">
+            <div style="margin-top: 2px;" class="center" ng-show="pager.totalPages>1">
+                <!-- pager -->
+                <ul ng-if="pager.pages.length" class="pagination">
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(1)">ראשון</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === 1}">
+                        <a ng-click="setPage(pager.currentPage - 1)">הקודם</a>
+                    </li>
+                    <li ng-repeat="page in pager.pages"
+                        ng-class="{'numberBtn' : true, 'active' : pager.currentPage===page}"
+                        ng-click="setPage(page)">
+                        {{page}}
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.currentPage + 1)">הבא</a>
+                    </li>
+                    <li ng-class="{'disabled':pager.currentPage === pager.totalPages}">
+                        <a ng-click="setPage(pager.totalPages)">אחרון</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="center">
+                <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
+                       ng-click="register()"
+                       ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
+                       value="שמור"/>
+            </div>
         </div>
     </div>
     <!--    <div class="or">או</div>-->

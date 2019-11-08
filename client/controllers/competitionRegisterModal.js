@@ -28,7 +28,7 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             .then(function (result) {
                 let totalCount = result.data.totalCount;
 
-                $scope.pager = pagingService.GetPager(totalCount, page, 14);
+                $scope.pager = pagingService.GetPager(totalCount, page);
                 $scope.users = pagingService.sliceData(sportsmanService.formatSportsmanCategoriesList(result.data.sportsmen, $scope.categories), $scope.pager.startIndex, $scope.pager.endIndex)
 
             }, function (error) {
