@@ -26,11 +26,13 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
                 sex: $scope.user.sex,
                 oldId: oldId
             }
+            console.log(data)
             sportsmanService.updateProfile(data)
                 .then(function (result) {
                     alert("משתמש עודכן בהצלחה")
                     $location.path("/users/sportsmen");
                 }, function (error) {
+                    alert("ארעה שגיאה בעת ביצוע העדכון")
                     console.log(error)
                 })
         }

@@ -106,6 +106,14 @@ app.controller("registrationStateController", function($scope, $window, $http, $
         }
     }
 
+    $scope.selectSportsman = function(user){
+        if($scope.selectedSportsmenToMerge.map(u => u.id).includes(user.id)) {
+            alert("הספורטאי מסומן כבר בקטגוריה אחרת");
+            user.isChecked = false;
+        }
+        else
+            $scope.selectedSportsmenToMerge.push(user);
+    };
     $scope.mergeSelected = function(){
         let maxCategory = $scope.selectedSportsmenToMerge.map(u => u.selectedCategory).reduce(function(obj1, obj2) {
             if (obj1.maxAge === null && obj2.maxAge === null)

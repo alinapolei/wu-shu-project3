@@ -24,5 +24,22 @@ describe('category service test', function () {
             );
             expect(range).toEqual("10+");
         });
+        it('min age equal to zero and no max age', function () {
+            let range = categoryService.getAgeRange(
+                {
+                    minAge: 0
+                }
+            );
+            expect(range).toEqual("");
+        });
+        it('max and min age when min age equal to zero', function () {
+            let range = categoryService.getAgeRange(
+                {
+                    minAge: 0,
+                    maxAge: 5
+                }
+            );
+            expect(range).toEqual("0-5");
+        });
     });
 });
