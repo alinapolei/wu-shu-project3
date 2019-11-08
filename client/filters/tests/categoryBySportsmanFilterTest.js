@@ -81,7 +81,7 @@ describe('category by sportsman filter test', function () {
                 "sex": "זכר",
                 "count": 1
             }
-        });
+        }, [], true);
         expect(filtered.length).toEqual(1);
         expect(filtered[0].id).toEqual(3);
     });
@@ -103,7 +103,7 @@ describe('category by sportsman filter test', function () {
                 "sex": "זכר",
                 "count": 1
             }
-        });
+        }, [], true);
         expect(filtered.length).toEqual(1);
         expect(filtered[0].id).toEqual(9);
     });
@@ -125,7 +125,7 @@ describe('category by sportsman filter test', function () {
                 "sex": "זכר",
                 "count": 1
             }
-        });
+        }, [], true);
         expect(filtered.length).toEqual(2);
         let categoryIds = filtered.map(c => c.id);
         expect(categoryIds.includes(9)).toBeTrue();
@@ -149,7 +149,61 @@ describe('category by sportsman filter test', function () {
                 "sex": "זכר",
                 "count": 1
             }
-        });
+        }, [], true);
         expect(filtered.length).toEqual(0);
+    });
+    it('filtered results does not include minAge in the check', function () {
+        let filtered = $filter('categoryBySportsmanFilter')(collection, {
+            "id": 305568,
+            "firstname": "לינור",
+            "lastname": "שחר",
+            "category": 3,
+            "categoryName": "ילדים",
+            "sex": "זכר",
+            "age": 20,
+            "sportclub": 1,
+            "selectedCategory": {
+                "id": 3,
+                "name": "ילדים",
+                "minAge": 0,
+                "maxAge": 12,
+                "sex": "זכר",
+                "count": 1
+            }
+        }, [], false);
+        expect(filtered.length).toEqual(2);
+        let categoryIds = filtered.map(c => c.id);
+        expect(categoryIds.includes(9)).toBeTrue();
+        expect(categoryIds.includes(11)).toBeTrue();
+    });
+    it('filtered results does not include minAge in the check and exclude list is not empty', function () {
+        let filtered = $filter('categoryBySportsmanFilter')(collection, {
+            "id": 305568,
+            "firstname": "לינור",
+            "lastname": "שחר",
+            "category": 3,
+            "categoryName": "ילדים",
+            "sex": "זכר",
+            "age": 20,
+            "sportclub": 1,
+            "selectedCategory": {
+                "id": 3,
+                "name": "ילדים",
+                "minAge": 0,
+                "maxAge": 12,
+                "sex": "זכר",
+                "count": 1
+            }
+        }, [{
+            "id": 9,
+            "name": "בוגרים",
+            "minAge": 18,
+            "maxAge": null,
+            "sex": "זכר",
+            "count": 0
+        }], false);
+        expect(filtered.length).toEqual(2);
+        let categoryIds = filtered.map(c => c.id);
+        expect(categoryIds.includes(11)).toBeTrue();
     });
 });
