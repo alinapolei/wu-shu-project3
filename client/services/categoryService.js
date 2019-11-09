@@ -12,7 +12,7 @@ app.service('categoryService', function($window, $http, constants) {
 
     this.getAgeRange = function(category){
         if(category.maxAge == null)
-            return category.minAge + "+";
+            return category.minAge != 0 ? category.minAge + "+" : "";
         else
             return category.minAge + "-" + category.maxAge;
     };

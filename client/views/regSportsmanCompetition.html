@@ -37,7 +37,7 @@
                 <th class="thInItemList" colspan="3">קטגוריה</th>
             </tr>
             <tr ng-repeat="user in users track by $index">
-                <td class="tdInItemList">{{$index+1}}.</td>
+                <td class="tdInItemList">{{pager.startIndex+$index+1}}.</td>
                 <td class="tdInItemList">{{user.id}}</td>
                 <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
                 <td class="tdInItemList">{{user.sex}}</td>
