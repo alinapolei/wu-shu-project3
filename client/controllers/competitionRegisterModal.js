@@ -85,7 +85,8 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
 
     $scope.downloadExcelRegCompetition = function (){
         let token =$window.sessionStorage.getItem('token')
-        let url = constants.serverUrl + '/downloadExcelFormatRegisterToCompetition/'+token;
+        let compId= $routeParams.idComp;
+        let url = constants.serverUrl + '/downloadExcelFormatRegisterToCompetition/'+token+'/'+compId;
         downExcelRegCompetition.setAttribute('href', url);
         downExcelRegCompetition.click();
     }
@@ -98,7 +99,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 compId: $routeParams.idComp,
                 sportsman :res.result
             }
-
             competitionService.regExcelSportsmanCompetition(data)
             .then((res)=>{
                 console.log(res)
@@ -106,7 +106,6 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 console.log(err)
             })
 
-            console.log(res.result)
             //competitionService.registerUsers(res.result);
         })
     };
