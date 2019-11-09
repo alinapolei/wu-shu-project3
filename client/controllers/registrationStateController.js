@@ -1,4 +1,4 @@
-app.controller("registrationStateController", function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService) {
+app.controller("registrationStateController",function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService) {
     $scope.categoryForSportsman = [];
     $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
@@ -45,6 +45,12 @@ app.controller("registrationStateController", function($scope, $window, $http, $
                 console.log(error);
             })
     };
+    $scope.$on('$locationChangeStart', function() {
+        // var answer = confirm("האם לשמור את השינויים שבוצעו?");
+        // if (!answer) {
+        //     event.preventDefault();
+        // }
+    });
 
     $scope.changeCategory = function (user, oldCategoryId) {
         if(updateUserCategories(user, oldCategoryId))
