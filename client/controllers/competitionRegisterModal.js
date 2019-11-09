@@ -98,12 +98,14 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
                 compId: $routeParams.idComp,
                 sportsman :res.result
             }
-            competitionService.registerExcelUsers(data)
+
+            competitionService.regExcelSportsmanCompetition(data)
             .then((res)=>{
                 console.log(res)
             }).catch((err)=>{
                 console.log(err)
             })
+
             console.log(res.result)
             //competitionService.registerUsers(res.result);
         })

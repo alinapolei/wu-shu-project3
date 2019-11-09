@@ -15,7 +15,17 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-
+    this.regExcelSportsmanCompetition = function (data) {
+        var req = {
+            method: 'POST',
+            url: constants.serverUrl + '/private/regExcelCompetitionSportsmen',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        };
+        return $http(req);
+    };
     this.addCategroyDB =function (data) {
         var req = {
             method: 'POST',
