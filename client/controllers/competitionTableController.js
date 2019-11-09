@@ -1,4 +1,4 @@
-app.controller("competitionTableController", function($scope, $window, $http,competitionService,pagingService,constants) {
+app.controller("competitionTableController", function ($scope, $window, $http, competitionService, pagingService, constants) {
     $scope.sportStyles = constants.sportStyleEnum;
     $scope.compStatus = constants.compStatus;
     $scope.compStatusType = constants.compStatusType;
@@ -10,9 +10,9 @@ app.controller("competitionTableController", function($scope, $window, $http,com
     $scope.watchCompDetails = competitionService.watchCompDetails;
     $scope.regSportsman = competitionService.regSportsman;
     $scope.registrationState = competitionService.registrationState;
-    $scope.editCompetitionDetails= competitionService.editCompetitionDetails;
+    $scope.editCompetitionDetails = competitionService.editCompetitionDetails;
 
-    $scope.setPage = function(page){
+    $scope.setPage = function (page) {
         setPage(page);
     };
 
@@ -21,16 +21,20 @@ app.controller("competitionTableController", function($scope, $window, $http,com
             return;
         }
 
-        //$scope.pager = pagingService.GetPager(allUsers.length, page);
-
-        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.selectedStatus ? [$scope.selectedStatus] : $scope.selectedStatus))
+        competitionService.getCompetitonsCount(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.selectedStatus ? [$scope.selectedStatus] : $scope.selectedStatus))
             .then(function (result) {
-                let totalCount = result.data.totalCount;
-
+                let totalCount = result.data.count;
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.competitions = pagingService.sliceData(result.data.competitions, $scope.pager.startIndex, $scope.pager.endIndex);
+
+                competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, $scope.selectedStatus ? [$scope.selectedStatus] : $scope.selectedStatus, $scope.pager.startIndex + 1, $scope.pager.endIndex + 1))
+                    .then(function (result) {
+                        $scope.competitions = result.data;
+                    }, function (error) {
+                        console.log(error)
+                    })
             }, function (error) {
                 console.log(error)
             });
+        window.scroll(0,0);
     }
 });
