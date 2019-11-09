@@ -15,7 +15,12 @@ app.service('excelService', function () {
                 workbook = XLSX.read(btoa(fixedData), {type: 'base64'}),
                 firstSheetName = workbook.SheetNames[0],
                 worksheet = workbook.Sheets[firstSheetName];
-            ans.result = XLSX.utils.sheet_to_json(worksheet);
+                let range = XLSX.utils.decode_range(workbook.Sheets[firstSheetName]['!ref']);
+                range.s.c = 0; // 0 == XLSX.utils.decode_col("A")
+                range.e.c = 20; // 6 == XLSX.utils.decode_col("G")
+                let new_range = XLSX.utils.encode_range(range);
+            ans.result = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], {blankRows: false, defval: '', range: new_range});
+            //ans.result = XLSX.utils.sheet_to_json(worksheet);
             callback(ans);
         };
         reader.readAsArrayBuffer(f);
