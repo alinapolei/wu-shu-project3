@@ -1,4 +1,4 @@
-app.controller("openCompetitionController", function ($scope,$filter,$location, competitionService, constants) {
+app.controller("openCompetitionController", function ($scope, $rootScope,$filter,$location, competitionService, constants, confirmDialogService) {
     $scope.currentDate = new Date();
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -19,7 +19,8 @@ app.controller("openCompetitionController", function ($scope,$filter,$location, 
             competitionService.insertCompetition(data)
                 .then(function (result) {
                     alert("התחרות נוצרה בהצלחה");
-                    $location.path('/home');
+                    $scope.isSaved = true;
+                    if($rootScope.isChangingLocationFirstTime) $location.path('/home');
                 }, function (error) {
                     console.log(error);
                     alert("ארעה שגיאה ביצירת התחרות");
@@ -27,4 +28,11 @@ app.controller("openCompetitionController", function ($scope,$filter,$location, 
 
         }
     }
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if($scope.openCompetitionForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.openCompetitionForm.$valid) $scope.isClicked = true;
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.openCompetitionForm.$valid);
+        }
+    });
 });

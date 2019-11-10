@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService,constants, categoryService) {
+app.controller("competitionRegisterModal", function($scope, $rootScope, $window, $http,$routeParams, $filter, $location, sportsmanService, clubService, pagingService,competitionService,excelService, commonFunctionsService,constants, categoryService, confirmDialogService) {
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -77,11 +77,17 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
             .then(function (result) {
                 alert("הרישום בוצע בהצלחה");
-                $location.path("/competitions/registerToCompetition");
+                $scope.isSaved = true;
+                if($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
             }, function (error) {
                 console.log(error)
             });
     }
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if(($scope.toRegisterUsers.length > 0 || $scope.toUnRegisterUsers.length > 0) && !$scope.isSaved && $rootScope.isChangingLocationFirstTime)
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.register);
+    });
 
     $scope.downloadExcelRegCompetition = function (){
         let token =$window.sessionStorage.getItem('token')

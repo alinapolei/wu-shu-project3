@@ -21,16 +21,20 @@ app.controller("registerToCompetitionController", function($scope, $rootScope, $
             return;
         }
 
-        //$scope.pager = pagingService.GetPager(allUsers.length, page);
-
-        competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[constants.compStatusType.OPEN], $scope.compStatus[constants.compStatusType.REGCLOSE]]))
+        competitionService.getCompetitonsCount(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[constants.compStatusType.OPEN], $scope.compStatus[constants.compStatusType.REGCLOSE]]))
             .then(function (result) {
-                let totalCount = result.data.totalCount;
-
+                let totalCount = result.data.count;
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.competitions = pagingService.sliceData(result.data.competitions, $scope.pager.startIndex, $scope.pager.endIndex);
+
+                competitionService.getCompetitons(competitionService.buildConditions($scope.searchText, $scope.selectedsportStyle, [$scope.compStatus[constants.compStatusType.OPEN], $scope.compStatus[constants.compStatusType.REGCLOSE]], $scope.pager.startIndex + 1, $scope.pager.endIndex + 1))
+                    .then(function (result) {
+                        $scope.competitions = result.data;
+                    }, function (error) {
+                        console.log(error)
+                    })
             }, function (error) {
                 console.log(error)
             });
+        window.scroll(0,0);
     }
 });

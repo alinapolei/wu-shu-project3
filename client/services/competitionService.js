@@ -1,6 +1,6 @@
 app.service('competitionService', function ($window, $http, $uibModal, $location, constants) {
-    this.checkExcel=function (data) {
-        if (isNaN(parseInt(data))||data.toString().length!=9)
+    this.checkExcel = function (data) {
+        if (isNaN(parseInt(data)) || data.toString().length != 9)
             return false;
         return true;
     }
@@ -26,7 +26,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.addCategroyDB =function (data) {
+    this.addCategroyDB = function (data) {
         var req = {
             method: 'POST',
             url: constants.serverUrl + '/private/addNewCategory',
@@ -52,35 +52,44 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getCompetitons = function (conditions) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getCompetitions'+conditions,
+            url: constants.serverUrl + '/private/getCompetitions' + conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }
         };
         return $http(req);
     };
+    this.getCompetitonsCount = function (conditions) {
+        var req = {
+            method: 'GET',
+            url: constants.serverUrl + '/getCompetitions/count' + conditions
+        };
+        return $http(req);
+    };
 
-    this.addNewCategory =function () {
+    this.addNewCategory = function () {
         $uibModal.open({
             templateUrl: "views/addNewCategoryModal.html",
             controller: "addCategoryModalController as aCMCCtrl",
-            backdrop  : true,
+            backdrop: true,
             keyboard: false,
-        }).result.catch(function () { });
+        }).result.catch(function () {
+        });
     }
-    this.editCompetitionDetails =function (id) {
+    this.editCompetitionDetails = function (id) {
         $uibModal.open({
             templateUrl: "views/editCompetitionDetails.html",
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
-            backdrop  : true,
+            backdrop: 'static',
             keyboard: false,
-            size:'lg',
+            size: 'lg',
             resolve: {
                 getId: function () {
                     return id;
                 }
             }
-        }).result.catch(function () { });
+        }).result.catch(function () {
+        });
     }
     this.getCompetitionDetails = function (id) {
         var req = {
@@ -95,7 +104,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.updateCompetitionDetails =function (data) {
+    this.updateCompetitionDetails = function (data) {
         var req = {
             method: 'POST',
             url: constants.serverUrl + '/private/updateCompetitionDetails',
@@ -113,7 +122,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
-            data:{
+            data: {
                 compId: compId,
                 insertSportsman: insertSportsmenIds,
                 deleteSportsman: deleteSportsmenIds
@@ -121,15 +130,15 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     };
-    this.getRegistrationState = function(compId){
+    this.getRegistrationState = function (compId) {
         var req = {
             method: 'POST',
             url: constants.serverUrl + '/private/getRegistrationState',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
-            data:{
-                compId : compId
+            data: {
+                compId: compId
             }
         };
         return $http(req);
@@ -141,9 +150,9 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
-            data:{
-                compId : compId,
-                categoryForSportsman : categoryForSportsman
+            data: {
+                compId: compId,
+                categoryForSportsman: categoryForSportsman
             }
         };
         return $http(req);
@@ -155,8 +164,8 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
-            data:{
-                idCompetition : idComp
+            data: {
+                idCompetition: idComp
             }
         };
         return $http(req);
@@ -168,34 +177,41 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         $uibModal.open({
             templateUrl: "views/competitonDetails.html",
             controller: "competitionDetailsModal as cDetailsCtrl",
-            backdrop  : true,
+            backdrop: true,
             keyboard: false,
             resolve: {
                 getId: function () {
                     return idCompetiton;
                 }
             }
-        }).result.catch(function () { });
+        }).result.catch(function () {
+        });
     };
     this.regSportsman = function (idCompetiton) {
-        $location.path('/competitionRegistration/'+idCompetiton);
+        $location.path('/competitionRegistration/' + idCompetiton);
     };
     this.registrationState = function (competition) {
         $location.path('/competitions/RegistrationState/' + JSON.stringify(competition));
     };
-    this.buildConditions = function buildConditions(location, sportStyle, statusArr){
+    this.buildConditions = function buildConditions(location, sportStyle, statusArr, startIndex, endIndex) {
         var conditions = [];
 
-        if(location !== null && location !== undefined && location !== "") {
+        if (location !== null && location !== undefined && location !== "") {
             conditions.push('location=' + location);
         }
-        if(sportStyle !== null && sportStyle !== undefined){
+        if (sportStyle !== null && sportStyle !== undefined) {
             conditions.push('sportStyle=' + sportStyle.name);
         }
-        if(statusArr !== null && statusArr !== undefined){
+        if (statusArr !== null && statusArr !== undefined) {
             let statusCond = [];
-            statusArr.forEach(status => {statusCond.push(status.name);});
+            statusArr.forEach(status => {
+                statusCond.push(status.name);
+            });
             conditions.push('status=' + statusCond.join(','));
+        }
+        if(startIndex !== null && startIndex !== undefined && endIndex !== null && endIndex !== undefined){
+            conditions.push('startIndex=' + startIndex);
+            conditions.push('endIndex=' + endIndex);
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';
