@@ -65,14 +65,18 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
     };
     $scope.addToToUnRegisterUsers = function(user, oldCategory){
-        let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
-        if(registration)
-            $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
+        if(oldCategory) {
+            let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
+            if (registration)
+                $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
+            else
+                $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
+            user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
+            if (user.selectedCategories.length === 0)
+                user.selectedCategories.push(undefined);
+        }
         else
-            $scope.toUnRegisterUsers.push({id:user.id, category:oldCategory.id});
-        user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
-        if(user.selectedCategories.length === 0)
-            user.selectedCategories.push(undefined);
+            user.selectedCategories.pop();
     };
 
     $scope.register = function () {
