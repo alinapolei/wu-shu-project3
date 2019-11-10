@@ -38,10 +38,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
             .then(function(result){
                 $scope.isSaved = true;
                 if($rootScope.isChangingLocationFirstTime) {
-                    var res = confirm("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?")
-                    if (res == true) {
-                        exportExcel();
-                    }
+                    confirmDialogService.askQuestion("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?", exportExcel);
                     $location.path('/competitions/registerToCompetition');
                 }
                 else
@@ -145,8 +142,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     };
 
     $scope.closeRegistration = function() {
-        var res= confirm("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?")
-        if(res==true) {
+        confirmDialogService.askQuestion("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?", function () {
             competitionService.closeRegistration($scope.currentCompetition.idCompetition)
                 .then(function (result) {
                     alert("הרישום נסגר בהצלחה");
@@ -154,7 +150,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
                 }, function (error) {
                     console.log(error);
                 })
-        }
+        });
     }
     $scope.exportRegistrationState = function () {
         if($scope.categoryForSportsman.length > 0) {

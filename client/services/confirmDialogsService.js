@@ -39,6 +39,20 @@ app.service('confirmDialogService', function ($ngConfirm, $location, $route, $ro
                 }
             }
         });
-        //}
+    }
+
+    this.askQuestion = function (question, functionIfYes) {
+        $ngConfirm({
+            title: '',
+            type: 'orange',
+            content: question,
+            buttons: {
+                כן: function () {
+                    functionIfYes();
+                },
+                לא: function () {
+                }
+            }
+        })
     }
 });

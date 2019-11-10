@@ -56,12 +56,10 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
         });
 
     $scope.delProfile = function (id) {
-        //userService.deleteProfile(id)
-        var res = confirm("האם אתה בטוח שברצונך למחוק את פרופיל המשתמש?")
-        if (res == true) {
+        confirmDialogService.askQuestion("האם אתה בטוח שברצונך למחוק את פרופיל המשתמש?", function () {
             let data = {
                 userID: id
-            }
+            };
             userService.deleteProfile(data)
                 .then(function (reusult) {
                     alert("משתמש נמחק בהצלחה")
@@ -70,6 +68,6 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
                 }, function (error) {
                     console.log(error)
                 })
-        }
+        });
     }
 });
