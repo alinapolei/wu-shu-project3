@@ -47,7 +47,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
     }
     $scope.ExcelExport = function (event) {
         excelService.uploadExcel(event, function (res) {
-            //console.log(res)
+            console.log(res)
             registerUsers(res, $scope.isRegisterCoach)
         })
     };
@@ -56,6 +56,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
     dropZoneRegisterUsers.ondrop = function (e) {
         excelService.dropZoneDropFile(e, function (res) {
             changeDropZone(res.fileName)
+            console.log(res);
             registerUsers(res.result, $scope.isRegisterCoach)
         })
     };
