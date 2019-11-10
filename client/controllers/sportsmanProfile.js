@@ -1,4 +1,4 @@
-app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService) {
+app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService, confirmDialogService) {
     var oldId;
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
@@ -30,13 +30,21 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
             sportsmanService.updateProfile(data)
                 .then(function (result) {
                     alert("משתמש עודכן בהצלחה")
-                    $location.path("/users/sportsmen");
+                    $scope.isSaved = true;
+                    if($rootScope.isChangingLocationFirstTime) $location.path("/users/sportsmen");
                 }, function (error) {
                     alert("ארעה שגיאה בעת ביצוע העדכון")
                     console.log(error)
                 })
         }
-    }
+    };
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if($scope.updateProfile.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.updateProfile.$valid) $scope.isClicked = true
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.updateProfile.$valid);
+        }
+    });
 
     sportsmanService.getSportsmanProfile({id: $routeParams.id})
         .then(function (result) {

@@ -1,4 +1,4 @@
-app.controller("registrationStateController",function($scope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService) {
+app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService) {
     $scope.categoryForSportsman = [];
     $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
@@ -36,20 +36,25 @@ app.controller("registrationStateController",function($scope, $window, $http, $l
     $scope.submit = function () {
         competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
             .then(function(result){
-                var res = confirm("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?")
-                if (res == true) {
-                    exportExcel();
+                $scope.isSaved = true;
+                if($rootScope.isChangingLocationFirstTime) {
+                    var res = confirm("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?")
+                    if (res == true) {
+                        exportExcel();
+                    }
+                    $location.path('/competitions/registerToCompetition');
                 }
-                $location.path('/competitions/registerToCompetition');
+                else
+                    alert("השינויים נשמרו בהצלחה")
             }, function (error) {
                 console.log(error);
             })
     };
+    $rootScope.isChangingLocationFirstTime = true;
     $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
-        confirmDialogService.notSavedItems(event, $location.path(), $scope.submit);
-        unregister();
+        if($scope.categoryForSportsman.length > 0 && !$scope.isSaved && $rootScope.isChangingLocationFirstTime)
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit);
     });
-    var unregister = $scope.$watch('$routeChangeStart', function () {});
 
     $scope.changeCategory = function (user, oldCategoryId) {
         if(updateUserCategories(user, oldCategoryId))

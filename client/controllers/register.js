@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, excelService, coachService, registerService, constants) {
+app.controller("registerController", function ($scope,$rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -111,11 +111,19 @@ app.controller("registerController", function ($scope, $http, $window, $location
             registerUsers(data, $scope.isRegisterCoach)
         }
     };
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if($scope.registerForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.registerForm.$valid) $scope.isClicked = true;
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.registerForm.$valid);
+        }
+    });
 
     function registerUsers(data, isRegisterCoach) {
         if (!isRegisterCoach)
             registerService.registerUsers(data)
                 .then((results) => {
+                    $scope.isSaved = true;
                     alert("ok")
                     $location.path("/home");
                 })

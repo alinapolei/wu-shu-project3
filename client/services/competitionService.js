@@ -80,7 +80,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         $uibModal.open({
             templateUrl: "views/editCompetitionDetails.html",
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
-            backdrop: true,
+            backdrop: 'static',
             keyboard: false,
             size: 'lg',
             resolve: {
