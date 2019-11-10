@@ -33,8 +33,18 @@ app.service('sportsmanService', function($window, $http, constants) {
         };
         return $http(req);
     };
+    this.getSportsmenCount = function(conditions){
+        var req = {
+            method: 'GET',
+            url: constants.serverUrl + '/private/getSportsmen/count' + conditions,
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+        };
+        return $http(req);
+    };
 
-    this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId, compOperator){
+    this.buildConditionds = function buildConditions(searchText, sportStyle, club, sex, isToDesc, compId, compOperator, startIndex, endIndex){
         var conditions = [];
 
         if(searchText !== null && searchText !== undefined && searchText !== '') {
@@ -57,6 +67,10 @@ app.service('sportsmanService', function($window, $http, constants) {
         }
         if(compOperator !== null && compOperator !== undefined){
             conditions.push('competitionOperator=' + compOperator);
+        }
+        if(startIndex !== null && startIndex !== undefined && endIndex !== null && endIndex !== undefined){
+            conditions.push('startIndex=' + startIndex);
+            conditions.push('endIndex=' + endIndex);
         }
 
         return conditions.length ? '?' + conditions.join('&') : '';
