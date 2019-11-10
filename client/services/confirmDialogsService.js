@@ -1,7 +1,7 @@
 app.service('confirmDialogService', function ($ngConfirm, $location, $route) {
     this.notSavedItems = function (event, next, saveFunction) {
-            event.preventDefault();
-            $ngConfirm({
+        event.preventDefault();
+        $ngConfirm({
                 title: 'השינויים לא נשמרו',
                 content: 'האם לשמור את השינויים שבוצעו?',
                 type: 'red',
@@ -19,6 +19,8 @@ app.service('confirmDialogService', function ($ngConfirm, $location, $route) {
                         text: 'המשך ללא שמירה',
                         action: function () {
                             $location.path(next);
+                            $location.replace();
+                            return "continue"
                         }
                     },
                     cancel: {
