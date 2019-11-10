@@ -47,7 +47,7 @@
                     <div class="tdInItemList" style="display: flex">
                         <div>
                             <i class="fa fa-minus clickableSearch little"
-                               ng-style="{'visibility': user.selectedCategories[$index] ? 'visible' : 'hidden'}"
+                               ng-style="{'visibility': user.selectedCategories[$index] || $index > 0 ? 'visible' : 'hidden'}"
                                ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])"
                                aria-hidden="true"></i>
                         </div>

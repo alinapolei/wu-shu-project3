@@ -22,19 +22,21 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             return;
         }
 
-        //$scope.pager = pagingService.GetPager(allUsers.length, page);
-
-        sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, $scope.selectedClub, null, null, $routeParams.idComp, null))
+        sportsmanService.getSportsmenCount(sportsmanService.buildConditionds($scope.searchText, null, $scope.selectedClub, null, null, $routeParams.idComp, null))
             .then(function (result) {
-                let totalCount = result.data.totalCount;
-
+                let totalCount = result.data.count;
                 $scope.pager = pagingService.GetPager(totalCount, page);
-                $scope.users = pagingService.sliceData(sportsmanService.formatSportsmanCategoriesList(result.data.sportsmen, $scope.categories), $scope.pager.startIndex, $scope.pager.endIndex)
-                window.scroll(0,0);
 
+                sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, null, $scope.selectedClub, null, null, $routeParams.idComp, null, $scope.pager.startIndex + 1, $scope.pager.endIndex + 1))
+                    .then(function (result) {
+                        $scope.users = sportsmanService.formatSportsmanCategoriesList(result.data.sportsmen, $scope.categories);
+                    }, function (error) {
+                        console.log(error)
+                    });
             }, function (error) {
                 console.log(error)
             });
+        window.scroll(0,0);
     }
     async function getData(){
         clubService.getClubs()
@@ -63,14 +65,18 @@ app.controller("competitionRegisterModal", function($scope, $rootScope, $window,
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
     };
     $scope.addToToUnRegisterUsers = function(user, oldCategory){
-        let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
-        if(registration)
-            $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
+        if(oldCategory) {
+            let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
+            if (registration)
+                $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
+            else
+                $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
+            user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
+            if (user.selectedCategories.length === 0)
+                user.selectedCategories.push(undefined);
+        }
         else
-            $scope.toUnRegisterUsers.push({id:user.id, category:oldCategory.id});
-        user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
-        if(user.selectedCategories.length === 0)
-            user.selectedCategories.push(undefined);
+            user.selectedCategories.pop();
     };
 
     $scope.register = function () {

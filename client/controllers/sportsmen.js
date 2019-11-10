@@ -26,23 +26,21 @@ app.controller("sportsmenController", function ($scope, $http, $window, $locatio
             return;
         }
 
-        //$scope.pager = pagingService.GetPager(allUsers.length, page);
+        sportsmanService.getSportsmenCount(sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc))
+            .then(function (result) {
+                let totalCount = result.data.count;
+                $scope.pager = pagingService.GetPager(totalCount, page);
 
-        var req = {
-            method: 'POST',
-            url: constants.serverUrl + '/private/getSportsmen' + sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc),
-            headers: {
-                'x-auth-token': $window.sessionStorage.getItem('token')
-            },
-        };
-        $http(req).then(function (result) {
-            let totalCount = result.data.totalCount;
-
-            $scope.pager = pagingService.GetPager(totalCount, page);
-            $scope.users = pagingService.sliceData(result.data.sportsmen, $scope.pager.startIndex, $scope.pager.endIndex);
-        }, function (error) {
-            console.log(error)
-        });
+                sportsmanService.getSportsmen(sportsmanService.buildConditionds($scope.searchText, $scope.selectedsportStyle, $scope.selectedClub, $scope.selectedSex, $scope.isToDesc, null, null, $scope.pager.startIndex + 1, $scope.pager.endIndex + 1))
+                    .then(function (result) {
+                        $scope.users = result.data.sportsmen;
+                    }, function (error) {
+                        console.log(error)
+                    });
+            }, function (error) {
+                console.log(error)
+            });
+        window.scroll(0,0);
     }
 
     $scope.sortStyleChanged = function (){
