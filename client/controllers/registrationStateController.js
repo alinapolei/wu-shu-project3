@@ -1,8 +1,9 @@
-app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService) {
+app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService,constants) {
     $scope.categoryForSportsman = [];
     $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
+    let downloadExcelLink = document.getElementById("downRegistrationCompState")
 
     async function getDisplayData(){
         let result = await categoryService.getCategories();
@@ -189,4 +190,10 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         }
     }
 
+    $scope.downloadExcelRegistrationState = function () {
+        let token =$window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelCompetitionState/'+token+'/'+$scope.currentCompetition.idCompetition;
+        downloadExcelLink.setAttribute('href', url);
+        downloadExcelLink.click();
+    }
 });
