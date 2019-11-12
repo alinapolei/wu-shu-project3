@@ -135,7 +135,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
             registerService.registerUsers(data)
                 .then((results) => {
                     $scope.isSaved = true;
-                    alert("ok")
+                    alert("הרישום בוצע בהצלחה")
                     $location.path("/home");
                 })
                 .catch((err) => {
