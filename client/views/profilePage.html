@@ -23,15 +23,15 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='personalData'" ng-class="{'active' : activeTag==='personalData' || activeTag===undefined}">פרטים אישיים</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='attachments'" ng-class="{'active' : activeTag==='attachments'}">קבצים מצורפים</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='compData'" ng-class="{'active' : activeTag==='compData'}">מידע תחרויות</a>
-                    </li>
-                    <li class="nav-item" ng-show="false">
-                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='judgeStat'" ng-class="{'active' : activeTag==='judgeStat'}">סטטיסטיקות שיפוט</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='attachments'" ng-class="{'active' : activeTag==='attachments'}">קבצים מצורפים</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='compData'" ng-class="{'active' : activeTag==='compData'}">מידע תחרויות</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" ng-show="false">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="" role="tab" ng-click="activeTag='judgeStat'" ng-class="{'active' : activeTag==='judgeStat'}">סטטיסטיקות שיפוט</a>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </div>
@@ -43,10 +43,10 @@
                 <a class="linkDark iLink" href="" ng-show="!isEditModeOn" ng-click="turnOnEditMode()">ערוך פרופיל</a>
                 <a class="linkDark iLink" href="" ng-show="isEditModeOn" ng-click="turnOffEditMode()">ביטול עריכת פרופיל</a>
             </div>
-            <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
-                <i class="fa fa-chain-broken iColored" aria-hidden="true"></i>
-                <a class="linkDark iLink" href="">החלפת מאמן</a>
-            </div>
+<!--            <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">-->
+<!--                <i class="fa fa-chain-broken iColored" aria-hidden="true"></i>-->
+<!--                <a class="linkDark iLink" href="">החלפת מאמן</a>-->
+<!--            </div>-->
             <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">
                 <i class="fa fa-trash-o iColored" aria-hidden="true"></i>
                 <a class="linkDark iLink" href="" ng-click="delProfile(user.id)">מחק פרופיל</a>
