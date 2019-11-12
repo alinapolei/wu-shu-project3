@@ -126,7 +126,7 @@
             <label for="fileSportsman"> העלאת קובץ</label><br>
         </div>
         <div class="uploadResultsPanel">
-            <div class="error" ng-show="isDropped && excelErrors.length > 0">
+            <div class="error" ng-show="isDropped && (excelErrors === undefined || excelErrors.length > 0)">
                 הרישום לא הצליח, הקובץ מכיל שגיאות
                 <div ng-repeat="errorSportsman in excelErrors" style="text-align: right">
                     <br>
