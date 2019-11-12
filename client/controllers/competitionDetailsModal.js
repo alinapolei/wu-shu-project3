@@ -25,7 +25,6 @@ app.controller("competitionDetailsModal", function($scope, $uibModalInstance, $w
                 accessToken: 'pk.eyJ1Ijoid3VzaHVzeXMiLCJhIjoiY2swZHRodDdmMGF3ODNibzJycHJnaGNtciJ9._Y5lebHWlgL3dphKLHcz3Q'
             }).addTo(mymap);
 
-            console.log(result.data.location +","+result.data.city);
             var settings = {
                 "async": true,
                 "crossDomain": true,

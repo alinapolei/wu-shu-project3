@@ -120,7 +120,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     function competitionRegisterExcelSportsman(data) {
         competitionService.regExcelSportsmanCompetition(data)
             .then((res) => {
-                console.log(res)
+                alert("הספורטאיים נשמרו בהצלחה")
             }).catch((err) => {
             console.log(err)
             $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;
@@ -151,7 +151,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     }
     $scope.ExcelExport = function (event) {
         excelService.uploadExcel(event, function (res) {
-            //console.log(res)
             competitionRegisterExcelSportsman(res.result)
         })
     };
