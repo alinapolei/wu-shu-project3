@@ -21,7 +21,7 @@
                  ng-class="{'alert-validate' : registerForm.id.$invalid && (registerForm.id.$touched || isClicked)}"
                  data-validate="{{registerForm.id.$error.required ? 'הכנס ת.ז.' : (registerForm.id.$error.minlength || registerForm.id.$error.maxlength || registerForm.id.$error.pattern ? 'ת.ז. לא תקינה' : '')}}">
                 <span class="label-input100">ת.ז.</span>
-                <input class="input100" type="text" name="id" ng-model="id" placeholder="ת.ז"
+                <input class="input100" type="text" name="id" ng-model="id"
                        ng-minlength="9" ng-maxlength="9" ng-required="true" ng-pattern="regex.regexOnlyNumbers"
                        ng-pattern-restrict>
                 <span class="focus-input100" data-symbol="&#xf207;"></span>

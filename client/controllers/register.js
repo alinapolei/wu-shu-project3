@@ -45,7 +45,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         })[0];
     };
 
-    fillDataTmpFunction();
+    //fillDataTmpFunction();
 
 
     $scope.uploadNewFile = function(){
