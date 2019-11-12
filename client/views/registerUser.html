@@ -163,10 +163,9 @@
         </div>
 
         <div class="uploadBtn" ng-show="!isDropped">
-            <input type="file" id="fileSportsman" ng-model="csvFile"
-                   onchange="angular.element(this).scope().ExcelExport(event)"
-                   style="display:block;margin-top: 5%"/>
-            <label for="fileSportsman"/> העלאת קובץ</label><br>
+            <input class="uploadBtnClass" type="button" value="העלה קובץ" ng-click="BrowseFileClick()"/>
+            <input type="file" ng-model="csvFile" id="fileSportsman" name="fileupload" style="display: none"/>
+
         </div>
         <div class="uploadResultsPanel">
             <div class="error" ng-show="isDropped && excelErrors.length > 0">

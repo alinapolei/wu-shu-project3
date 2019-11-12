@@ -12,6 +12,16 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
 
     getCoachesAndClub();
 
+    $scope.BrowseFileClick=function()
+    {
+        let  fileinput = document.getElementById("fileSportsman");
+        fileinput.click();
+        fileinput.onchange =function(event){
+            $scope.ExcelExport(event)
+            changeDropZone(event.target.value.toString());
+
+        }
+    }
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
