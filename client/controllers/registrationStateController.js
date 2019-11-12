@@ -141,6 +141,13 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         $scope.selectedSportsmenToMerge = [];
         alert("הספורטאיים מוזגו לקטגוריה " + maxCategory.name + " " + categoryService.getAgeRange(maxCategory))
     };
+    $scope.removeSportsmanFromCategory = function(fromCategory, user){
+        // removeSportsmanFromoldCategory(fromCategory.id, user);
+        confirmDialogService.askQuestion("האם אתה בטוח שאתה רוצה לבטל את הרישום של הספורטאי לקטגוריה" + fromCategory.name + "?", function () {
+            removeSportsmanFromoldCategory(fromCategory.id, user);
+            $scope.$apply();
+        });
+    };
 
     $scope.closeRegistration = function() {
         confirmDialogService.askQuestion("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?", function () {

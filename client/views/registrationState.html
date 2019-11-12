@@ -26,8 +26,13 @@
                         <td class="tdInItemList">{{user.sex}}</td>
                         <td class="tdInItemList">{{user.age}}</td>
                         <td>
-                            <div ng-disable="access==userTypes.MANAGER" class="tdInItemList">
-                                <select name="selectedCategory" ng-model="user.selectedCategory"
+                            <div ng-disable="access==userTypes.MANAGER" class="tdInItemList" style="display: flex">
+                                <div>
+                                    <i class="fa fa-minus clickableSearch little"
+                                       ng-click="removeSportsmanFromCategory(userCategory.category, user)"
+                                       aria-hidden="true"></i>
+                                </div>
+                                <select name="selectedCategory" ng-model="user.selectedCategory" class="littleSelect"
                                         ng-selected="{{categories[user.category]}}"
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
                                         ng-options="x.name + ' ' + getAgeRange(x)
