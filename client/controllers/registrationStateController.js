@@ -202,8 +202,11 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     }
 
     $scope.downloadExcelRegistrationState = function () {
+        //let date =($filter('date')($scope.currentCompetition.date, "dd/MM/yyyy"));
+        let date =($scope.currentCompetition.date)
+        console.log(date)
         let token =$window.sessionStorage.getItem('token')
-        let url = constants.serverUrl + '/downloadExcelCompetitionState/'+token+'/'+$scope.currentCompetition.idCompetition;
+        let url = constants.serverUrl + '/downloadExcelCompetitionState/'+token+'/'+$scope.currentCompetition.idCompetition+'/'+date;
         downloadExcelLink.setAttribute('href', url);
         downloadExcelLink.click();
     }
