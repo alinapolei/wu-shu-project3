@@ -52,7 +52,6 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         $scope.excelErrors = [];
         $scope.isDropped = false;
         dropZoneRegisterUsers.className = "dropzone"
-        document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
     }
     $scope.ExcelExport = function (event) {
@@ -70,8 +69,8 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
     };
 
     function changeDropZone(name) {
-        var droptext = document.getElementById("dropText");
-        droptext.innerHTML = name.toString();
+        let nameArray = name.toString().split("\\");
+        $scope.filename = nameArray[nameArray.length-1];
         $scope.isDropped = true;
         dropZoneRegisterUsers.className = "dropzoneExcel"
     }
@@ -138,7 +137,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
                 })
                 .catch((err) => {
                     console.log(err);
-                    $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;
+                    $scope.excelErrors = err.data;//typeof err.data == 'object' ? undefined :
                 })
     }
 
