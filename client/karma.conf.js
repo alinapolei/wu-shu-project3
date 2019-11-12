@@ -22,6 +22,7 @@ module.exports = function(config) {
         './node_modules/angular-route/angular-route.js',
         'https://cdn.rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-2.5.0.js',
         'https://cdn.rawgit.com/AlphaGit/ng-pattern-restrict/master/src/ng-pattern-restrict.min.js',
+        './css/confirm/angular-confirm.js',
         './app.js',
         './constants.js',
 
