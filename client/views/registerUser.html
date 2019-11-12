@@ -174,7 +174,7 @@
                     <br>
                     בשורה מס' {{errorSportsman.line}}:
                     <div ng-repeat="error in errorSportsman.errors track by $index">
-                        {{index+1}}. {{error}}
+                        {{$index+1}}. {{error}}
                     </div>
                 </div>
             </div>
