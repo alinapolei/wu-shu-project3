@@ -45,7 +45,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         })[0];
     };
 
-    fillDataTmpFunction();
+    //fillDataTmpFunction();
 
 
     $scope.uploadNewFile = function(){
@@ -135,12 +135,12 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
             registerService.registerUsers(data)
                 .then((results) => {
                     $scope.isSaved = true;
-                    alert("ok")
+                    alert("הרישום בוצע בהצלחה")
                     $location.path("/home");
                 })
                 .catch((err) => {
                     console.log(err);
-                    $scope.excelErrors = err.data;
+                    $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;
                 })
     }
 

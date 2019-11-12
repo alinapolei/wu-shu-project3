@@ -123,7 +123,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 console.log(res)
             }).catch((err) => {
             console.log(err)
-            $scope.excelErrors = err.data;
+            $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;
         })
     }
 
