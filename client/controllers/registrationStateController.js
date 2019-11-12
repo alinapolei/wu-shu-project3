@@ -114,9 +114,13 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         }
     }
 
-    $scope.selectSportsman = function(user){
-        if($scope.selectedSportsmenToMerge.map(u => u.id).includes(user.id)) {
-            alert("הספורטאי מסומן כבר בקטגוריה אחרת");
+    $scope.selectSportsman = function(user, categoryId){
+        let selectedUser = $scope.selectedSportsmenToMerge.find(u => u.id == user.id);
+        if(selectedUser !== undefined) {
+            if(selectedUser.category !== categoryId)
+                alert("הספורטאי מסומן כבר בקטגוריה אחרת");
+            else
+                $scope.selectedSportsmenToMerge = commonFunctionsService.arrayRemove($scope.selectedSportsmenToMerge, selectedUser);
             user.isChecked = false;
         }
         else

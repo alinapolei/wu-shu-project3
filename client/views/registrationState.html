@@ -19,7 +19,7 @@
                     </tr>
                     <tr ng-repeat="user in userCategory.users track by $index">
                         <td></td>
-                        <td class="tdInItemList"><input type="checkbox" ng-model="user.isChecked" ng-change="selectSportsman(user)"></td>
+                        <td class="tdInItemList"><input type="checkbox" ng-model="user.isChecked" ng-change="selectSportsman(user, userCategory.category.id)"></td>
                         <td class="tdInItemList">{{$index+1}}.</td>
                         <td class="tdInItemList">{{user.id}}</td>
                         <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
