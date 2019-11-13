@@ -1,5 +1,6 @@
 app.controller("addCategoryModalController", function($scope, $window, $uibModalInstance, $http,competitionService, toastNotificationService, constants) {
     $scope.sexEnum = constants.sexEnum;
+    $scope.regex = constants.regex;
 
     $scope.submit =function (isValid) {
         if(isValid){

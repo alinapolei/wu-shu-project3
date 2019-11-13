@@ -13,7 +13,7 @@
                  data-validate="{{editCompetitionForm.description.$error.required ? 'הכנס תיאור.' : editCompetitionForm.$error.pattern ? 'הכנס תיאור בשפה העברית' : ''}}">
                 <span class="label-input100">תיאור</span>
                 <input class="input100" type="text" name="description" ng-model="description" placeholder="תיאור"
-                       ng-required="true">
+                       ng-required="true" ng-pattern="regex.regexHebrewAndNumbers" ng-pattern-restrict>
                 <span class="focus-input100" data-symbol="&#xf207;"></span>
             </div>
             <div class="wrap-input100 validate-input"
@@ -52,14 +52,14 @@
                      show-spinners="false">
                     <span class="label-input100">תאריך האירוע</span>
                     <input class="input100" type="date" name="eventDate" ng-model="eventDate"
-                           ng-change="closeRegDate=eventDate; closeRegTime=eventDate;" placeholder="תאריך האירוע"
+                           ng-change="closeRegDate=eventDate; closeRegTime=date;" placeholder="תאריך האירוע"
                            ng-min="currentDate"
                            required>
                     <span class="focus-input100" data-symbol="&#xf332;"></span>
                 </div>
                 <div class="wrap-input100 validate-input control-group input-append"
-                     ng-class="{'alert-validate' : editCompetitionForm.time.$invalid && (editCompetitionForm.time.$touched || isClicked)}"
-                     data-validate="{{editCompetitionForm.time.$error.required ? 'הכנס שעת האירוע' : ''}}"
+                     ng-class="{'alert-validate' : editCompetitionForm.evetTime.$invalid && (editCompetitionForm.evetTime.$touched || isClicked)}"
+                     data-validate="{{editCompetitionForm.evetTime.$error.required ? 'הכנס שעת האירוע' : ''}}"
                      show-spinners="false">
                     <span class="label-input100">שעת האירוע</span>
                     <input class="input100" id="evetTime" type="time" name="evetTime" ng-model="evetTime"
@@ -68,19 +68,19 @@
             </div>
             <div class="timedateDiv">
                 <div class="wrap-input100 validate-input control-group input-append"
-                     ng-class="{'alert-validate' : openCompetitionForm.closeRegDate.$invalid && (openCompetitionForm.closeRegDate.$touched || isClicked)}"
-                     data-validate="{{openCompetitionForm.closeRegDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.closeRegDate.$error.min ? 'הוזן תאריך עבר' : ''}}"
+                     ng-class="{'alert-validate' : editCompetitionForm.closeRegDate.$invalid && (editCompetitionForm.closeRegDate.$touched || isClicked)}"
+                     data-validate="{{editCompetitionForm.closeRegDate.$error.required ? 'הכנס תאריך סגירת הרישום' : editCompetitionForm.closeRegDate.$error.min ? 'הוזן תאריך עבר' : editCompetitionForm.closeRegDate.$error.max ? 'סגירת הרישום לא יכולה להתבצע לאחר תאריך התחרות' : ''}}"
                      show-spinners="false">
                     <div>
                         <span class="label-input100">תאריך סגירת הרישום</span>
                         <input class="input100" type="date" name="closeRegDate" ng-model="closeRegDate"
-                               placeholder="תאריך סגירת הרישום" ng-min="currentDate" required>
+                               placeholder="תאריך סגירת הרישום" ng-min="currentDate" ng-max="eventDate" required>
                         <span class="focus-input100" data-symbol="&#xf332;"></span>
                     </div>
                 </div>
                 <div class="wrap-input100 validate-input control-group input-append"
-                     ng-class="{'alert-validate' : openCompetitionForm.closeRegTime.$invalid && (openCompetitionForm.closeRegTime.$touched || isClicked)}"
-                     data-validate="{{openCompetitionForm.closeRegTime.$error.required ? 'הכנס שעת סגירת הרישום' : ''}}"
+                     ng-class="{'alert-validate' : editCompetitionForm.closeRegTime.$invalid && (editCompetitionForm.closeRegTime.$touched || isClicked)}"
+                     data-validate="{{editCompetitionForm.closeRegTime.$error.required ? 'הכנס שעת סגירת הרישום' : ''}}"
                      show-spinners="false">
                     <div>
                         <span class="label-input100">שעת סגירת הרישום</span>

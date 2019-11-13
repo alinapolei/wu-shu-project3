@@ -39,9 +39,10 @@ app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $loca
             }
             competitionService.updateCompetitionDetails(data)
                 .then(function (result) {
-                    toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
                     $scope.isSaved = true;
-                    $uibModalInstance.close()
+                    $uibModalInstance.close();
+                    parent.location.reload();
+                    //toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
                 },function (error) {console.log(error)})
         }
     }

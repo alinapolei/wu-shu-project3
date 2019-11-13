@@ -88,7 +88,9 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
                     return id;
                 }
             }
-        }).result.catch(function () {
+        }).result.then(function(){
+            // parent.location.reload();
+        }).catch(function () {
         });
     }
     this.getCompetitionDetails = function (id) {
