@@ -16,6 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         //loads
+        'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
         './node_modules/angular/angular.js',
         './node_modules/angular-ui-router/release/angular-ui-router.js',
         './node_modules/angular-mocks/angular-mocks.js',
@@ -24,6 +25,7 @@ module.exports = function(config) {
         'https://cdn.rawgit.com/AlphaGit/ng-pattern-restrict/master/src/ng-pattern-restrict.min.js',
         './css/confirm/angular-confirm.js',
         './app.js',
+        './services/confirmDialogsService.js',
         './constants.js',
 
         //files to test
