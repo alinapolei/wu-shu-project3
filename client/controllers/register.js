@@ -137,9 +137,17 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
                 })
                 .catch((err) => {
                     console.log(err);
-                    if(err.data.message ==undefined)
-                        $scope.excelErrors = err.data;//typeof err.data == 'object' ? undefined :
-
+                    if(!err.data.message)
+                        $scope.excelErrors = err.data;
+                    else{
+                        let serverErrors = [];
+                        if(err.data.code === 547)
+                            serverErrors.push("ת.ז. מאמן לא קיימת במערכת");
+                        if(err.data.code === 2627)
+                            serverErrors.push("ת.ז. ספורטאי קיים כבר במערכת");
+                        if(serverErrors.length > 0)
+                            $scope.excelErrors = [{line: 0, errors: serverErrors}]
+                    }
                 })
     }
 
