@@ -137,7 +137,9 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
                 })
                 .catch((err) => {
                     console.log(err);
-                    $scope.excelErrors = err.data;//typeof err.data == 'object' ? undefined :
+                    if(err.data.message ==undefined)
+                        $scope.excelErrors = err.data;//typeof err.data == 'object' ? undefined :
+
                 })
     }
 
