@@ -42,7 +42,8 @@ app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $loca
                     $scope.isSaved = true;
                     $uibModalInstance.close();
                     parent.location.reload();
-                    //toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
+                    toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
+
                 },function (error) {console.log(error)})
         }
     }

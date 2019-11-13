@@ -6,12 +6,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     let downloadExcelLink = document.getElementById("downRegistrationCompState")
 
     async function getDisplayData(){
-        let result = await categoryService.getCategories();
-        $scope.categories = result.data;
-        $scope.categories.map((obj) => {
-            obj.count = 0;
-            return obj;
-        });
+        await getCategories();
 
         competitionService.getRegistrationState($scope.currentCompetition.idCompetition)
             .then(function (result) {
@@ -32,6 +27,14 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
                 console.log(error)
             });
     }
+    async function getCategories(){
+        let result = await categoryService.getCategories();
+        $scope.categories = result.data;
+        $scope.categories.map((obj) => {
+            obj.count = 0;
+            return obj;
+        });
+    }
     $scope.getAgeRange = categoryService.getAgeRange;
 
     $scope.submit = function () {
@@ -50,9 +53,12 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     };
     $rootScope.isChangingLocationFirstTime = true;
     $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
-        if($scope.categoryForSportsman.length > 0 && !$scope.isSaved && $rootScope.isChangingLocationFirstTime)
+        if(changesNotSaved())
             confirmDialogService.notSavedItems(event, $location.path(), $scope.submit);
     });
+    function changesNotSaved(){
+        return $scope.categoryForSportsman.length > 0 && !$scope.isSaved && $rootScope.isChangingLocationFirstTime;
+    }
 
     $scope.changeCategory = function (user, oldCategoryId) {
         if(updateUserCategories(user, oldCategoryId))
@@ -172,8 +178,17 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         }
         exportExcel();
     };
-    $scope.addCategoeyModal =function () {
-        competitionService.addNewCategory()
+    $scope.addCategoeyModal =function (event) {
+        // if(changesNotSaved())
+        //     confirmDialogService.notSavedItems(event, function () {
+        //         competitionService.addNewCategory(finishAddingCategory);
+        //     }, $scope.submit);
+        // else
+            competitionService.addNewCategory(finishAddingCategory);
+    };
+    async function finishAddingCategory() {
+        //await getCategories();
+        //$scope.reload();
     }
 
     function exportExcel() {

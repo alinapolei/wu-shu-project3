@@ -13,7 +13,7 @@ app.controller("addCategoryModalController", function($scope, $window, $uibModal
         competitionService.addCategroyDB(data)
             .then(function (result) {
                 toastNotificationService.successNotification("קטגוריה נוספה בהצלחה");
-                parent.location.reload();
+                // parent.location.reload();
                 $uibModalInstance.close()
             },function (error) {console.log(error)})
         }
