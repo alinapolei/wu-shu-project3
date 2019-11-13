@@ -15,7 +15,7 @@
         <div class="timedateDiv">
             <div class="wrap-input100 validate-input control-group input-append"
                  ng-class="{'alert-validate' : openCompetitionForm.date.$invalid && (openCompetitionForm.date.$touched || isClicked)}"
-                 data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.min ? 'הוסן תאריך עבר' : ''}}"
+                 data-validate="{{openCompetitionForm.date.$error.required ? 'הכנס תאריך האירוע' : openCompetitionForm.date.$error.min ? 'הוזן תאריך עבר' : ''}}"
                  show-spinners="false">
                 <span class="label-input100">תאריך האירוע</span>
                 <input class="input100" type="date" name="date" ng-model="date"
@@ -35,13 +35,13 @@
         <div class="timedateDiv">
             <div class="wrap-input100 validate-input control-group input-append"
                  ng-class="{'alert-validate' : openCompetitionForm.regCloseDate.$invalid && (openCompetitionForm.regCloseDate.$touched || isClicked)}"
-                 data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.min ? 'הוזן תאריך עבר' : ''}}"
+                 data-validate="{{openCompetitionForm.regCloseDate.$error.required ? 'הכנס תאריך סגירת הרישום' : openCompetitionForm.regCloseDate.$error.min ? 'הוזן תאריך עבר' : openCompetitionForm.regCloseDate.$error.max ? 'סגירת הרישום לא יכולה להתבצע לאחר תאריך התחרות': ''}}"
                  show-spinners="false">
                 <div>
                     <!--                            <label class="label">תאריך סגירת הרישום</label>-->
                     <span class="label-input100">תאריך סגירת הרישום</span>
                     <input class="input100" type="date" name="regCloseDate" ng-model="regCloseDate"
-                           placeholder="תאריך סגירת הרישום" ng-min="currentDate" required>
+                           placeholder="תאריך סגירת הרישום" ng-min="currentDate" ng-max="date" required>
                     <span class="focus-input100" data-symbol="&#xf332;"></span>
                 </div>
             </div>
