@@ -114,7 +114,7 @@ async function createExcelRegisterCompetition(SportsmanData, categoryData) {
 
 }
 
-async function createExcelRegisterSportsman(clubList) {
+async function createExcelRegisterSportsman(clubList,coachList) {
     let workbook = new excel.Workbook();
     workbook.writeP = util.promisify(workbook.write);
     let option = {
@@ -153,6 +153,15 @@ async function createExcelRegisterSportsman(clubList) {
         }));
         row++;
     }
+    row =2 ;
+    worksheet.cell(1, 27).string("מאמנים").style(style).style({font: {color: 'white'}});
+    for (let i = 0; i < coachList.length; i++) {
+        worksheet.cell(row, 27).string(coachList[i].firstname + ' ' + coachList[i].lastname + ' ' +setIdCoach(coachList[i])).style(style).style(({
+            font: {color: 'white'},
+            alignment: {horizontal: 'right'}
+        }));
+        row++;
+    }
 
     for (let i = 2; i < 1000; i++) {
         worksheet.cell(i, 4).style(style).style(({
@@ -161,8 +170,44 @@ async function createExcelRegisterSportsman(clubList) {
             numberFormat: '@'
         }));
     }
+    worksheet.addDataValidation({
+        type: 'list',
+        allowBlank: false,
+        prompt: 'בחר מועדון',
+        error: 'Invalid choice was chosen',
+        showDropDown: true,
+        sqref: 'K2:K100',
+        formulas: ['=sheet1!$AA$2:$AA$'+(coachList.length+1)],
+        style: style,
+    });
 
+    worksheet.addDataValidation({
+        type: 'textLength',
+        allowBlank: false,
+        prompt: 'הכנס ת.ז ספורטאי',
+        error: 'ת.ז צריכה להכיל 9 ספרות',
+        sqref: 'K2:K100',
+        formulas: [9,9],
 
+    });
+    worksheet.addDataValidation({
+        type: 'textLength',
+        allowBlank: false,
+        prompt: 'הכנס ת.ז ספורטאי',
+        error: 'ת.ז צריכה להכיל 9 ספרות',
+        sqref: 'A2:A100',
+        formulas: [9,9],
+
+    });
+    worksheet.addDataValidation({
+        type: 'textLength',
+        allowBlank: false,
+        prompt: 'הכנס פאלפון',
+        error: 'פאלפון צריך להכיל 10 ספרות',
+        sqref: 'D2:D100',
+        formulas: [10,10],
+
+    });
     worksheet.addDataValidation({
         type: 'list',
         allowBlank: false,
@@ -170,7 +215,7 @@ async function createExcelRegisterSportsman(clubList) {
         error: 'Invalid choice was chosen',
         showDropDown: true,
         sqref: 'H2:H100',
-        formulas: ['=sheet1!$Z$2:$Z$100'],
+        formulas: ['=sheet1!$Z$2:$Z$'+(clubList.length+1)],
         style: style,
     });
     worksheet.addDataValidation({
@@ -286,7 +331,9 @@ function setAgeCategory(category) {
 function setIdCategory(category) {
     return '(קוד: ' + category.id + ')';
 }
-
+function setIdCoach(id) {
+    return '(ת.ז: ' + id.id + ')';
+}
 
 module.exports.createExcelRegisterCompetition = createExcelRegisterCompetition;
 module.exports.createExcelRegisterSportsman = createExcelRegisterSportsman;
