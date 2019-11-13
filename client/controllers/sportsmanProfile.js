@@ -1,4 +1,4 @@
-app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService, confirmDialogService) {
+app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService, confirmDialogService, toastNotificationService) {
     var oldId;
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
@@ -28,11 +28,11 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
             }
             sportsmanService.updateProfile(data)
                 .then(function (result) {
-                    alert("משתמש עודכן בהצלחה")
+                    toastNotificationService.successNotification("המשתמש עודכן בהצלחה");
                     $scope.isSaved = true;
                     if($rootScope.isChangingLocationFirstTime) $location.path("/users/sportsmen");
                 }, function (error) {
-                    alert("ארעה שגיאה בעת ביצוע העדכון")
+                    toastNotificationService.errorNotification("ארעה שגיאה בעת ביצוע העדכון");
                     console.log(error)
                 })
         }
@@ -61,7 +61,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
             };
             userService.deleteProfile(data)
                 .then(function (reusult) {
-                    alert("משתמש נמחק בהצלחה")
+                    toastNotificationService.successNotification("משתמש נמחק בהצלחה");
                     $location.path("/users/sportsmen");
 
                 }, function (error) {

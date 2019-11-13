@@ -1,4 +1,4 @@
-app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $location, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants, confirmDialogService) {
+app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $location, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants, confirmDialogService, toastNotificationService) {
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
 
@@ -39,7 +39,7 @@ app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $loca
             }
             competitionService.updateCompetitionDetails(data)
                 .then(function (result) {
-                    alert("פרטי התחרות עודכנו בהצלחה")
+                    toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
                     $scope.isSaved = true;
                     $uibModalInstance.close()
                 },function (error) {console.log(error)})

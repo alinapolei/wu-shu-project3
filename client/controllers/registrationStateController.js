@@ -1,4 +1,4 @@
-app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService,constants) {
+app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService, toastNotificationService,constants) {
     $scope.categoryForSportsman = [];
     $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
@@ -43,7 +43,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
                     $location.path('/competitions/registerToCompetition');
                 }
                 else
-                    alert("השינויים נשמרו בהצלחה")
+                    toastNotificationService.successNotification("השינויים נשמרו בהצלחה");
             }, function (error) {
                 console.log(error);
             })
@@ -56,9 +56,9 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
 
     $scope.changeCategory = function (user, oldCategoryId) {
         if(updateUserCategories(user, oldCategoryId))
-            alert("הספורטאי הועבר קטגוריה");
+            toastNotificationService.successNotification("הספורטאי הועבר קטגוריה");
         else
-            alert("הספורטאי רשום כבר בקטגוריה שנבחרה");
+            toastNotificationService.warningNotification("הספורטאי רשום כבר בקטגוריה שנבחרה");
     };
     function updateUserCategories(user, oldCategoryId) {
         let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
@@ -118,7 +118,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         let selectedUser = $scope.selectedSportsmenToMerge.find(u => u.id == user.id);
         if(selectedUser !== undefined) {
             if(selectedUser.category !== categoryId)
-                alert("הספורטאי מסומן כבר בקטגוריה אחרת");
+                toastNotificationService.warningNotification("הספורטאי מסומן כבר בקטגוריה אחרת");
             else
                 $scope.selectedSportsmenToMerge = commonFunctionsService.arrayRemove($scope.selectedSportsmenToMerge, selectedUser);
             user.isChecked = false;
@@ -143,7 +143,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
            isDuplicate = isDuplicate || !updateUserCategories(user, user.category);
         });
         $scope.selectedSportsmenToMerge = [];
-        alert("הספורטאיים מוזגו לקטגוריה " + maxCategory.name + " " + categoryService.getAgeRange(maxCategory))
+        toastNotificationService.successNotification("הספורטאיים מוזגו לקטגוריה " + maxCategory.name + " " + categoryService.getAgeRange(maxCategory));
     };
     $scope.removeSportsmanFromCategory = function(fromCategory, user){
         // removeSportsmanFromoldCategory(fromCategory.id, user);
@@ -157,7 +157,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         confirmDialogService.askQuestion("האם אתה בטוח שברצונך לסגור את הרישום לתחרות?", function () {
             competitionService.closeRegistration($scope.currentCompetition.idCompetition)
                 .then(function (result) {
-                    alert("הרישום נסגר בהצלחה");
+                    toastNotificationService.successNotification("הרישום נסגר בהצלחה");
                     $location.path('/competitions/registerToCompetition');
                 }, function (error) {
                     console.log(error);

@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope,$rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService) {
+app.controller("registerController", function ($scope,$rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService, toastNotificationService) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -132,7 +132,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
             registerService.registerUsers(data)
                 .then((results) => {
                     $scope.isSaved = true;
-                    alert("הרישום בוצע בהצלחה")
+                    toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                     $location.path("/home");
                 })
                 .catch((err) => {

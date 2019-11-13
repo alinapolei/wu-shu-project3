@@ -1,4 +1,4 @@
-app.controller("addCategoryModalController", function($scope, $window, $uibModalInstance, $http,competitionService, constants) {
+app.controller("addCategoryModalController", function($scope, $window, $uibModalInstance, $http,competitionService, toastNotificationService, constants) {
     $scope.sexEnum = constants.sexEnum;
 
     $scope.submit =function (isValid) {
@@ -11,7 +11,7 @@ app.controller("addCategoryModalController", function($scope, $window, $uibModal
             }
         competitionService.addCategroyDB(data)
             .then(function (result) {
-                alert("קטגוריה נוספה בהצלחה")
+                toastNotificationService.successNotification("קטגוריה נוספה בהצלחה");
                 parent.location.reload();
                 $uibModalInstance.close()
             },function (error) {console.log(error)})

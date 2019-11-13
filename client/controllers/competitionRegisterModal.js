@@ -1,4 +1,4 @@
-app.controller("competitionRegisterModal", function ($scope, $rootScope, $window, $http, $routeParams, $filter, $location, sportsmanService, clubService, pagingService, competitionService, excelService, commonFunctionsService, constants, categoryService, confirmDialogService) {
+app.controller("competitionRegisterModal", function ($scope, $rootScope, $window, $http, $routeParams, $filter, $location, sportsmanService, clubService, pagingService, competitionService, excelService, commonFunctionsService, constants, categoryService, confirmDialogService, toastNotificationService) {
     $scope.selectedNotRegisteredUsers = [];
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
@@ -84,7 +84,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
             .then(function (result) {
-                alert("הרישום בוצע בהצלחה");
+                toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                 $scope.isSaved = true;
                 if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
             }, function (error) {
@@ -120,7 +120,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     function competitionRegisterExcelSportsman(data) {
         competitionService.regExcelSportsmanCompetition(data)
             .then((res) => {
-                alert("הספורטאיים נשמרו בהצלחה")
+                toastNotificationService.successNotification("הספורטאיים נשמרו בהצלחה");
             }).catch((err) => {
             console.log(err)
             $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;

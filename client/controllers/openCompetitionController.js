@@ -1,4 +1,4 @@
-app.controller("openCompetitionController", function ($scope, $rootScope,$filter,$location, competitionService, constants, confirmDialogService) {
+app.controller("openCompetitionController", function ($scope, $rootScope,$filter,$location, competitionService, constants, confirmDialogService, toastNotificationService) {
     $scope.currentDate = new Date();
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -18,12 +18,12 @@ app.controller("openCompetitionController", function ($scope, $rootScope,$filter
 
             competitionService.insertCompetition(data)
                 .then(function (result) {
-                    alert("התחרות נוצרה בהצלחה");
+                    toastNotificationService.successNotification("התחרות נוצרה בהצלחה");
                     $scope.isSaved = true;
                     if($rootScope.isChangingLocationFirstTime) $location.path('/home');
                 }, function (error) {
                     console.log(error);
-                    alert("ארעה שגיאה ביצירת התחרות");
+                    toastNotificationService.errorNotification("ארעה שגיאה בעת יצירת התחרות");
                 })
 
         }
