@@ -141,12 +141,12 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
                         $scope.excelErrors = err.data;
                     else{
                         let serverErrors = [];
-                        if(err.data.code === 547)
-                            serverErrors.push("ת.ז. מאמן לא קיימת במערכת");
-                        if(err.data.code === 2627)
-                            serverErrors.push("ת.ז. ספורטאי קיים כבר במערכת");
+                        if(err.data.number === 547)
+                            serverErrors.push("ת.ז מאמן לא קיימת במערכת");
+                        if(err.data.number === 2627)
+                            serverErrors.push("ת.ז " + getIdFromErrorMessage(err.data.message) + " קיימת כבר במערכת.");
                         if(serverErrors.length > 0)
-                            $scope.excelErrors = [{line: 0, errors: serverErrors}]
+                            $scope.excelErrors = [{errors: serverErrors}]
                     }
                 })
     }
@@ -168,6 +168,11 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         $scope.selectedSex = 'זכר'
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
+    }
+
+    function getIdFromErrorMessage(error) {
+        let parts = error.split('(');
+        return parts[parts.length-1].substring(0, parts[parts.length-1].length-2)
     }
 });
 

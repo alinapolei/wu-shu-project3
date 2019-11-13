@@ -168,11 +168,13 @@
 
         </div>
         <div class="uploadResultsPanel">
-            <div class="error" ng-show="isDropped && (excelErrors === undefined || excelErrors.length > 0)">
+            <div class="error" ng-show="isDropped && excelErrors.length > 0">
                 הרישום לא הצליח, הקובץ מכיל שגיאות
                 <div ng-repeat="errorSportsman in excelErrors" style="text-align: right">
                     <br>
+                    <div ng-show="errorSportsman.line">
                     בשורה מס' {{errorSportsman.line}}:
+                    </div>
                     <div ng-repeat="error in errorSportsman.errors track by $index">
                         {{$index+1}}. {{error}}
                     </div>
