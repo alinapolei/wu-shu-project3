@@ -44,12 +44,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
             .then(function(result){
                 $scope.isSaved = true;
-                if($rootScope.isChangingLocationFirstTime) {
-                    confirmDialogService.askQuestion("השינויים נשמרו בהצלחה.\nהאם ברצונך לייצא את מצב הרישום?", exportExcel);
-                    $location.path('/competitions/registerToCompetition');
-                }
-                else
-                    toastNotificationService.successNotification("השינויים נשמרו בהצלחה");
+                toastNotificationService.successNotification("השינויים נשמרו בהצלחה");
             }, function (error) {
                 console.log(error);
             })
@@ -73,7 +68,8 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
         if(!newUserCategory || !newUserCategory.users.map(u=>u.id).includes(user.id)){
             removeSportsmanFromoldCategory(oldCategoryId, user);
-            setNewCategoryToUser(user);
+            console.log(oldCategoryId)
+            setNewCategoryToUser(user, oldCategoryId);
             addSportsmanToNewCategory(newUserCategory, user);
             user.selectedCategory.count++;
             return true;
@@ -107,9 +103,9 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
                 }
             );
     }
-    function setNewCategoryToUser(user) {
+    function setNewCategoryToUser(user, oldCategoryId) {
         let categorySportsman = $scope.categoryForSportsman.find(item => {
-            return item.sportsmanId == user.id
+            return item.sportsmanId == user.id && item.oldCategoryId == oldCategoryId;
         });
         if (categorySportsman) {
             categorySportsman.categoryId = user.selectedCategory.id;
@@ -117,7 +113,8 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
             $scope.categoryForSportsman.push(
                 {
                     sportsmanId: user.id,
-                    categoryId: user.selectedCategory.id
+                    categoryId: user.selectedCategory.id,
+                    oldCategoryId: parseInt(oldCategoryId)
                 }
             );
         }

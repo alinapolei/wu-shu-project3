@@ -86,7 +86,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             .then(function (result) {
                 toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                 $scope.isSaved = true;
-                if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
+                //if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
             }, function (error) {
                 console.log(error)
             });
@@ -120,8 +120,9 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
     function competitionRegisterExcelSportsman(data) {
         competitionService.regExcelSportsmanCompetition(data)
-            .then((res) => {
+            .then( (res) => {
                 toastNotificationService.successNotification("הספורטאיים נשמרו בהצלחה");
+                setPage(1)
             }).catch((err) => {
             console.log(err)
             $scope.excelErrors = err.data;
@@ -130,7 +131,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
     function changeDropZone(name) {
         let nameArray = name.toString().split("\\");
-        $scope.filename = nameArray[nameArray.length-1];
+        $scope.filename = nameArray[nameArray.length - 1];
         $scope.isDropped = true;
         dropZoneRegCompetition.className = "dropzoneExcel"
     }

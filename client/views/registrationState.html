@@ -46,7 +46,7 @@
 
                 </tbody>
             </table>
-            <input type="submit" ng-show="access==userTypes.MANAGER" ng-click="isClicked=true" value="שמור"/>
+            <input type="submit" ng-show="access==userTypes.MANAGER" ng-class="{'disabled' : categoryForSportsman.length==0}" ng-disabled="categoryForSportsman.length == 0" ng-click="isClicked=true" value="שמור"/>
         </div>
 
         <div class="col-md-3">
