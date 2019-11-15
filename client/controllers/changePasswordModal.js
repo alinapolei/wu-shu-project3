@@ -1,4 +1,4 @@
-app.controller("changePasswordController", function($scope, $uibModalInstance, $window, $http, constants) {
+app.controller("changePasswordController", function($scope, $uibModalInstance, $window, $http, constants, toastNotificationService) {
     $scope.changePass = function(isValid){
         $scope.isClicked = true;
         if(isValid) {
@@ -16,13 +16,13 @@ app.controller("changePasswordController", function($scope, $uibModalInstance, $
                 $http(req).then(function () {
                     $window.sessionStorage.setItem('isFirstLogin', "0");
                     $uibModalInstance.close();
-                    alert("הסיסמא הוחלפה בהצלחה")
+                    toastNotificationService.successNotification("הסיסמא הוחלפה בהצלחה");
                 }, function (error) {
                     if (error.status === 409)
                         $scope.error = error.data;
                     else {
                         console.log(error.data);
-                        alert("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.")
+                        toastNotificationService.errorNotification("ארעה שגיאה בעת שינוי הסיסמא. נסה שנית.");
                     }
                 });
             } else

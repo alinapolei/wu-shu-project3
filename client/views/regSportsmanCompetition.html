@@ -47,7 +47,7 @@
                     <div class="tdInItemList" style="display: flex">
                         <div>
                             <i class="fa fa-minus clickableSearch little"
-                               ng-style="{'visibility': user.selectedCategories[$index] ? 'visible' : 'hidden'}"
+                               ng-style="{'visibility': user.selectedCategories[$index] || $index > 0 ? 'visible' : 'hidden'}"
                                ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])"
                                aria-hidden="true"></i>
                         </div>
@@ -119,16 +119,23 @@
             </div>
         </div>
 
-        <div class="uploadResults">
-            <label id="ansExcel" style="display: none;"> </label>
-            <a class="linkdark" id="changeExcel" style="display: none" href=""> העלה קובץ חדש </a>
-        </div>
-
-        <div class="uploadBtn">
+        <div class="uploadBtn" ng-show="!isDropped">
             <input type="file" id="fileSportsman" ng-model="csvFile"
                    onchange="angular.element(this).scope().ExcelExport(event)"
                    style="display:block;margin-top: 5%"/>
             <label for="fileSportsman"> העלאת קובץ</label><br>
+        </div>
+        <div class="uploadResultsPanel">
+            <div class="error" ng-show="isDropped && (excelErrors === undefined || excelErrors.length > 0)">
+                הרישום לא הצליח, הקובץ מכיל שגיאות
+                <div ng-repeat="errorSportsman in excelErrors" style="text-align: right">
+                    <br>
+                    עבור ת.ז. {{errorSportsman.id}}:
+                    {{errorSportsman.error}}
+                </div>
+            </div>
+            <a class="linkDark" id="changeExcel" ng-show="isDropped" href="" ng-click="uploadNewFile()"> העלה קובץ
+                חדש </a>
         </div>
 
 

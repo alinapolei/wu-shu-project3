@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $http, $window, $location, $rootScope, $filter, clubService, excelService, coachService, registerService, constants) {
+app.controller("registerController", function ($scope,$rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService, toastNotificationService) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -12,6 +12,16 @@ app.controller("registerController", function ($scope, $http, $window, $location
 
     getCoachesAndClub();
 
+    $scope.BrowseFileClick=function()
+    {
+        let  fileinput = document.getElementById("fileSportsman");
+        fileinput.click();
+        fileinput.onchange =function(event){
+            $scope.ExcelExport(event)
+            changeDropZone(event.target.value.toString());
+
+        }
+    }
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
@@ -35,19 +45,17 @@ app.controller("registerController", function ($scope, $http, $window, $location
         })[0];
     };
 
-    fillDataTmpFunction();
+    //fillDataTmpFunction();
 
 
     $scope.uploadNewFile = function(){
         $scope.excelErrors = [];
         $scope.isDropped = false;
         dropZoneRegisterUsers.className = "dropzone"
-        document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
         document.getElementById("fileSportsman").value = "";
     }
     $scope.ExcelExport = function (event) {
         excelService.uploadExcel(event, function (res) {
-            //console.log(res)
             registerUsers(res, $scope.isRegisterCoach)
         })
     };
@@ -61,8 +69,8 @@ app.controller("registerController", function ($scope, $http, $window, $location
     };
 
     function changeDropZone(name) {
-        var droptext = document.getElementById("dropText");
-        droptext.innerHTML = name.toString();
+        let nameArray = name.toString().split("\\");
+        $scope.filename = nameArray[nameArray.length-1];
         $scope.isDropped = true;
         dropZoneRegisterUsers.className = "dropzoneExcel"
     }
@@ -111,17 +119,35 @@ app.controller("registerController", function ($scope, $http, $window, $location
             registerUsers(data, $scope.isRegisterCoach)
         }
     };
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if($scope.registerForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.registerForm.$valid) $scope.isClicked = true;
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.registerForm.$valid);
+        }
+    });
 
     function registerUsers(data, isRegisterCoach) {
         if (!isRegisterCoach)
             registerService.registerUsers(data)
                 .then((results) => {
-                    alert("ok")
+                    $scope.isSaved = true;
+                    toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                     $location.path("/home");
                 })
                 .catch((err) => {
                     console.log(err);
-                    $scope.excelErrors = err.data;
+                    if(!err.data.message)
+                        $scope.excelErrors = err.data;
+                    else{
+                        let serverErrors = [];
+                        if(err.data.number === 547)
+                            serverErrors.push("ת.ז מאמן לא קיימת במערכת");
+                        if(err.data.number === 2627)
+                            serverErrors.push("ת.ז " + getIdFromErrorMessage(err.data.message) + " קיימת כבר במערכת.");
+                        if(serverErrors.length > 0)
+                            $scope.excelErrors = [{errors: serverErrors}]
+                    }
                 })
     }
 
@@ -142,6 +168,11 @@ app.controller("registerController", function ($scope, $http, $window, $location
         $scope.selectedSex = 'זכר'
         $scope.sportStyle = 'טאולו'
         $scope.birthdate = new Date(1990, 3, 3);
+    }
+
+    function getIdFromErrorMessage(error) {
+        let parts = error.split('(');
+        return parts[parts.length-1].substring(0, parts[parts.length-1].length-2)
     }
 });
 

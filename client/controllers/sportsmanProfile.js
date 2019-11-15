@@ -1,4 +1,4 @@
-app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService) {
+app.controller("sportsmanProfileController", function ($scope, $http, $filter, $window, $location, $rootScope, $routeParams, constants, sportsmanService, userService, confirmDialogService, toastNotificationService) {
     var oldId;
     $scope.whoAmI = "ספורטאי";
     $scope.isEditModeOn = false;
@@ -26,17 +26,24 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
                 sex: $scope.user.sex,
                 oldId: oldId
             }
-            console.log(data)
             sportsmanService.updateProfile(data)
                 .then(function (result) {
-                    alert("משתמש עודכן בהצלחה")
-                    $location.path("/users/sportsmen");
+                    toastNotificationService.successNotification("המשתמש עודכן בהצלחה");
+                    $scope.isSaved = true;
+                    if($rootScope.isChangingLocationFirstTime) $location.path("/users/sportsmen");
                 }, function (error) {
-                    alert("ארעה שגיאה בעת ביצוע העדכון")
+                    toastNotificationService.errorNotification("ארעה שגיאה בעת ביצוע העדכון");
                     console.log(error)
                 })
         }
-    }
+    };
+    $rootScope.isChangingLocationFirstTime = true;
+    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
+        if($scope.updateProfile.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.updateProfile.$valid) $scope.isClicked = true
+            confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.updateProfile.$valid);
+        }
+    });
 
     sportsmanService.getSportsmanProfile({id: $routeParams.id})
         .then(function (result) {
@@ -48,20 +55,18 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
         });
 
     $scope.delProfile = function (id) {
-        //userService.deleteProfile(id)
-        var res = confirm("האם אתה בטוח שברצונך למחוק את פרופיל המשתמש?")
-        if (res == true) {
+        confirmDialogService.askQuestion("האם אתה בטוח שברצונך למחוק את פרופיל המשתמש?", function () {
             let data = {
                 userID: id
-            }
+            };
             userService.deleteProfile(data)
                 .then(function (reusult) {
-                    alert("משתמש נמחק בהצלחה")
+                    toastNotificationService.successNotification("משתמש נמחק בהצלחה");
                     $location.path("/users/sportsmen");
 
                 }, function (error) {
                     console.log(error)
                 })
-        }
+        });
     }
 });

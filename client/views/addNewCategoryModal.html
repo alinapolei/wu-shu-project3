@@ -10,8 +10,8 @@
         <div class="wrap-input100 validate-input"
              ng-class="{'alert-validate' : addCategoryForm.categoryName.$invalid && (addCategoryForm.categoryName.$touched || isClicked)}"
              data-validate="{{addCategoryForm.categoryName.$error.required ? 'הכנס שם.' : addCategoryForm.$error.pattern ? 'הכנס שם בשפה העברית' : ''}}">
-            <span class="label-input100">שם הקטגוריה</span>
-            <input class="input100" type="text" name="categoryName" ng-model="categoryName" ng-required="true">
+            <span class="label-input100">שם הקטגוריה  (לדוג' בנים נשק ארוך)</span>
+            <input class="input100" type="text" name="categoryName" ng-model="categoryName" ng-required="true" ng-pattern="regex.regexHebrewAndNumbers" ng-pattern-restrict>
             <span class="focus-input100" data-symbol="&#xf25d;"></span>
         </div>
 
@@ -20,7 +20,7 @@
              data-validate="{{addCategoryForm.minAge.$error.required ? 'הכנס גיל מינימאל.' : (addCategoryForm.minAge.$error.min || addCategoryForm.minAge.$error.max) ? 'גיל מיניאלי אינו תקין' : ''}}"
              style="width: 200px;">
             <span class="label-input100">גיל מינימאלי</span>
-            <input class="input100" type="number" name="minAge" ng-model="minAge" ng-required="true" ng-min="0"
+            <input class="input100" type="number" name="minAge" ng-model="minAge" ng-min="0"
                    ng-max="maxAge">
             <span class="focus-input100" data-symbol="&#xf25d;"></span>
         </div>
@@ -30,7 +30,7 @@
              data-validate="{{addCategoryForm.maxAge.$error.required ? 'הכנס גיל מקסימאלי.' : (addCategoryForm.maxAge.$error.min || addCategoryForm.maxAge.$error.max) ? 'גיל מקסימאלי אינו תקין' : ''}}"
              style="width: 200px;">
             <span class="label-input100">גיל מקסימאלי</span>
-            <input class="input100" type="number" name="maxAge" ng-model="maxAge" ng-required="true" ng-min="minAge"
+            <input class="input100" type="number" name="maxAge" ng-model="maxAge" ng-min="minAge"
                    ng-max="100">
             <span class="focus-input100" data-symbol="&#xf25d;"></span>
         </div>
@@ -41,7 +41,7 @@
             <span class="label-input100">מין</span>
             <div class="radioDiv">
                 <span ng-repeat="sex in sexEnum" class="radioInput">
-                        <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-value="sex.name"><label
+                        <input type="radio" name="selectedSex" ng-model="$parent.selectedSex" ng-value="sex.name" ng-required="!selectedSex"><label
                         class="radio_label"> {{sex.name}} </label></input>
                     </span>
                 <span class="radioInput">

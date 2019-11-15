@@ -67,20 +67,22 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         return $http(req);
     };
 
-    this.addNewCategory = function () {
+    this.addNewCategory = function (finishAddingNewCategory) {
         $uibModal.open({
             templateUrl: "views/addNewCategoryModal.html",
             controller: "addCategoryModalController as aCMCCtrl",
             backdrop: true,
             keyboard: false,
-        }).result.catch(function () {
+        }).result.then(function () {
+            finishAddingNewCategory();
+        }).catch(function () {
         });
     }
     this.editCompetitionDetails = function (id) {
         $uibModal.open({
             templateUrl: "views/editCompetitionDetails.html",
             controller: "editCompetitionDetailsModal as cEditDetailsCtrl",
-            backdrop: true,
+            backdrop: 'static',
             keyboard: false,
             size: 'lg',
             resolve: {
@@ -88,7 +90,9 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
                     return id;
                 }
             }
-        }).result.catch(function () {
+        }).result.then(function(){
+            // parent.location.reload();
+        }).catch(function () {
         });
     }
     this.getCompetitionDetails = function (id) {

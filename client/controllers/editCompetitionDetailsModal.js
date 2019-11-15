@@ -1,13 +1,16 @@
-app.controller("editCompetitionDetailsModal", function($scope, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants) {
+app.controller("editCompetitionDetailsModal", function($scope, $rootScope, $location, $uibModalInstance, $window, $http,$filter,getId,competitionService, constants, confirmDialogService, toastNotificationService) {
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
 
-    $scope.close=function () {
-        $uibModalInstance.close()
-    }
+    $rootScope.isChangingLocationFirstTime = true;
     $scope.closeModal= function () {
-        $uibModalInstance.close()
-    }
+        if($scope.editCompetitionForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+            if (!$scope.editCompetitionForm.$valid) $scope.isClicked = true;
+            confirmDialogService.notSavedItems(undefined, $location.path(), $scope.submit, $scope.editCompetitionForm.$valid, $uibModalInstance);
+        }
+        else
+            $uibModalInstance.close()
+    };
     competitionService.getCompetitionDetails(getId)
         .then(function (result) {
             $scope.description=result.data.description;
@@ -36,8 +39,11 @@ app.controller("editCompetitionDetailsModal", function($scope, $uibModalInstance
             }
             competitionService.updateCompetitionDetails(data)
                 .then(function (result) {
-                    alert("פרטי התחרות עודכנו בהצלחה")
-                    $uibModalInstance.close()
+                    $scope.isSaved = true;
+                    $uibModalInstance.close();
+                    parent.location.reload();
+                    toastNotificationService.successNotification("פרטי התחרות עודכנו בהצלחה");
+
                 },function (error) {console.log(error)})
         }
     }

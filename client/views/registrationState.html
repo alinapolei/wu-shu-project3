@@ -19,15 +19,20 @@
                     </tr>
                     <tr ng-repeat="user in userCategory.users track by $index">
                         <td></td>
-                        <td class="tdInItemList"><input type="checkbox" ng-model="user.isChecked" ng-change="selectSportsman(user)"></td>
+                        <td class="tdInItemList"><input type="checkbox" ng-model="user.isChecked" ng-change="selectSportsman(user, userCategory.category.id)"></td>
                         <td class="tdInItemList">{{$index+1}}.</td>
                         <td class="tdInItemList">{{user.id}}</td>
                         <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
                         <td class="tdInItemList">{{user.sex}}</td>
                         <td class="tdInItemList">{{user.age}}</td>
                         <td>
-                            <div ng-disable="access==userTypes.MANAGER" class="tdInItemList">
-                                <select name="selectedCategory" ng-model="user.selectedCategory"
+                            <div ng-disable="access==userTypes.MANAGER" class="tdInItemList" style="display: flex">
+                                <div>
+                                    <i class="fa fa-minus clickableSearch little"
+                                       ng-click="removeSportsmanFromCategory(userCategory.category, user)"
+                                       aria-hidden="true"></i>
+                                </div>
+                                <select name="selectedCategory" ng-model="user.selectedCategory" class="littleSelect"
                                         ng-selected="{{categories[user.category]}}"
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
                                         ng-options="x.name + ' ' + getAgeRange(x)
@@ -52,7 +57,7 @@
             </div>
             <div>
                 <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>
-                <a class="linkDark" href="" ng-click="exportRegistrationState()">ייצא לאקסל</a>
+                <a id="downRegistrationCompState" class="linkDark" href="" ng-click="downloadExcelRegistrationState()">ייצא לאקסל</a>
             </div>
             <div style="position: fixed;" ng-show="access==userTypes.MANAGER">
                 <i class="fa fa-plus-square-o iColored" aria-hidden="true"></i>
