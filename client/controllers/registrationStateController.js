@@ -11,21 +11,24 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         competitionService.getRegistrationState($scope.currentCompetition.idCompetition)
             .then(function (result) {
                 $scope.usersCategories = result.data;
-                $scope.usersCategories.forEach((usersCategory) =>{
-                   usersCategory.users.map((user) => {
-                       user.selectedCategory = $scope.categories.find(function (category) {
-                           return category.id == user.category;
-                       });
-                       if(user.selectedCategory)
-                           $scope.categories.find(function (category) {
-                               return category.id == user.category;
-                           }).count++;
-                       return user;
-                   });
-            });
+                setSelectedCategories();
             }, function (error) {
                 console.log(error)
             });
+    }
+    function setSelectedCategories(){
+        $scope.usersCategories.forEach((usersCategory) =>{
+            usersCategory.users.map((user) => {
+                user.selectedCategory = $scope.categories.find(function (category) {
+                    return category.id == user.category;
+                });
+                if(user.selectedCategory)
+                    $scope.categories.find(function (category) {
+                        return category.id == user.category;
+                    }).count++;
+                return user;
+            });
+        });
     }
     async function getCategories(){
         let result = await categoryService.getCategories();
@@ -152,7 +155,6 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         toastNotificationService.successNotification("הספורטאיים מוזגו לקטגוריה " + maxCategory.name + " " + categoryService.getAgeRange(maxCategory));
     };
     $scope.removeSportsmanFromCategory = function(fromCategory, user){
-        // removeSportsmanFromoldCategory(fromCategory.id, user);
         confirmDialogService.askQuestion("האם אתה בטוח שאתה רוצה לבטל את הרישום של הספורטאי לקטגוריה" + fromCategory.name + "?", function () {
             removeSportsmanFromoldCategory(fromCategory.id, user);
             $scope.$apply();
@@ -179,16 +181,11 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         exportExcel();
     };
     $scope.addCategoeyModal =function (event) {
-        // if(changesNotSaved())
-        //     confirmDialogService.notSavedItems(event, function () {
-        //         competitionService.addNewCategory(finishAddingCategory);
-        //     }, $scope.submit);
-        // else
-            competitionService.addNewCategory(finishAddingCategory);
+        competitionService.addNewCategory(finishAddingCategory);
     };
     async function finishAddingCategory() {
-        //await getCategories();
-        //$scope.reload();
+        await getCategories();
+        setSelectedCategories();
     }
 
     function exportExcel() {
