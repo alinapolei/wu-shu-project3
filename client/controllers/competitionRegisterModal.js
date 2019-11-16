@@ -83,7 +83,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
         if (!oldCategory) {
-            $scope.toRegisterUsers.push({id: user.id, category: newCategory.id, oldCategory: oldCategory.id});
+            $scope.toRegisterUsers.push({id: user.id, category: newCategory.id, oldCategory: undefined});
         } else {
             if (!user.originalCategories[index])
                 addOrUpdateRegisterUsersList($scope.toRegisterUsers, user, newCategory, oldCategory);
