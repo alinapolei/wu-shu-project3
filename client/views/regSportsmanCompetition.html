@@ -48,12 +48,14 @@
                         <div>
                             <i class="fa fa-minus clickableSearch little"
                                ng-style="{'visibility': user.selectedCategories[$index] || $index > 0 ? 'visible' : 'hidden'}"
-                               ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index])"
+
+                               ng-click="addToToUnRegisterUsers(user, user.selectedCategories[$index],$index)"
                                aria-hidden="true"></i>
                         </div>
                         <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
                                 ng-model="user.selectedCategories[$index]" class="littleSelect"
-                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index])"
+                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index],oldValue,index)"
+                                ng-focus="oldValue=user.selectedCategories[$index].id?user.selectedCategories[$index].id:-1 ;index =$index"
                                 ng-options="x.name + '\n' + getAgeRange(x)
                                          for
                                          x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index) : true">

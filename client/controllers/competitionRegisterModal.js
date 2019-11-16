@@ -4,8 +4,14 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     $scope.toRegisterUsers = [];
     $scope.toUnRegisterUsers = [];
     $scope.pager = {};
-    let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition")
-    let downExcelRegCompetition = document.getElementById("downExcelRegCompetition")
+    let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition");
+    let downExcelRegCompetition = document.getElementById("downExcelRegCompetition");
+
+
+    let insertSportsman = new Map();
+    let deleteSportsman = new Map();
+    let updateSportsman = new Map();
+
 
     setPage(1);
     getData();
@@ -60,15 +66,56 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             regObj.sportsmenIds.push(parseInt(rowObj[i]["ת.ז ספורטאי"]))
     }
 
-    $scope.addToToRegisterUsers = function (user, newCategory) {
+    $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
+
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
         else
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
+
+        console.log(oldCategory)
+        console.log(user.id)
+        if (oldCategory == -1) {
+            insertSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: -1, index: index})
+        } else {
+            if (insertSportsman.has(user.id + '-' + index)) {
+                console.log(insertSportsman.get(user.id + '-' + index))
+                if (insertSportsman.get(user.id + '-' + index).oldCategory === -1) {
+                    insertSportsman.delete(user.id + '-' + index)
+                    insertSportsman.set(user.id + '-' + index, {
+                        newCategory: newCategory.id,
+                        oldCategory: -1,
+                        index: index
+                    })
+                }
+            }
+            if (updateSportsman.has(user.id + '-' + index)) {
+                let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
+                updateSportsman.delete(user.id + '-' + index)
+                updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
+            } else {
+                updateSportsman.set(user.id + '-' + index, {
+                    newCategory: newCategory.id,
+                    oldCategory: oldCategory,
+                    index: index
+                })
+            }
+        }
+
+
+        console.log("insert")
+        console.log(insertSportsman);
+        console.log("delete");
+        console.log(deleteSportsman);
+        console.log("update")
+        console.log(updateSportsman);
+
     };
-    $scope.addToToUnRegisterUsers = function (user, oldCategory) {
-        if (oldCategory) {
+
+
+    $scope.addToToUnRegisterUsers = function (user, oldCategory, index) {
+        if (oldCategory!=-1) {
             let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
             if (registration)
                 $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
@@ -79,6 +126,22 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 user.selectedCategories.push(undefined);
         } else
             user.selectedCategories.pop();
+
+
+        if (insertSportsman.has(user.id + '-' + index))
+            insertSportsman.delete(user.id + '-' + index);
+        else if (updateSportsman.has(user.id + '-' + index))
+            updateSportsman.delete(user.id + '-' + index)
+        else
+            deleteSportsman.set(user.id + '-' + index, {oldCategory: oldCategory.id, index: index});
+
+
+        console.log("insert")
+        console.log(insertSportsman);
+        console.log("delete");
+        console.log(deleteSportsman);
+        console.log("update")
+        console.log(updateSportsman);
     };
 
     $scope.register = function () {
@@ -120,7 +183,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
     function competitionRegisterExcelSportsman(data) {
         competitionService.regExcelSportsmanCompetition(data)
-            .then( (res) => {
+            .then((res) => {
                 toastNotificationService.successNotification("הספורטאיים נשמרו בהצלחה");
                 setPage(1)
             }).catch((err) => {
