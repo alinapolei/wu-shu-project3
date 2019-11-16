@@ -78,23 +78,25 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.index === index);
         if(registration){
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
-            if(user.originalCategories[index])
+            if(!user.originalCategories[index])
                 $scope.toRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
             else if (user.originalCategories[index].id != newCategory.id)
                 $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index})
         }
         else{
-            if (user.originalCategories[index]) {
+            if (!user.originalCategories[index]) {
                 let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.index === index);
-                if (!registration)
+                if (!registration) {
+                    $scope.toRegisterUsers=commonFunctionsService.arrayRemove($scope.toRegisterUsers,$scope.toRegisterUsers.find(item => item.id === user.id && item.index === index))
                     $scope.toRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-                else {
+                }else {
                     $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
                     if(user.originalCategories[index].id != newCategory.id)
                         $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
                 }
             }
             else{
+
                 let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.index === index);
                 if(registration && !user.originalCategories[index]){
                     $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
@@ -185,14 +187,16 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.index === index);
             if(registration)
                 $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
-            else{
+            else {
                 let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.index === index);
-                if(registration){
+                if (registration) {
                     $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
                     $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id, index: index});
-                }
-                else
+                } else {
                     $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id, index: index});
+                    user.selectedCategories.pop();
+
+                }
             }
 
         } else
