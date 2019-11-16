@@ -74,35 +74,54 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         else
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
 
-        console.log(oldCategory)
-        console.log(user.id)
-        if (oldCategory == -1) {
-            insertSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: -1, index: index})
+
+        if (deleteSportsman.has(user.id + '-' + index)) {
+            let oldVal = deleteSportsman.get(user.id + '-' + index).oldCategory
+            deleteSportsman.delete(user.id + '-' + index);
+            if (oldVal == -1)
+                insertSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: -1, index: index})
+            else if (oldVal != newCategory.id)
+                updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
         } else {
-            if (insertSportsman.has(user.id + '-' + index)) {
-                console.log(insertSportsman.get(user.id + '-' + index))
-                if (insertSportsman.get(user.id + '-' + index).oldCategory === -1) {
-                    insertSportsman.delete(user.id + '-' + index)
+            if (oldCategory == -1) {
+                if (!updateSportsman.has(user.id + '-' + index))
                     insertSportsman.set(user.id + '-' + index, {
                         newCategory: newCategory.id,
                         oldCategory: -1,
                         index: index
                     })
+                else {
+                    let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
+                    updateSportsman.delete(user.id + '-' + index)
+                    if (oldVal != newCategory.id)
+                        updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
+                }
+            } else {
+                if (insertSportsman.has(user.id + '-' + index)) {
+                    console.log(insertSportsman.get(user.id + '-' + index))
+                    if (insertSportsman.get(user.id + '-' + index).oldCategory === -1) {
+                        insertSportsman.delete(user.id + '-' + index)
+                        insertSportsman.set(user.id + '-' + index, {
+                            newCategory: newCategory.id,
+                            oldCategory: -1,
+                            index: index
+                        })
+                    }
+                }
+                if (updateSportsman.has(user.id + '-' + index)) {
+                    let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
+                    updateSportsman.delete(user.id + '-' + index)
+                    if (oldVal != newCategory.id)
+                        updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
+                } else {
+                    updateSportsman.set(user.id + '-' + index, {
+                        newCategory: newCategory.id,
+                        oldCategory: oldCategory,
+                        index: index
+                    })
                 }
             }
-            if (updateSportsman.has(user.id + '-' + index)) {
-                let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
-                updateSportsman.delete(user.id + '-' + index)
-                updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
-            } else {
-                updateSportsman.set(user.id + '-' + index, {
-                    newCategory: newCategory.id,
-                    oldCategory: oldCategory,
-                    index: index
-                })
-            }
         }
-
 
         console.log("insert")
         console.log(insertSportsman);
@@ -115,7 +134,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
 
     $scope.addToToUnRegisterUsers = function (user, oldCategory, index) {
-        if (oldCategory!=-1) {
+        if (oldCategory != -1) {
             let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
             if (registration)
                 $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
@@ -130,11 +149,14 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
         if (insertSportsman.has(user.id + '-' + index))
             insertSportsman.delete(user.id + '-' + index);
-        else if (updateSportsman.has(user.id + '-' + index))
+        else if (updateSportsman.has(user.id + '-' + index)) {
+            let catValue = updateSportsman.get(user.id + '-' + index).oldCategory
             updateSportsman.delete(user.id + '-' + index)
-        else
+            deleteSportsman.set(user.id + '-' + index, {oldCategory: catValue, index: index});
+        } else {
             deleteSportsman.set(user.id + '-' + index, {oldCategory: oldCategory.id, index: index});
 
+        }
 
         console.log("insert")
         console.log(insertSportsman);
