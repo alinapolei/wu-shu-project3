@@ -1,5 +1,6 @@
 app.controller("registrationStateController",function($scope, $rootScope, $window, $http, $location, $filter, commonFunctionsService, sportsmanService, competitionService, $routeParams, categoryService, confirmDialogService, toastNotificationService,constants) {
     $scope.categoryForSportsman = [];
+    $scope.toUnRegisterUsers = [];
     $scope.selectedSportsmenToMerge = [];
     $scope.currentCompetition = JSON.parse($routeParams.competition);
     getDisplayData();
@@ -41,7 +42,8 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     $scope.getAgeRange = categoryService.getAgeRange;
 
     $scope.submit = function () {
-        competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
+        //competitionService.setCategoryRegistration($scope.currentCompetition.idCompetition, $scope.categoryForSportsman)
+        competitionService.registerSportsmenToCompetition($scope.currentCompetition.idCompetition, undefined, $scope.toUnRegisterUsers, $scope.categoryForSportsman)
             .then(function(result){
                 $scope.isSaved = true;
                 toastNotificationService.successNotification("השינויים נשמרו בהצלחה");
@@ -154,6 +156,7 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
     $scope.removeSportsmanFromCategory = function(fromCategory, user){
         confirmDialogService.askQuestion("האם אתה בטוח שאתה רוצה לבטל את הרישום של הספורטאי לקטגוריה" + fromCategory.name + "?", function () {
             removeSportsmanFromoldCategory(fromCategory.id, user);
+            $scope.toUnRegisterUsers.push({id: user.id, category: fromCategory.id});
             $scope.$apply();
         });
     };

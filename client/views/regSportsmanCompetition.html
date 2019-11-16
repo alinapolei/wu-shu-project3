@@ -54,8 +54,8 @@
                         </div>
                         <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
                                 ng-model="user.selectedCategories[$index]" class="littleSelect"
-                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index],oldValue,index)"
-                                ng-focus="oldValue=user.selectedCategories[$index].id?user.selectedCategories[$index].id:-1 ;index =$index"
+                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index],oldValue,$index)"
+                                ng-focus="oldValue=user.selectedCategories[$index]"
                                 ng-options="x.name + '\n' + getAgeRange(x)
                                          for
                                          x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index) : true">
@@ -96,9 +96,9 @@
                 </ul>
             </div>
             <div class="center">
-                <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0}"
+                <input type="submit" ng-class="{'disabled' : toRegisterUsers.length==0 && toUnRegisterUsers.length==0 && toUpdateRegisterUsers.length==0}"
                        ng-click="register()"
-                       ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0"
+                       ng-disabled="toRegisterUsers.length==0 && toUnRegisterUsers.length==0 && toUpdateRegisterUsers.length==0"
                        value="שמור"/>
             </div>
         </div>
