@@ -75,7 +75,7 @@ app.service('sportsmanService', function($window, $http, constants) {
 
         return conditions.length ? '?' + conditions.join('&') : '';
     }
-    
+
     this.formatSportsmanCategoriesList = function (sportsmanList, categoriesList) {
         let sportsmanCategoriesList = [];
         if(sportsmanList !== undefined && categoriesList !== undefined && sportsmanList.length > 0) {
@@ -87,11 +87,13 @@ app.service('sportsmanService', function($window, $http, constants) {
                     lastname: sportsmanList[i].lastname,
                     sex: sportsmanList[i].sex,
                     age: sportsmanList[i].age,
+                    originalCategories: [],
                     selectedCategories: []
                 };
                 while (i < sportsmanList.length && sportsmanList[i].id === currId){
                     let category = categoriesList.find(c => c.id === sportsmanList[i].category);
                     user.selectedCategories.push(category);
+                    user.originalCategories.push(category);
                     i++;
                 }
                 sportsmanCategoriesList.push(user);
