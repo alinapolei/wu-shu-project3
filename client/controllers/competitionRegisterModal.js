@@ -8,12 +8,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition");
     let downExcelRegCompetition = document.getElementById("downExcelRegCompetition");
 
-
-    let insertSportsman = new Map();
-    let deleteSportsman = new Map();
-    let updateSportsman = new Map();
-
-
     setPage(1);
     getData();
     var regObj = {
@@ -69,7 +63,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
 
     function addOrUpdateRegisterUsersList(list, user, newCategory, oldCategory) {
         let registration = list.find(item => {
-            return item => item.id === user.id && item.category === oldCategory.id;
+            return item.id === user.id && item.category === oldCategory.id;
         });
         if (registration) {
             registration.category = newCategory.id;
@@ -85,104 +79,17 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         if (!oldCategory) {
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id, oldCategory: undefined});
         } else {
-            if (!user.originalCategories[index])
+            if (!oldCategory.originalId)
                 addOrUpdateRegisterUsersList($scope.toRegisterUsers, user, newCategory, oldCategory);
             else {
                 if (registration)
                     $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
-                else
+                else {
                     addOrUpdateRegisterUsersList($scope.toUpdateRegisterUsers, user, newCategory, oldCategory);
+                    newCategory.originalId = oldCategory.originalId;
+                }
             }
         }
-
-
-
-        // let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.index === index);
-        // if(registration){
-        //     $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
-        //     if(!user.originalCategories[index])
-        //         $scope.toRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //     else if (user.originalCategories[index].id != newCategory.id)
-        //         $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index})
-        // }
-        // else{
-        //     if (!user.originalCategories[index]) {
-        //         let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.index === index);
-        //         if (!registration){
-        //             $scope.toRegisterUsers=commonFunctionsService.arrayRemove($scope.toRegisterUsers,$scope.toRegisterUsers.find(item => item.id === user.id && item.index === index);
-        //             $scope.toRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //         }
-        //         else {
-        //             $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
-        //             if(user.originalCategories[index].id != newCategory.id)
-        //                 $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //         }
-        //     }
-        //     else{
-        //         let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.index === index);
-        //         if(registration && !user.originalCategories[index]){
-        //             $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
-        //             $scope.toRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //         }
-        //         let registration1 = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.index === index);
-        //         if(registration1) {
-        //             $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration1);
-        //             if(user.originalCategories[index].id !== newCategory.id)
-        //                 $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //         }
-        //         else {
-        //             $scope.toUpdateRegisterUsers.push({id: user.id, newCategory: newCategory.id, index: index});
-        //         }
-        //     }
-        // }
-        //
-        // // if (deleteSportsman.has(user.id + '-' + index)) {
-        // //     let oldVal = deleteSportsman.get(user.id + '-' + index).oldCategory
-        // //     deleteSportsman.delete(user.id + '-' + index);
-        // //     if (oldVal == -1)
-        // //         insertSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: -1, index: index})
-        // //     else if (oldVal != newCategory.id)
-        // //         updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
-        // // } else {
-        // //     if (oldCategory == -1) {
-        // //         if (!updateSportsman.has(user.id + '-' + index))
-        // //             insertSportsman.set(user.id + '-' + index, {
-        // //                 newCategory: newCategory.id,
-        // //                 oldCategory: -1,
-        // //                 index: index
-        // //             })
-        // //         else {
-        // //             let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
-        // //             updateSportsman.delete(user.id + '-' + index)
-        // //             if (oldVal != newCategory.id)
-        // //                 updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
-        // //         }
-        // //     } else {
-        // //         if (insertSportsman.has(user.id + '-' + index)) {
-        // //             console.log(insertSportsman.get(user.id + '-' + index))
-        // //             if (insertSportsman.get(user.id + '-' + index).oldCategory === -1) {
-        // //                 insertSportsman.delete(user.id + '-' + index)
-        // //                 insertSportsman.set(user.id + '-' + index, {
-        // //                     newCategory: newCategory.id,
-        // //                     oldCategory: -1,
-        // //                     index: index
-        // //                 })
-        // //             }
-        // //         }
-        // //         if (updateSportsman.has(user.id + '-' + index)) {
-        // //             let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
-        // //             updateSportsman.delete(user.id + '-' + index)
-        // //             if (oldVal != newCategory.id)
-        // //                 updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
-        // //         } else {
-        // //             updateSportsman.set(user.id + '-' + index, {
-        // //                 newCategory: newCategory.id,
-        // //                 oldCategory: oldCategory,
-        // //                 index: index
-        // //             })
-        // //         }
-        // //     }
-        // // }
 
         console.log("----------------")
         console.log("insert")
@@ -204,7 +111,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
                 if(registration) {
                     $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
-                    $scope.toUnRegisterUsers.push({id: user.id, category: user.originalCategories[index].id});
+                    $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.originalId});
                 }
                 else
                     $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
@@ -214,32 +121,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 user.selectedCategories.push(undefined);
         } else
             user.selectedCategories.pop();
-
-
-        // let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.index === index);
-        // if (registration)
-        //     $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
-        // else {
-        //     let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.index === index);
-        //     if (registration) {
-        //         $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
-        //         $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id, index: index});
-        //     } else {
-        //         $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id, index: index});
-        //         user.selectedCategories.pop();
-        //     }
-        // }
-        //
-        // // if (insertSportsman.has(user.id + '-' + index))
-        // //     insertSportsman.delete(user.id + '-' + index);
-        // // else if (updateSportsman.has(user.id + '-' + index)) {
-        // //     let catValue = updateSportsman.get(user.id + '-' + index).oldCategory
-        // //     updateSportsman.delete(user.id + '-' + index)
-        // //     deleteSportsman.set(user.id + '-' + index, {oldCategory: catValue, index: index});
-        // // } else {
-        // //     deleteSportsman.set(user.id + '-' + index, {oldCategory: oldCategory.id, index: index});
-        // //
-        // // }
 
         console.log("----------------")
         console.log("insert")
