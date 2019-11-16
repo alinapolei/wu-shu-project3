@@ -92,6 +92,8 @@ app.service('sportsmanService', function($window, $http, constants) {
                 };
                 while (i < sportsmanList.length && sportsmanList[i].id === currId){
                     let category = categoriesList.find(c => c.id === sportsmanList[i].category);
+                    if(category)
+                        category.originalId = category.id;
                     user.selectedCategories.push(category);
                     user.originalCategories.push(category);
                     i++;
