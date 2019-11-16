@@ -60,35 +60,35 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
         return $scope.categoryForSportsman.length > 0 && !$scope.isSaved && $rootScope.isChangingLocationFirstTime;
     }
 
-    $scope.changeCategory = function (user, oldCategoryId) {
-        if(updateUserCategories(user, oldCategoryId))
+    $scope.changeCategory = function (user, oldCategory) {
+        if(updateUserCategories(user, oldCategory))
             toastNotificationService.successNotification("הספורטאי הועבר קטגוריה");
         else
             toastNotificationService.warningNotification("הספורטאי רשום כבר בקטגוריה שנבחרה");
     };
-    function updateUserCategories(user, oldCategoryId) {
+    function updateUserCategories(user, oldCategory) {
         let newUserCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id === user.selectedCategory.id);
         if(!newUserCategory || !newUserCategory.users.map(u=>u.id).includes(user.id)){
-            removeSportsmanFromoldCategory(oldCategoryId, user);
-            console.log(oldCategoryId)
-            setNewCategoryToUser(user, oldCategoryId);
+            removeSportsmanFromoldCategory(oldCategory, user);
+            console.log(oldCategory)
+            setNewCategoryToUser(user, oldCategory);
             addSportsmanToNewCategory(newUserCategory, user);
             user.selectedCategory.count++;
             return true;
         }
         else{
             user.selectedCategory = $scope.categories.find(function (category) {
-                return category.id == oldCategoryId;
+                return category.id == oldCategory;
             });
             return false;
         }
     }
-    function removeSportsmanFromoldCategory(oldCategoryId, user) {
-        if (oldCategoryId != '') {
+    function removeSportsmanFromoldCategory(oldCategory, user) {
+        if (oldCategory != '') {
             $scope.categories.find(category => {
-                return category.id == oldCategoryId
+                return category.id == oldCategory
             }).count--;
-            let oldUsersCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == oldCategoryId);
+            let oldUsersCategory = $scope.usersCategories.find(usersCategory => usersCategory.category.id == oldCategory);
             oldUsersCategory.users = commonFunctionsService.arrayRemove(oldUsersCategory.users, user);
             if (oldUsersCategory.users.length === 0)
                 $scope.usersCategories = commonFunctionsService.arrayRemove($scope.usersCategories, oldUsersCategory);
@@ -105,27 +105,27 @@ app.controller("registrationStateController",function($scope, $rootScope, $windo
                 }
             );
     }
-    function setNewCategoryToUser(user, oldCategoryId) {
+    function setNewCategoryToUser(user, oldCategory) {
         let categorySportsman = $scope.categoryForSportsman.find(item => {
-            return item.sportsmanId == user.id && item.oldCategoryId == oldCategoryId;
+            return item.id == user.id && item.oldCategory == oldCategory;
         });
         if (categorySportsman) {
-            categorySportsman.categoryId = user.selectedCategory.id;
+            categorySportsman.category = user.selectedCategory.id;
         } else {
             $scope.categoryForSportsman.push(
                 {
-                    sportsmanId: user.id,
-                    categoryId: user.selectedCategory.id,
-                    oldCategoryId: parseInt(oldCategoryId)
+                    id: user.id,
+                    category: user.selectedCategory.id,
+                    oldCategory: parseInt(oldCategory)
                 }
             );
         }
     }
 
-    $scope.selectSportsman = function(user, categoryId){
+    $scope.selectSportsman = function(user, category){
         let selectedUser = $scope.selectedSportsmenToMerge.find(u => u.id == user.id);
         if(selectedUser !== undefined) {
-            if(selectedUser.category !== categoryId)
+            if(selectedUser.category !== category)
                 toastNotificationService.warningNotification("הספורטאי מסומן כבר בקטגוריה אחרת");
             else
                 $scope.selectedSportsmenToMerge = commonFunctionsService.arrayRemove($scope.selectedSportsmenToMerge, selectedUser);
