@@ -86,7 +86,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             .then(function (result) {
                 toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                 $scope.isSaved = true;
-                if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
+                //if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
             }, function (error) {
                 console.log(error)
             });
@@ -113,23 +113,25 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 compId: $routeParams.idComp,
                 sportsman: res.result
             };
+            console.log(data);
             competitionRegisterExcelSportsman(data);
         })
     };
 
     function competitionRegisterExcelSportsman(data) {
         competitionService.regExcelSportsmanCompetition(data)
-            .then((res) => {
+            .then( (res) => {
                 toastNotificationService.successNotification("הספורטאיים נשמרו בהצלחה");
+                setPage(1)
             }).catch((err) => {
             console.log(err)
-            $scope.excelErrors = typeof err.data == 'object' ? undefined : err.data;
+            $scope.excelErrors = err.data;
         })
     }
 
     function changeDropZone(name) {
-        var droptext = document.getElementById("dropText");
-        droptext.innerHTML = name.toString();
+        let nameArray = name.toString().split("\\");
+        $scope.filename = nameArray[nameArray.length - 1];
         $scope.isDropped = true;
         dropZoneRegCompetition.className = "dropzoneExcel"
     }
@@ -145,13 +147,19 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     $scope.uploadNewFile = function () {
         $scope.excelErrors = [];
         $scope.isDropped = false;
-        dropZoneRegisterUsers.className = "dropzone"
-        document.getElementById("dropText").innerHTML = "גרור קובץ או לחץ על העלאת קובץ";
+        dropZoneRegCompetition.className = "dropzone"
         document.getElementById("fileSportsman").value = "";
     }
+
     $scope.ExcelExport = function (event) {
         excelService.uploadExcel(event, function (res) {
-            competitionRegisterExcelSportsman(res.result)
+            changeDropZone(event.target.value.toString())
+            let data = {
+                compId: $routeParams.idComp,
+                sportsman: res
+            };
+
+            competitionRegisterExcelSportsman(data)
         })
     };
 });

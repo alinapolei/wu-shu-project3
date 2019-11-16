@@ -115,7 +115,7 @@
 
         <div class="center">
             <div class="dropzone" id="dropZoneRegCompetition">
-                <label id="dropText">גרור קובץ או לחץ על העלאת קובץ</label>
+                <label id="dropText">{{isDropped ? filename : "גרור קובץ או לחץ על העלאת קובץ"}}</label>
             </div>
         </div>
 
@@ -126,11 +126,13 @@
             <label for="fileSportsman"> העלאת קובץ</label><br>
         </div>
         <div class="uploadResultsPanel">
-            <div class="error" ng-show="isDropped && (excelErrors === undefined || excelErrors.length > 0)">
+            <div class="error" ng-show="isDropped && excelErrors.length > 0">
                 הרישום לא הצליח, הקובץ מכיל שגיאות
                 <div ng-repeat="errorSportsman in excelErrors" style="text-align: right">
                     <br>
+                    <div ng-show="errorSportsman.id">
                     עבור ת.ז. {{errorSportsman.id}}:
+                    </div>
                     {{errorSportsman.error}}
                 </div>
             </div>
