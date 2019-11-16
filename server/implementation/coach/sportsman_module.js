@@ -13,7 +13,6 @@ function initQury(queryData, id) {
 async function getSportsmen(queryData, id) {
     let ans = new Object();
     let query = initQury(queryData, id);
-    console.log(query.query)
     await dbUtils.sql(query.query)
         .parameter('idCoach', tediousTYPES.Int, id)
         .parameter('value', tediousTYPES.NVarChar, queryData.value)
