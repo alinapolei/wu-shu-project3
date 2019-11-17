@@ -19,7 +19,7 @@
                     </tr>
                     <tr ng-repeat="user in userCategory.users track by $index">
                         <td></td>
-                        <td class="tdInItemList"><input type="checkbox" ng-model="user.isChecked" ng-change="selectSportsman(user, userCategory.category.id)"></td>
+                        <td class="tdInItemList"><input type="checkbox" ng-show="access==userTypes.MANAGER" ng-model="user.isChecked" ng-change="selectSportsman(user, userCategory.category.id)"></td>
                         <td class="tdInItemList">{{$index+1}}.</td>
                         <td class="tdInItemList">{{user.id}}</td>
                         <td class="tdInItemList">{{user.firstname}} {{user.lastname}}</td>
@@ -28,7 +28,7 @@
                         <td>
                             <div ng-disable="access==userTypes.MANAGER" class="tdInItemList" style="display: flex">
                                 <div>
-                                    <i class="fa fa-minus clickableSearch little"
+                                    <i class="fa fa-minus clickableSearch little" ng-show="access==userTypes.MANAGER"
                                        ng-click="removeSportsmanFromCategory(userCategory.category, user)"
                                        aria-hidden="true"></i>
                                 </div>
@@ -37,7 +37,8 @@
                                         ng-change="changeCategory(user, '{{user.selectedCategory.id}}')"
                                         ng-options="x.name + ' ' + getAgeRange(x)
                                          for
-                                         x in categories | categoryBySportsmanFilter : user : undefined : false">
+                                         x in categories | categoryBySportsmanFilter : user : undefined : false"
+                                        ng-disabled="access!=userTypes.MANAGER">
                                     <option value="" disabled="disabled">בחר קטגוריה</option>
                                 </select>
                             </div>
@@ -55,7 +56,7 @@
                 <i class="fa fa-times iColored" aria-hidden="true"></i>
                 <a class="linkDark" href="" ng-click="closeRegistration()">סגור רישום</a>
             </div>
-            <div>
+            <div ng-show="access==userTypes.MANAGER">
                 <i class="fa fa-file-excel-o iColored" aria-hidden="true"></i>
                 <a id="downRegistrationCompState" class="linkDark" href="" ng-click="downloadExcelRegistrationState()">ייצא לאקסל</a>
             </div>

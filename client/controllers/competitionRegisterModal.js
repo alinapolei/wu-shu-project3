@@ -73,6 +73,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     }
 
     $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
+        oldCategory = oldCategory ? JSON.parse(oldCategory) : undefined;
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
@@ -90,14 +91,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 }
             }
         }
-
-        console.log("----------------")
-        console.log("insert")
-        console.log($scope.toRegisterUsers);
-        console.log("delete");
-        console.log($scope.toUnRegisterUsers);
-        console.log("update")
-        console.log($scope.toUpdateRegisterUsers);
 
     };
 
@@ -122,13 +115,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         } else
             user.selectedCategories.pop();
 
-        console.log("----------------")
-        console.log("insert")
-        console.log($scope.toRegisterUsers);
-        console.log("delete");
-        console.log($scope.toUnRegisterUsers);
-        console.log("update")
-        console.log($scope.toUpdateRegisterUsers);
+
     };
 
     $scope.register = function () {
@@ -163,7 +150,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 compId: $routeParams.idComp,
                 sportsman: res.result
             };
-            console.log(data);
             competitionRegisterExcelSportsman(data);
         })
     };
