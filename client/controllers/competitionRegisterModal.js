@@ -73,14 +73,11 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     }
 
     $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
-        console.log(oldCategory)
+        oldCategory = oldCategory ? JSON.parse(oldCategory) : undefined;
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
         if (!oldCategory) {
-           // let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.oldCategory === oldCategory);
-           // $scope.toRegisterUsers=commonFunctionsService.arrayRemove($scope.toRegisterUsers,registration)
-
             $scope.toRegisterUsers.push({id: user.id, category: newCategory.id, oldCategory: undefined});
         } else {
             if (!oldCategory.originalId)
@@ -135,25 +132,11 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         console.log($scope.toUpdateRegisterUsers);
     };
 
-    function cleanRegisterArray() {
-        $scope.toRegisterUsers = [];
-        $scope.toUnRegisterUsers = [];
-        $scope.toUpdateRegisterUsers = [];
-        console.log("----------------")
-        console.log("insert")
-        console.log($scope.toRegisterUsers);
-        console.log("delete");
-        console.log($scope.toUnRegisterUsers);
-        console.log("update")
-        console.log($scope.toUpdateRegisterUsers);
-    }
-
     $scope.register = function () {
         competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers, $scope.toUpdateRegisterUsers)
             .then(function (result) {
                 toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                 $scope.isSaved = true;
-                cleanRegisterArray();
                 //if ($rootScope.isChangingLocationFirstTime) $location.path("/competitions/registerToCompetition");
             }, function (error) {
                 console.log(error)

@@ -53,10 +53,9 @@
                                aria-hidden="true"></i>
                         </div>
                         <select mbsc-dropdown mobiscroll-select="desktopFilterSettings"
-                                ng-model="user.selectedCategories[$index]" class="littleSelect"
-                                ng-init="oldValue=user.selectedCategories[$index]"
                                 ng-focus="oldValue=user.selectedCategories[$index]"
-                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index],oldValue,$index)"
+                                ng-model="user.selectedCategories[$index]" class="littleSelect"
+                                ng-change="addToToRegisterUsers(user, user.selectedCategories[$index],'{{user.selectedCategories[$index]}}',$index)"
                                 ng-options="x.name + '\n' + getAgeRange(x)
                                          for
                                          x in categories | categoryBySportsmanFilter : user : user.selectedCategories.slice(0, $index) : true">
