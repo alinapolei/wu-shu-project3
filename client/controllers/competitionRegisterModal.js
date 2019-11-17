@@ -92,14 +92,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             }
         }
 
-        console.log("----------------")
-        console.log("insert")
-        console.log($scope.toRegisterUsers);
-        console.log("delete");
-        console.log($scope.toUnRegisterUsers);
-        console.log("update")
-        console.log($scope.toUpdateRegisterUsers);
-
     };
 
 
@@ -123,13 +115,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
         } else
             user.selectedCategories.pop();
 
-        console.log("----------------")
-        console.log("insert")
-        console.log($scope.toRegisterUsers);
-        console.log("delete");
-        console.log($scope.toUnRegisterUsers);
-        console.log("update")
-        console.log($scope.toUpdateRegisterUsers);
+
     };
 
     $scope.register = function () {
@@ -164,7 +150,6 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
                 compId: $routeParams.idComp,
                 sportsman: res.result
             };
-            console.log(data);
             competitionRegisterExcelSportsman(data);
         })
     };

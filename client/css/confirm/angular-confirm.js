@@ -883,7 +883,6 @@ angular.module('cp.ngConfirm', [])
 
                     var confirmBoxHeight = this.$confirmBox.outerHeight();
                     if (confirmBoxHeight == 0) {
-                        // console.log(where, confirmBoxHeight);
                         return;
                     }
                     var boxHeight = (confirmBoxHeight - contentPaneHeight) + contentHeight;
@@ -957,7 +956,6 @@ angular.module('cp.ngConfirm', [])
                     self.setDialogCenter('_open');
 
                     setTimeout(function () {
-                        // console.log(self.$el.html());
                         self.$contentPane.css(self._getCSS(self.animationSpeed, 1));
                         self.$confirmBox.css(self._getCSS(self.animationSpeed, self.animationBounce));
                         self._removeAnimationClass();
