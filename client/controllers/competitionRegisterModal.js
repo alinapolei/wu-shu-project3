@@ -3,15 +3,10 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     $scope.selectedRegisteredUsers = [];
     $scope.toRegisterUsers = [];
     $scope.toUnRegisterUsers = [];
+    $scope.toUpdateRegisterUsers = [];
     $scope.pager = {};
     let dropZoneRegCompetition = document.getElementById("dropZoneRegCompetition");
     let downExcelRegCompetition = document.getElementById("downExcelRegCompetition");
-
-
-    let insertSportsman = new Map();
-    let deleteSportsman = new Map();
-    let updateSportsman = new Map();
-
 
     setPage(1);
     getData();
@@ -66,86 +61,78 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
             regObj.sportsmenIds.push(parseInt(rowObj[i]["ת.ז ספורטאי"]))
     }
 
-    $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
+    function addOrUpdateRegisterUsersList(list, user, newCategory, oldCategory) {
+        let registration = list.find(item => {
+            return item.id === user.id && item.category === oldCategory.id;
+        });
+        if (registration) {
+            registration.category = newCategory.id;
+        } else {
+            list.push({id: user.id, category: newCategory.id, oldCategory: oldCategory.id});
+        }
+    }
 
+    $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
-        else
-            $scope.toRegisterUsers.push({id: user.id, category: newCategory.id});
-
-        console.log(oldCategory)
-        console.log(user.id)
-        if (oldCategory == -1) {
-            insertSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: -1, index: index})
+        if (!oldCategory) {
+            $scope.toRegisterUsers.push({id: user.id, category: newCategory.id, oldCategory: undefined});
         } else {
-            if (insertSportsman.has(user.id + '-' + index)) {
-                console.log(insertSportsman.get(user.id + '-' + index))
-                if (insertSportsman.get(user.id + '-' + index).oldCategory === -1) {
-                    insertSportsman.delete(user.id + '-' + index)
-                    insertSportsman.set(user.id + '-' + index, {
-                        newCategory: newCategory.id,
-                        oldCategory: -1,
-                        index: index
-                    })
+            if (!oldCategory.originalId)
+                addOrUpdateRegisterUsersList($scope.toRegisterUsers, user, newCategory, oldCategory);
+            else {
+                if (registration)
+                    $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
+                else {
+                    addOrUpdateRegisterUsersList($scope.toUpdateRegisterUsers, user, newCategory, oldCategory);
+                    newCategory.originalId = oldCategory.originalId;
                 }
-            }
-            if (updateSportsman.has(user.id + '-' + index)) {
-                let oldVal = updateSportsman.get(user.id + '-' + index).oldCategory;
-                updateSportsman.delete(user.id + '-' + index)
-                updateSportsman.set(user.id + '-' + index, {newCategory: newCategory.id, oldCategory: oldVal})
-            } else {
-                updateSportsman.set(user.id + '-' + index, {
-                    newCategory: newCategory.id,
-                    oldCategory: oldCategory,
-                    index: index
-                })
             }
         }
 
-
+        console.log("----------------")
         console.log("insert")
-        console.log(insertSportsman);
+        console.log($scope.toRegisterUsers);
         console.log("delete");
-        console.log(deleteSportsman);
+        console.log($scope.toUnRegisterUsers);
         console.log("update")
-        console.log(updateSportsman);
+        console.log($scope.toUpdateRegisterUsers);
 
     };
 
 
     $scope.addToToUnRegisterUsers = function (user, oldCategory, index) {
-        if (oldCategory!=-1) {
+        if (oldCategory) {
             let registration = $scope.toRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
             if (registration)
                 $scope.toRegisterUsers = commonFunctionsService.arrayRemove($scope.toRegisterUsers, registration);
-            else
-                $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
+            else {
+                let registration = $scope.toUpdateRegisterUsers.find(item => item.id === user.id && item.category === oldCategory.id);
+                if(registration) {
+                    $scope.toUpdateRegisterUsers = commonFunctionsService.arrayRemove($scope.toUpdateRegisterUsers, registration);
+                    $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.originalId});
+                }
+                else
+                    $scope.toUnRegisterUsers.push({id: user.id, category: oldCategory.id});
+            }
             user.selectedCategories = commonFunctionsService.arrayRemove(user.selectedCategories, oldCategory);
             if (user.selectedCategories.length === 0)
                 user.selectedCategories.push(undefined);
         } else
             user.selectedCategories.pop();
 
-
-        if (insertSportsman.has(user.id + '-' + index))
-            insertSportsman.delete(user.id + '-' + index);
-        else if (updateSportsman.has(user.id + '-' + index))
-            updateSportsman.delete(user.id + '-' + index)
-        else
-            deleteSportsman.set(user.id + '-' + index, {oldCategory: oldCategory.id, index: index});
-
-
+        console.log("----------------")
         console.log("insert")
-        console.log(insertSportsman);
+        console.log($scope.toRegisterUsers);
         console.log("delete");
-        console.log(deleteSportsman);
+        console.log($scope.toUnRegisterUsers);
         console.log("update")
-        console.log(updateSportsman);
+        console.log($scope.toUpdateRegisterUsers);
     };
 
     $scope.register = function () {
-        competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers)
+        competitionService.registerSportsmenToCompetition($routeParams.idComp, $scope.toRegisterUsers, $scope.toUnRegisterUsers, $scope.toUpdateRegisterUsers)
             .then(function (result) {
                 toastNotificationService.successNotification("הרישום בוצע בהצלחה");
                 $scope.isSaved = true;

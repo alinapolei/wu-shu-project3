@@ -119,7 +119,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
         };
         return $http(req);
     }
-    this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds) {
+    this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds, updateSportsmanIds) {
         var req = {
             method: 'POST',
             url: constants.serverUrl + '/private/competitionSportsmen',
@@ -129,7 +129,8 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
             data: {
                 compId: compId,
                 insertSportsman: insertSportsmenIds,
-                deleteSportsman: deleteSportsmenIds
+                deleteSportsman: deleteSportsmenIds,
+                updateSportsman: updateSportsmanIds
             }
         };
         return $http(req);
