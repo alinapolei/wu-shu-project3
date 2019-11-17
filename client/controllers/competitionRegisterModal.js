@@ -73,6 +73,7 @@ app.controller("competitionRegisterModal", function ($scope, $rootScope, $window
     }
 
     $scope.addToToRegisterUsers = function (user, newCategory, oldCategory, index) {
+        oldCategory = oldCategory ? JSON.parse(oldCategory) : undefined;
         let registration = $scope.toUnRegisterUsers.find(item => item.id === user.id && item.category === newCategory.id);
         if (registration)
             $scope.toUnRegisterUsers = commonFunctionsService.arrayRemove($scope.toUnRegisterUsers, registration);
