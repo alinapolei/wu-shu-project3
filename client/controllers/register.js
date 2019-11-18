@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope,$rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService, toastNotificationService) {
+app.controller("registerController", function ($scope, $rootScope, $http, $window, $location, $filter, clubService, excelService, coachService, registerService, constants, confirmDialogService, toastNotificationService) {
     $scope.sexEnum = constants.sexEnum;
     $scope.sportStyleEnum = constants.sportStyleEnum;
     $scope.regex = constants.regex;
@@ -7,21 +7,21 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
     $scope.isRegisterCoach = false;
     $scope.coaches = new Array()
     $scope.clubs = new Array();
-    let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers")
-    let downloadExcelLink = document.getElementById("downExcelSportsman")
-
+    let dropZoneRegisterUsers = document.getElementById("dropZoneRegisterUsers");
+    let downloadExcelLinkSportsman = document.getElementById("downExcelSportsman");
+    let downloadExcelLinkCoahces = document.getElementById("downExcelCoach");
     getCoachesAndClub();
 
-    $scope.BrowseFileClick=function()
-    {
-        let  fileinput = document.getElementById("fileSportsman");
+    $scope.BrowseFileClick = function () {
+        let fileinput = document.getElementById("fileSportsman");
         fileinput.click();
-        fileinput.onchange =function(event){
+        fileinput.onchange = function (event) {
             $scope.ExcelExport(event)
             changeDropZone(event.target.value.toString());
 
         }
     }
+
     function getCoachesAndClub() {
         coachService.getCoaches()
             .then(function (result) {
@@ -48,7 +48,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
     //fillDataTmpFunction();
 
 
-    $scope.uploadNewFile = function(){
+    $scope.uploadNewFile = function () {
         $scope.excelErrors = [];
         $scope.isDropped = false;
         dropZoneRegisterUsers.className = "dropzone"
@@ -70,7 +70,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
 
     function changeDropZone(name) {
         let nameArray = name.toString().split("\\");
-        $scope.filename = nameArray[nameArray.length-1];
+        $scope.filename = nameArray[nameArray.length - 1];
         $scope.isDropped = true;
         dropZoneRegisterUsers.className = "dropzoneExcel"
     }
@@ -108,55 +108,60 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
                     firstname: $scope.firstname,
                     lastname: $scope.lastname,
                     phone: $scope.phone,
+                    address: $scope.address,
                     email: $scope.email,
                     birthdate: $filter('date')($scope.birthdate, "dd/MM/yyyy"),
-                    address: $scope.address,
-                    sportclub: $scope.sportclub.id,
-                    sportStyle: $scope.sportStyle,
-                    teamname: $scope.teamname
+                    sportclub: $scope.sportclub.id
                 });
             }
             registerUsers(data, $scope.isRegisterCoach)
         }
     };
     $rootScope.isChangingLocationFirstTime = true;
-    $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
-        if($scope.registerForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
+    $scope.$on('$routeChangeStart', function (event, newRoute, oldRoute) {
+        if ($scope.registerForm.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {
             if (!$scope.registerForm.$valid) $scope.isClicked = true;
             confirmDialogService.notSavedItems(event, $location.path(), $scope.submit, $scope.registerForm.$valid);
         }
     });
 
     function registerUsers(data, isRegisterCoach) {
-        if (!isRegisterCoach)
-            registerService.registerUsers(data)
-                .then((results) => {
-                    $scope.isSaved = true;
-                    toastNotificationService.successNotification("הרישום בוצע בהצלחה");
-                    $location.path("/home");
-                })
-                .catch((err) => {
-                    console.log(err);
-                    if(!err.data.message)
-                        $scope.excelErrors = err.data;
-                    else{
-                        let serverErrors = [];
-                        if(err.data.number === 547)
-                            serverErrors.push("ת.ז מאמן לא קיימת במערכת");
-                        if(err.data.number === 2627)
-                            serverErrors.push("ת.ז " + getIdFromErrorMessage(err.data.message) + " קיימת כבר במערכת.");
-                        if(serverErrors.length > 0)
-                            $scope.excelErrors = [{errors: serverErrors}]
-                    }
-                })
+        registerService.registerUsers(data, isRegisterCoach)
+            .then((results) => {
+                $scope.isSaved = true;
+                toastNotificationService.successNotification("הרישום בוצע בהצלחה");
+                $location.path("/home");
+            })
+            .catch((err) => {
+                console.log(err);
+                if (!err.data.message)
+                    $scope.excelErrors = err.data;
+                else {
+                    let serverErrors = [];
+                    if (err.data.number === 547)
+                        serverErrors.push("ת.ז מאמן לא קיימת במערכת");
+                    if (err.data.number === 2627)
+                        serverErrors.push("ת.ז " + getIdFromErrorMessage(err.data.message) + " קיימת כבר במערכת.");
+                    if (serverErrors.length > 0)
+                        $scope.excelErrors = [{errors: serverErrors}]
+                }
+            })
     }
 
     $scope.downloadExcelRegisterSportsMan = function () {
-        let token =$window.sessionStorage.getItem('token')
-        let url = constants.serverUrl + '/downloadExcelFormatSportsman/'+token;
-        downloadExcelLink.setAttribute('href', url);
-        downloadExcelLink.click();
+        let token = $window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelFormatSportsman/' + token;
+        downloadExcelLinkSportsman.setAttribute('href', url);
+        downloadExcelLinkSportsman.click();
     }
+
+    $scope.downloadExcelRegisterCoaches = function () {
+        let token = $window.sessionStorage.getItem('token')
+        let url = constants.serverUrl + '/downloadExcelFormatCoach/' + token;
+        downloadExcelLinkCoahces.setAttribute('href', url);
+        downloadExcelLinkCoahces.click();
+    }
+
 
     function fillDataTmpFunction() {
         $scope.id = 222222222;
@@ -172,7 +177,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
 
     function getIdFromErrorMessage(error) {
         let parts = error.split('(');
-        return parts[parts.length-1].substring(0, parts[parts.length-1].length-2)
+        return parts[parts.length - 1].substring(0, parts[parts.length - 1].length - 2)
     }
 });
 

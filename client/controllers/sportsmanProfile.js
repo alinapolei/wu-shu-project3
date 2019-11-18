@@ -6,13 +6,34 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
     $scope.sexEnum = constants.sexEnum;
     $scope.regex = constants.regex;
 
+
     $scope.turnOnEditMode = function () {
         $scope.isEditModeOn = true;
     };
     $scope.turnOffEditMode = function () {
         $scope.isEditModeOn = false;
     };
+    $scope.btnPressed =function() {
+        console.log("btn pressed")
+        let fileinput = document.getElementById("SportsmanProfilePicUpload");
+        fileinput.click();
+        fileinput.onchange = function (event) {
+            let file = event.target.files[0];
+            let dataFile =new FormData();
+            dataFile.append("profileImage", file);
+            let data = {
+                profileImage : file
+            }
+            sportsmanService.uploadProfilePic(data,dataFile)
+                .then((res)=>{
+                    console.log("ok")
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
 
+        }
+    }
     $scope.submit = function (isValid) {
         if (isValid) {
             let data = {
@@ -37,6 +58,7 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
                 })
         }
     };
+
     $rootScope.isChangingLocationFirstTime = true;
     $scope.$on('$routeChangeStart', function(event, newRoute, oldRoute) {
         if($scope.updateProfile.$dirty && !$scope.isSaved && $rootScope.isChangingLocationFirstTime) {

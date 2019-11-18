@@ -1,6 +1,8 @@
 app.service('registerService', function ($window, $http, constants) {
     this.registerUsers = function (data, isRegisterCoach) {
         let url = getRegisterUserUrl(isRegisterCoach);
+        console.log(isRegisterCoach)
+        console.log(url)
         let req = {
             method: 'POST',
             url: url,
