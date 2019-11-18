@@ -11,6 +11,19 @@ app.service('sportsmanService', function($window, $http, constants) {
         return $http(req);
     };
 
+    this.uploadProfilePic =function(data,data2){
+        var req = {
+            method: 'POST',
+            url: constants.serverUrl + '/private/uploadUserProfileImage',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token'),
+
+            },
+            data : data
+        };
+        return $http(req);
+    }
+
     this.updateProfile =function (data) {
         var req = {
             method: 'POST',
