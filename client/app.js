@@ -73,8 +73,8 @@ app.config(function($routeProvider) {
             controller: 'homeController as hCtrl'
         })
         .when('/users/couches', {
-            templateUrl: 'views/home.html',
-            controller: 'homeController as hCtrl'
+            templateUrl: 'views/userTable.html',
+            controller: 'coachController as coachCtrl'
         })
         .when('/users/admins', {
             templateUrl: 'views/home.html',
