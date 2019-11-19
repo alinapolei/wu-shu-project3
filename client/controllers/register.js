@@ -45,9 +45,6 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         })[0];
     };
 
-    //fillDataTmpFunction();
-
-
     $scope.uploadNewFile = function(){
         $scope.excelErrors = [];
         $scope.isDropped = false;
@@ -158,6 +155,7 @@ app.controller("registerController", function ($scope,$rootScope, $http, $window
         downloadExcelLink.click();
     }
 
+    //fillDataTmpFunction();
     function fillDataTmpFunction() {
         $scope.id = 222222222;
         $scope.firstname = "ניסיון";

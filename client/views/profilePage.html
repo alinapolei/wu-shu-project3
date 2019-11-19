@@ -40,8 +40,7 @@
         <div class="col-md-4">
             <div>
                 <i class="fa fa-pencil iColored" aria-hidden="true"></i>
-                <a class="linkDark iLink" href="" ng-show="!isEditModeOn" ng-click="turnOnEditMode()">ערוך פרופיל</a>
-                <a class="linkDark iLink" href="" ng-show="isEditModeOn" ng-click="turnOffEditMode()">ביטול עריכת פרופיל</a>
+                <a class="linkDark iLink" href="" ng-click="isEditModeOn = !isEditModeOn">{{isEditModeOn ? 'ביטול עריכת פרופיל' : 'ערוך פרופיל'}}</a>
             </div>
 <!--            <div ng-show="access==userTypes.MANAGER || access==userTypes.COACH">-->
 <!--                <i class="fa fa-chain-broken iColored" aria-hidden="true"></i>-->
