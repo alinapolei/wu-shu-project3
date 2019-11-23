@@ -3,8 +3,7 @@ app.controller("coachProfileController", function ($scope, $http, $filter, $wind
     coachService.getCoachProfile({id: $routeParams.id})
         .then(function (result) {
             $scope.user = result.data;
-            console.log($routeParams.id)
-            console.log($scope.user)
+            $scope.user.birthdate = new Date($scope.user.birthdate);
         }, function (error) {
             console.log(error)
         })
