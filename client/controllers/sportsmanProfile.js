@@ -38,8 +38,8 @@ app.controller("sportsmanProfileController", function ($scope, $http, $filter, $
         if (isValid) {
             let data = {
                 id: $scope.user.id,
-                firstname: $scope.user.sfirstname,
-                lastname: $scope.user.slastname,
+                firstname: $scope.user.firstname,
+                lastname: $scope.user.lastname,
                 phone: $scope.user.phone,
                 email: $scope.user.email,
                 birthdate: $filter('date')($scope.user.birthdate, "dd/MM/yyyy"),
