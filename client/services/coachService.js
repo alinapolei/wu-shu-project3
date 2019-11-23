@@ -11,4 +11,16 @@ app.service('coachService', function($window, $http, constants) {
         return $http(req);
     }
 
+    this.getCoachProfile = function (data) {
+        var req = {
+            method: 'POST',
+            url: constants.serverUrl + '/private/getCoachProfile',
+            headers: {
+                'x-auth-token': $window.sessionStorage.getItem('token')
+            },
+            data: data
+        }
+        return $http(req);
+    }
+
 });

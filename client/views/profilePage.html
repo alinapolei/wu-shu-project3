@@ -14,7 +14,7 @@
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        {{::user.sfirstname}} {{::user.slastname}}
+                        {{::user.firstname}} {{::user.lastname}}
                     </h5>
                     <h6>
                         {{whoAmI}}
@@ -82,12 +82,12 @@
                                 <label>שם פרטי</label>
                             </div>
                             <div class="col-md-6">
-                                <label ng-show="!isEditModeOn">{{user.sfirstname}}</label>
+                                <label ng-show="!isEditModeOn">{{user.firstname}}</label>
                                 <div ng-show="isEditModeOn" class="update-input"
                                      ng-class="{'alert-validate' : updateProfile.firstname.$invalid && (updateProfile.firstname.$touched || isClicked)}"
                                      data-validate="{{updateProfile.firstname.$error.required ? 'הכנס שם פרטי' : updateProfile.firstname.$error.pattern ? 'שם פרטי לא תקין' : ''}}">
                                     <input class="update-input100" type="text" name="firstname"
-                                           ng-model="user.sfirstname" placeholder="שם פרטי"
+                                           ng-model="user.firstname" placeholder="שם פרטי"
                                            required ng-pattern="regex.regexHeb" ng-pattern-restrict>
                                 </div>
                             </div>
@@ -97,11 +97,11 @@
                                 <label>שם משפחה</label>
                             </div>
                             <div class="col-md-6">
-                                <label ng-show="!isEditModeOn">{{user.slastname}}</label>
+                                <label ng-show="!isEditModeOn">{{user.lastname}}</label>
                                 <div ng-show="isEditModeOn" class="update-input"
                                      ng-class="{'alert-validate' : updateProfile.lastname.$invalid && (updateProfile.lastname.$touched || isClicked)}"
                                      data-validate="{{updateProfile.lastname.$error.required ? 'הכנס שם משפחה' : updateProfile.lastname.$error.pattern ? 'שם משפחה לא תקין' : ''}}">
-                                    <input class="update-input100" type="text" name="lastname" ng-model="user.slastname"
+                                    <input class="update-input100" type="text" name="lastname" ng-model="user.lastname"
                                            placeholder="שם משפחה"
                                            required ng-pattern="regex.regexHeb" ng-pattern-restrict>
                                 </div>
