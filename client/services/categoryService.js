@@ -2,7 +2,7 @@ app.service('categoryService', function($window, $http, constants) {
     this.getCategories = function(){
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getCategories',
+            url: constants.serverUrl + '/private/commonCoachManager/getCategories',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }

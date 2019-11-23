@@ -7,7 +7,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.regSportsmanCompetition = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/competitionSportsmen',
+            url: constants.serverUrl + '/private/commonCoachManager/competitionSportsmen',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -18,7 +18,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.regExcelSportsmanCompetition = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/regExcelCompetitionSportsmen',
+            url: constants.serverUrl + '/private/commonCoachManager/regExcelCompetitionSportsmen',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -29,7 +29,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.addCategroyDB = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/addNewCategory',
+            url: constants.serverUrl + '/private/manager/addNewCategory',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -41,7 +41,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.insertCompetition = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/addCompetition',
+            url: constants.serverUrl + '/private/manager/addCompetition',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -52,7 +52,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getCompetitons = function (conditions) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getCompetitions' + conditions,
+            url: constants.serverUrl + '/private/commonCoachManager/getCompetitions' + conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             }
@@ -98,7 +98,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getCompetitionDetails = function (id) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getCompetitionDetail',
+            url: constants.serverUrl + '/private/allUsers/getCompetitionDetail',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -111,7 +111,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.updateCompetitionDetails = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/updateCompetitionDetails',
+            url: constants.serverUrl + '/private/manager/updateCompetitionDetails',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -122,7 +122,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.registerSportsmenToCompetition = function (compId, insertSportsmenIds, deleteSportsmenIds, updateSportsmanIds) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/competitionSportsmen',
+            url: constants.serverUrl + '/private/commonCoachManager/competitionSportsmen',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -138,7 +138,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.getRegistrationState = function (compId) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getRegistrationState',
+            url: constants.serverUrl + '/private/commonCoachManager/getRegistrationState',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -151,7 +151,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.setCategoryRegistration = function (compId, categoryForSportsman) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/setCategoryRegistration',
+            url: constants.serverUrl + '/private/manager/setCategoryRegistration',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -165,7 +165,7 @@ app.service('competitionService', function ($window, $http, $uibModal, $location
     this.closeRegistration = function (idComp) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/closeRegistration',
+            url: constants.serverUrl + '/private/manager/closeRegistration',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },

@@ -2,7 +2,7 @@ app.service('sportsmanService', function($window, $http, constants) {
     this.getSportsmanProfile = function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/sportsmanProfile',
+            url: constants.serverUrl + '/private/allUsers/sportsmanProfile',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -27,7 +27,7 @@ app.service('sportsmanService', function($window, $http, constants) {
     this.updateProfile =function (data) {
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/updateSportsmanProfile',
+            url: constants.serverUrl + '/private/allUsers/updateSportsmanProfile',
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -39,7 +39,7 @@ app.service('sportsmanService', function($window, $http, constants) {
     this.getSportsmen = function(conditions){
         var req = {
             method: 'POST',
-            url: constants.serverUrl + '/private/getSportsmen' + conditions,
+            url: constants.serverUrl + '/private/commonCoachManager/getSportsmen' + conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },
@@ -49,7 +49,7 @@ app.service('sportsmanService', function($window, $http, constants) {
     this.getSportsmenCount = function(conditions){
         var req = {
             method: 'GET',
-            url: constants.serverUrl + '/private/getSportsmen/count' + conditions,
+            url: constants.serverUrl + '/private/commonCoachManager/getSportsmen/count' + conditions,
             headers: {
                 'x-auth-token': $window.sessionStorage.getItem('token')
             },

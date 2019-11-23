@@ -16,9 +16,9 @@ app.service('registerService', function ($window, $http, constants) {
 
     function getRegisterUserUrl  (isRegisterCoach) {
         if (!isRegisterCoach)
-            return constants.serverUrl + '/private/registerSportsman';
+            return constants.serverUrl + '/private/commonCoachManager/registerSportsman';
         else
-            return constants.serverUrl + '/private/registerCoach';
+            return constants.serverUrl + '/private/manager/registerCoach';
     }
 });
 
